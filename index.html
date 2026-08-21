@@ -6,138 +6,142 @@
 <title>笛卡尔的普林斯顿微积分学院 · 修订版30章</title>
 <style>
 :root{
-  --parchment:#f4ecd9; --parchment2:#ece0c4; --ink:#2d2a26; --ink2:#5a5146;
-  --gold:#b8860b; --gold2:#d4a92a; --red:#9c2f2f; --green:#3a6b47;
-  --line:#c9b78e; --card:#fbf6ea; --shadow:0 2px 10px rgba(80,60,20,.14);
+  --bg:#f5f5f7; --card:#ffffff; --ink:#1d1d1f; --ink2:#6e6e73;
+  --blue:#0071e3; --blue2:#0077ed; --blue-bg:rgba(0,113,227,.08);
+  --red:#ff3b30; --green:#34c759; --orange:#ff9500;
+  --line:#e5e5ea; --shadow:0 4px 24px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.04);
+  --radius:18px;
 }
 *{box-sizing:border-box; margin:0; padding:0}
 html,body{height:100%}
 body{
-  font-family: Georgia, 'Times New Roman', 'Songti SC','SimSun', serif;
-  background:
-    radial-gradient(ellipse at top, rgba(212,169,42,.10), transparent 60%),
-    repeating-linear-gradient(45deg, rgba(140,110,40,.025) 0 2px, transparent 2px 6px),
-    var(--parchment);
-  color:var(--ink); line-height:1.75;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro SC', 'SF Pro Text', 'PingFang SC', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased;
 }
 #app{display:flex; min-height:100vh}
 #side{
-  width:300px; flex-shrink:0; background:linear-gradient(180deg,#2f2a20,#241f18);
-  color:#e8dcc0; padding:26px 20px; display:flex; flex-direction:column; gap:18px;
+  width:300px; flex-shrink:0; background:rgba(255,255,255,.72);
+  backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px);
+  color:#1d1d1f; padding:28px 20px; display:flex; flex-direction:column; gap:16px;
   position:sticky; top:0; height:100vh; overflow-y:auto;
+  border-right:1px solid var(--line);
 }
 #side .seal{
-  width:52px;height:52px;border-radius:50%;border:2px solid var(--gold2);margin:0 auto 4px;
-  display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold2);
-  background:radial-gradient(circle at 35% 30%, #4a412c, #241f18);
+  width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#2997ff,#0071e3);margin:0 auto 6px;
+  display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;
+  box-shadow:0 4px 14px rgba(0,113,227,.35);
 }
-#side h1{font-size:19px; text-align:center; letter-spacing:2px; color:#f0e3c2; line-height:1.5}
-#side h1 small{display:block; font-size:11px; color:#a89a78; letter-spacing:3px; font-weight:normal; margin-top:3px}
-#side .divider{height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.nav{display:flex; flex-direction:column; gap:4px}
+#side h1{font-size:18px; text-align:center; letter-spacing:.5px; color:#1d1d1f; line-height:1.4; font-weight:700}
+#side h1 small{display:block; font-size:11px; color:#86868b; letter-spacing:1px; font-weight:500; margin-top:3px}
+#side .divider{height:1px; background:var(--line); margin:2px 0}
+.nav{display:flex; flex-direction:column; gap:3px}
 .nav button{
-  background:transparent;border:none;color:#cbbd9c;text-align:left;font-family:inherit;
-  font-size:14.5px;padding:9px 12px;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.15s;
+  background:transparent;border:none;color:#424245;text-align:left;font-family:inherit;
+  font-size:14.5px;padding:10px 14px;border-radius:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.15s;font-weight:500;
 }
-.nav button:hover{background:rgba(212,169,42,.12); color:#f0e3c2}
-.nav button.on{background:linear-gradient(90deg,rgba(212,169,42,.25),rgba(212,169,42,.06)); color:#ffd76e}
-.nav .sub{font-size:11.5px; color:#8d8063}
-.nav .done{color:var(--gold2); font-size:12px}
-#progressBox{background:rgba(0,0,0,.25); border:1px solid rgba(212,169,42,.25); border-radius:8px; padding:12px}
-#progressBox h3{font-size:12px; letter-spacing:2px; color:#a89a78; margin-bottom:8px; font-weight:normal}
-#bar{height:8px; background:rgba(255,255,255,.08); border-radius:4px; overflow:hidden}
-#bar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold2)); transition:.4s}
-#progressBox .pct{font-size:13px; color:#ffd76e; margin-top:6px; text-align:right}
-#quote{margin-top:auto; font-size:12px; color:#9c8f70; font-style:italic; border-left:2px solid rgba(212,169,42,.4); padding-left:10px; line-height:1.7}
-#main{flex:1; padding:40px 48px 80px; max-width:1000px; margin:0 auto}
-.page{display:none; animation:fade .35s}
+.nav button:hover{background:rgba(0,0,0,.05); color:#1d1d1f}
+.nav button.on{background:var(--blue-bg); color:var(--blue); font-weight:600}
+.nav .sub{font-size:11.5px; color:#86868b}
+.nav button.on .sub{color:var(--blue)}
+.nav .done{color:var(--blue); font-size:12px}
+#progressBox{background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:14px}
+#progressBox h3{font-size:12px; letter-spacing:.5px; color:#86868b; margin-bottom:8px; font-weight:600}
+#bar{height:6px; background:rgba(0,0,0,.08); border-radius:3px; overflow:hidden}
+#bar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,#2997ff,#0071e3); border-radius:3px; transition:.4s}
+#progressBox .pct{font-size:13px; color:var(--blue); margin-top:6px; text-align:right; font-weight:600}
+#quote{margin-top:auto; font-size:12px; color:#86868b; font-style:italic; border-left:2px solid var(--blue); padding-left:10px; line-height:1.7}
+#main{flex:1; padding:48px 56px 80px; max-width:1020px; margin:0 auto}
+.page{display:none; animation:fade .3s}
 .page.on{display:block}
-@keyframes fade{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
-.page-head{border-bottom:2px solid var(--gold); padding-bottom:14px; margin-bottom:26px}
-.page-head .kick{font-size:12px; letter-spacing:3px; color:var(--gold); text-transform:uppercase}
-.page-head h2{font-size:30px; margin-top:4px; letter-spacing:1px}
+@keyframes fade{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+.page-head{border-bottom:1px solid var(--line); padding-bottom:16px; margin-bottom:28px}
+.page-head .kick{font-size:12px; letter-spacing:2px; color:var(--blue); font-weight:600; text-transform:uppercase}
+.page-head h2{font-size:32px; margin-top:4px; letter-spacing:-.5px; font-weight:700}
 .page-head p{color:var(--ink2); margin-top:6px; font-size:15px}
-.card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px 26px; margin-bottom:22px; box-shadow:var(--shadow)}
-.card h3{font-size:18px; color:var(--gold); margin-bottom:10px; display:flex; align-items:center; gap:8px}
-.card h3::before{content:'◆'; font-size:12px}
+.card{background:var(--card); border-radius:var(--radius); padding:24px 28px; margin-bottom:20px; box-shadow:var(--shadow); border:1px solid rgba(0,0,0,.02)}
+.card h3{font-size:17px; color:var(--ink); margin-bottom:10px; display:flex; align-items:center; gap:8px; font-weight:600}
+.card h3::before{content:''; width:4px; height:16px; background:var(--blue); border-radius:2px}
 .ch-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px}
-.ch-card{border:1px solid var(--line); border-radius:10px; padding:16px; background:var(--card); cursor:pointer; transition:.15s; box-shadow:var(--shadow)}
-.ch-card:hover{transform:translateY(-2px); border-color:var(--gold)}
-.ch-card .no{font-size:12px; color:var(--gold); letter-spacing:2px}
-.ch-card .t{font-size:16.5px; margin:4px 0 6px}
+.ch-card{border:1px solid var(--line); border-radius:16px; padding:18px; background:var(--card); cursor:pointer; transition:.18s; box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.ch-card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:rgba(0,113,227,.35)}
+.ch-card .no{font-size:12px; color:var(--blue); letter-spacing:1px; font-weight:600}
+.ch-card .t{font-size:16px; margin:6px 0 6px; font-weight:600; letter-spacing:-.2px}
 .ch-card .w{font-size:12px; color:var(--ink2)}
-.ch-card .st{font-size:12px; margin-top:8px; color:var(--green)}
-.ch-card .st.empty{color:var(--ink2)}
-.motto{background:linear-gradient(135deg,#2f2a20,#4a412c); color:#f0e3c2; border-radius:10px; padding:20px 24px; margin-bottom:22px; font-style:italic; box-shadow:var(--shadow)}
-.motto .who{display:block; margin-top:8px; font-size:12.5px; color:var(--gold2); font-style:normal; letter-spacing:1px}
+.ch-card .st{font-size:12px; margin-top:8px; color:var(--green); font-weight:600}
+.ch-card .st.empty{color:var(--ink2); font-weight:400}
+.motto{background:linear-gradient(135deg,#1d1d1f,#3a3a3c); color:#f5f5f7; border-radius:var(--radius); padding:22px 26px; margin-bottom:20px; font-style:italic; box-shadow:var(--shadow)}
+.motto .who{display:block; margin-top:8px; font-size:12.5px; color:#a1a1a6; font-style:normal; letter-spacing:.5px}
 .map{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px}
-.map span{border:1px solid var(--gold); color:var(--gold); border-radius:20px; padding:3px 14px; font-size:13px; background:rgba(184,134,11,.06)}
+.map span{border:1px solid rgba(0,113,227,.3); color:var(--blue); border-radius:980px; padding:3px 14px; font-size:13px; background:var(--blue-bg); font-weight:500}
 .sec{margin-bottom:16px}
-.sec h4{font-size:16px; color:var(--ink); margin-bottom:6px}
-.sec h4 em{font-style:normal; color:var(--gold); font-size:12.5px; margin-right:8px}
+.sec h4{font-size:16px; color:var(--ink); margin-bottom:6px; font-weight:600}
+.sec h4 em{font-style:normal; color:var(--blue); font-size:12.5px; margin-right:8px; font-weight:600}
 .sec p{color:var(--ink); margin-bottom:6px}
-.sec .formula{background:#efe6cc; border:1px solid var(--line); border-radius:6px; padding:6px 14px; margin:6px 0; font-size:16px; text-align:center; color:#4a3d22}
-.example{background:#f2ead4; border-left:3px solid var(--gold2); border-radius:0 8px 8px 0; padding:14px 18px; margin:10px 0}
-.example .lbl{font-size:12px; letter-spacing:2px; color:var(--gold)}
+.sec .formula{background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:8px 14px; margin:8px 0; font-size:16px; text-align:center; color:var(--ink)}
+.example{background:#f7f7f9; border-left:3px solid var(--blue); border-radius:0 14px 14px 0; padding:16px 20px; margin:10px 0}
+.example .lbl{font-size:11px; letter-spacing:1px; color:var(--blue); font-weight:600}
 .example p{margin:6px 0}
-.trap{background:#f7ece3; border:1px solid #dfc2a8; border-radius:8px; padding:12px 16px; margin:8px 0; font-size:14.5px}
-.trap b{color:var(--red)}
-.quiz{border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:16px; background:#fffdf6}
-.quiz .q{font-weight:bold; margin-bottom:12px; font-size:15.5px}
-.quiz .q .qn{color:var(--gold); margin-right:6px}
+.trap{background:#fff4e6; border:1px solid #ffd9a8; border-radius:14px; padding:14px 18px; margin:8px 0; font-size:14.5px}
+.trap b{color:var(--orange)}
+.quiz{border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-bottom:16px; background:var(--card); box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.quiz .q{font-weight:600; margin-bottom:14px; font-size:15.5px}
+.quiz .q .qn{color:var(--blue); margin-right:6px}
 .opts{display:flex; flex-direction:column; gap:8px}
-.opt{border:1px solid var(--line); border-radius:8px; padding:10px 14px; cursor:pointer; background:#fff; transition:.12s; font-size:14.5px}
-.opt:hover{border-color:var(--gold2); background:#fdf6e3}
-.opt.ok{border-color:var(--green); background:#eaf3ec; color:var(--green)}
-.opt.bad{border-color:var(--red); background:#f9e9e6; color:var(--red)}
+.opt{border:1px solid var(--line); border-radius:12px; padding:11px 15px; cursor:pointer; background:#fff; transition:.15s; font-size:14.5px}
+.opt:hover{border-color:var(--blue); background:var(--blue-bg)}
+.opt.ok{border-color:var(--green); background:#e8f8ee; color:var(--green); font-weight:600}
+.opt.bad{border-color:var(--red); background:#fdecec; color:var(--red)}
 .opt.lock{pointer-events:none}
 .fillrow{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-.fillrow input{flex:1; min-width:220px; border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-family:inherit; font-size:15px; background:#fff}
-.fillrow input:focus{outline:none; border-color:var(--gold)}
-.fillrow button{border:none; background:var(--gold); color:#fff; border-radius:8px; padding:10px 20px; font-family:inherit; font-size:14.5px; cursor:pointer; letter-spacing:1px}
-.fillrow button:hover{background:var(--gold2)}
-.verdict{border-radius:8px; padding:12px 16px; margin-top:12px; font-size:14.5px; display:none}
+.fillrow input{flex:1; min-width:220px; border:1px solid var(--line); border-radius:980px; padding:10px 18px; font-family:inherit; font-size:15px; background:#fff}
+.fillrow input:focus{outline:none; border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-bg)}
+.fillrow button{border:none; background:var(--blue); color:#fff; border-radius:980px; padding:10px 24px; font-family:inherit; font-size:14.5px; cursor:pointer; letter-spacing:.5px; font-weight:500; transition:.15s}
+.fillrow button:hover{background:var(--blue2)}
+.verdict{border-radius:14px; padding:14px 18px; margin-top:12px; font-size:14.5px; display:none}
 .verdict.show{display:block}
-.verdict.right{background:#eaf3ec; border:1px solid var(--green)}
-.verdict.wrong{background:#f9e9e6; border:1px solid var(--red)}
+.verdict.right{background:#e8f8ee; border:1px solid rgba(52,199,89,.3)}
+.verdict.wrong{background:#fdecec; border:1px solid rgba(255,59,48,.3)}
 .verdict .cm{font-style:italic; margin-bottom:6px}
 .verdict .ex{font-size:13.5px; color:var(--ink2)}
-.dia textarea{width:100%; min-height:100px; border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-family:inherit; font-size:14.5px; background:#fff; resize:vertical}
-.dia textarea:focus{outline:none; border-color:var(--gold)}
+.dia textarea{width:100%; min-height:100px; border:1px solid var(--line); border-radius:14px; padding:14px 16px; font-family:inherit; font-size:14.5px; background:#fff; resize:vertical; transition:.15s}
+.dia textarea:focus{outline:none; border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-bg)}
 .dia .act{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap}
-.dia button{border:1px solid var(--gold); background:transparent; color:var(--gold); border-radius:8px; padding:8px 18px; font-family:inherit; font-size:14px; cursor:pointer}
-.dia button.primary{background:var(--gold); color:#fff}
-.dia button:hover{background:var(--gold2); color:#fff}
-.week{display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:12px 14px; border:1px solid var(--line); border-radius:8px; margin-bottom:10px; background:var(--card)}
-.week.checked{background:#eef3e9; border-color:var(--green)}
+.dia button{border:1px solid var(--blue); background:transparent; color:var(--blue); border-radius:980px; padding:8px 20px; font-family:inherit; font-size:14px; cursor:pointer; font-weight:500; transition:.15s}
+.dia button.primary{background:var(--blue); color:#fff}
+.dia button:hover{background:var(--blue); color:#fff}
+.week{display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:14px 16px; border:1px solid var(--line); border-radius:14px; margin-bottom:10px; background:var(--card); box-shadow:0 1px 3px rgba(0,0,0,.03); transition:.15s}
+.week:hover{border-color:rgba(0,113,227,.3)}
+.week.checked{background:#e8f8ee; border-color:rgba(52,199,89,.4)}
 .week input{width:18px; height:18px; accent-color:var(--green); cursor:pointer}
-.week .wk{font-size:13px; color:var(--gold); letter-spacing:1px; width:70px; flex-shrink:0}
+.week .wk{font-size:13px; color:var(--blue); letter-spacing:.5px; width:70px; flex-shrink:0; font-weight:600}
 .week .wd{font-size:15px}
 .week .st{margin-left:auto; font-size:12px; color:var(--ink2); flex-shrink:0}
 .week .subs{flex-basis:100%; margin-top:8px; padding:8px 4px 2px 22px; border-top:1px dashed var(--line); display:flex; flex-direction:column; gap:3px}
-.lesson-row{display:flex; align-items:center; gap:10px; padding:5px 8px; border-radius:6px; font-size:13.5px; color:var(--ink2)}
-.lesson-row:hover{background:rgba(184,134,11,.06)}
-.lesson-row input{width:15px; height:15px; accent-color:var(--gold); cursor:pointer}
+.lesson-row{display:flex; align-items:center; gap:10px; padding:5px 8px; border-radius:8px; font-size:13.5px; color:var(--ink2)}
+.lesson-row:hover{background:var(--blue-bg)}
+.lesson-row input{width:15px; height:15px; accent-color:var(--blue); cursor:pointer}
 .lesson-row.on{color:var(--ink)}
-.lesson-row .ls{margin-left:auto; color:var(--green); font-size:12px; font-weight:bold}
+.lesson-row .ls{margin-left:auto; color:var(--green); font-size:12px; font-weight:600}
 .badge-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px}
-.badge{border:1.5px dashed var(--gold); color:var(--gold); border-radius:8px; padding:6px 14px; font-size:13px; opacity:.35}
-.badge.got{opacity:1; border-style:solid; background:rgba(184,134,11,.08)}
+.badge{border:1.5px dashed #c7c7cc; color:#86868b; border-radius:980px; padding:6px 16px; font-size:13px; opacity:.45}
+.badge.got{opacity:1; border-style:solid; border-color:var(--blue); color:var(--blue); background:var(--blue-bg)}
 .badge.got::before{content:'✦ '}
-.btn-back{display:inline-block; margin-bottom:18px; border:1px solid var(--line); background:transparent; color:var(--ink2); border-radius:8px; padding:7px 16px; font-family:inherit; cursor:pointer; font-size:13.5px}
-.btn-back:hover{border-color:var(--gold); color:var(--gold)}
+.btn-back{display:inline-block; margin-bottom:18px; border:1px solid var(--line); background:var(--card); color:var(--ink2); border-radius:980px; padding:8px 18px; font-family:inherit; cursor:pointer; font-size:13.5px; transition:.15s}
+.btn-back:hover{border-color:var(--blue); color:var(--blue)}
 .hint{font-size:13px; color:var(--ink2); margin-top:6px}
 /* 学习足迹 */
-.trace-day{margin:18px 0 8px; font-size:13.5px; letter-spacing:2px; color:var(--ink2); border-left:3px solid var(--gold); padding-left:10px}
+.trace-day{margin:18px 0 8px; font-size:13.5px; letter-spacing:.5px; color:var(--ink); border-left:3px solid var(--blue); padding-left:10px; font-weight:600}
 .trace-item{display:flex; gap:14px; padding:10px 6px; border-bottom:1px dashed var(--line); font-size:14.5px; align-items:baseline}
-.trace-item .tm{color:var(--gold); font-size:12.5px; width:118px; flex-shrink:0; font-family:Consolas,monospace}
+.trace-item .tm{color:var(--blue); font-size:12.5px; width:118px; flex-shrink:0; font-family:Consolas,monospace}
 .trace-item .tt{flex:1}
-.trace-item .tag{font-size:11.5px; border:1px solid var(--gold); color:var(--gold); border-radius:20px; padding:1px 10px; margin-left:8px; white-space:nowrap}
-footer{margin-top:40px; text-align:center; color:#a89a78; font-size:12px; border-top:1px solid var(--line); padding-top:18px}
+.trace-item .tag{font-size:11.5px; border:1px solid rgba(0,113,227,.3); color:var(--blue); background:var(--blue-bg); border-radius:980px; padding:1px 12px; margin-left:8px; white-space:nowrap}
+footer{margin-top:40px; text-align:center; color:#86868b; font-size:12px; border-top:1px solid var(--line); padding-top:18px}
 @media (max-width:860px){
   #app{flex-direction:column}
-  #side{width:100%; height:auto; position:static}
+  #side{width:100%; height:auto; position:static; border-right:none; border-bottom:1px solid var(--line)}
   #main{padding:24px 18px 60px}
+}
 }
 </style>
 </head>
@@ -163,8 +167,8 @@ footer{margin-top:40px; text-align:center; color:#a89a78; font-size:12px; border
       <div id="badges" class="badge-row"></div>
     </div>
     <div id="quote">「怀疑一切，但算完这题再怀疑。」—— 正在给你批作业的笛卡尔</div>
-    <button id="btnExport" style="margin-top:8px;border:1px solid var(--gold);background:transparent;color:var(--gold2);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer;letter-spacing:1px">📤 导出进度</button>
-    <button id="btnImport" style="margin-top:6px;border:1px dashed var(--gold);background:transparent;color:var(--gold2);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer;letter-spacing:1px">📥 导入进度</button>
+    <button id="btnExport" style="margin-top:8px;border:1px solid var(--blue);background:transparent;color:var(--blue);border-radius:980px;padding:9px 14px;font-family:inherit;font-size:13px;cursor:pointer;letter-spacing:.5px;font-weight:500">📤 导出进度</button>
+    <button id="btnImport" style="margin-top:6px;border:1px dashed var(--blue);background:transparent;color:var(--blue);border-radius:980px;padding:9px 14px;font-family:inherit;font-size:13px;cursor:pointer;letter-spacing:.5px;font-weight:500">📥 导入进度</button>
   </aside>
   <main id="main">
     <!-- 计划页 -->
@@ -984,7 +988,7 @@ function openCh(id){
   var el = $('#chDetail');
   var h = '<button class="btn-back" onclick="closeCh()">← 返回章节列表</button>';
   h += '<div class="motto">'+esc(c.motto)+'<span class="who">—— '+esc(c.mottoWho)+'</span></div>';
-  if(chIsDone(c)) h += '<div class="trap" style="background:#eaf3ec;border-color:var(--green)"><b>✦ 本章已学完</b>　随堂练习全部通关。回列表看看战果，或去练习大厅再巩固一遍。</div>';
+  if(chIsDone(c)) h += '<div class="trap" style="background:#e8f8ee;border-color:rgba(52,199,89,.4)"><b>✦ 本章已学完</b>　随堂练习全部通关。回列表看看战果，或去练习大厅再巩固一遍。</div>';
   h += '<div class="card"><h3>知识地图</h3><div class="map">'+c.map.map(function(m){return '<span>'+esc(m)+'</span>'}).join('')+'</div></div>';
   if(c.full){
     c.sections.forEach(function(sec, s){
@@ -1007,16 +1011,16 @@ function openCh(id){
     var btn = el.querySelector('#diaBtn'), inp = el.querySelector('#diaInput'), res = el.querySelector('#diaResult');
     btn.addEventListener('click', function(){
       var txt = inp.value.trim();
-      if(!txt){ res.innerHTML = '<div class="verdict show" style="display:block;background:#f7f2e3;border:1px solid var(--line)"><div class="cm">你一个字都没写，我怎么给你批？怀疑可以，沉默不行。</div></div>'; return; }
+      if(!txt){ res.innerHTML = '<div class="verdict show" style="display:block;background:#fff4e6;border:1px solid #ffd9a8"><div class="cm">你一个字都没写，我怎么给你批？怀疑可以，沉默不行。</div></div>'; return; }
       var hit = c.dialogue.keys.filter(function(k){ return txt.indexOf(k) > -1; });
       var pct = c.dialogue.keys.length ? Math.round(hit.length / c.dialogue.keys.length * 100) : 0;
       var grade = pct >= 70 ? '优秀' : pct >= 40 ? '及格' : '需补';
       var cm = pct >= 70 ? '思路已上路，关键词基本都踩中了。去把完整论证写顺，然后发给笛卡尔精批。' : pct >= 40 ? '方向有了，但关键概念还没说透。看看「参考思路」，再补一遍。' : '这把没押中要害。先看参考思路，然后用自己的话重新写一遍。';
-      res.innerHTML = '<div class="verdict show" style="display:block;background:#f2ead4;border:1px solid var(--gold)"><div class="cm">关键词命中 '+hit.length+'/'+c.dialogue.keys.length+'，评级：'+grade+'。'+cm+'</div><div class="ex"><b>参考思路：</b>'+parseMath(c.dialogue.model)+'</div></div>';
+      res.innerHTML = '<div class="verdict show" style="display:block;background:var(--blue-bg);border:1px solid rgba(0,113,227,.3)"><div class="cm">关键词命中 '+hit.length+'/'+c.dialogue.keys.length+'，评级：'+grade+'。'+cm+'</div><div class="ex"><b>参考思路：</b>'+parseMath(c.dialogue.model)+'</div></div>';
     });
     el.querySelector('#diaSend').addEventListener('click', function(){
       var txt = inp.value.trim();
-      res.innerHTML = '<div class="verdict show" style="display:block;background:#eaf3ec;border:1px solid var(--green)"><div class="cm">好，把你的这段话连同题目，复制到对话里发给潇湘（笛卡尔会借她的嘴说话）。他会逐句批改你的论证，追问漏洞，再给你一道变式题练手。</div></div>';
+      res.innerHTML = '<div class="verdict show" style="display:block;background:#e8f8ee;border:1px solid rgba(52,199,89,.3)"><div class="cm">好，把你的这段话连同题目，复制到对话里发给潇湘（笛卡尔会借她的嘴说话）。他会逐句批改你的论证，追问漏洞，再给你一道变式题练手。</div></div>';
     });
   }
 }
@@ -1109,9 +1113,9 @@ function renderHallNav(){
   var nav = $('#hallNav');
   var cnts = CHAPTERS.map(function(c){ return hallDone.filter(function(k){ return k.split('_')[0] == c.id; }).length; });
   var total = CHAPTERS.reduce(function(s,c){ return s + (c.quiz?c.quiz.length:0); }, 0);
-  nav.innerHTML = '<button class="opt" style="border:1px solid var(--gold);background:'+(hallCh===0?'rgba(184,134,11,.15)':'transparent')+'" data-c="0">全部 ('+hallDone.length+'/'+total+')</button>' +
+  nav.innerHTML = '<button class="opt" style="border:1px solid var(--blue);background:'+(hallCh===0?'var(--blue-bg)':'transparent')+'" data-c="0">全部 ('+hallDone.length+'/'+total+')</button>' +
     CHAPTERS.filter(function(c){return c.quiz && c.quiz.length}).map(function(c){
-      return '<button class="opt" style="border:1px solid var(--gold);background:'+(hallCh===c.id?'rgba(184,134,11,.15)':'transparent')+'" data-c="'+c.id+'">第'+c.id+'章 ('+cnts[c.id-1]+'/'+c.quiz.length+')</button>';
+      return '<button class="opt" style="border:1px solid var(--blue);background:'+(hallCh===c.id?'var(--blue-bg)':'transparent')+'" data-c="'+c.id+'">第'+c.id+'章 ('+cnts[c.id-1]+'/'+c.quiz.length+')</button>';
     }).join('');
   nav.querySelectorAll('button').forEach(function(b){
     b.addEventListener('click', function(){
@@ -1139,7 +1143,7 @@ function renderHall(){
 function renderAsk(){
   var el = $('#askList');
   el.innerHTML = CHAPTERS.filter(function(c){ return c.full && c.dialogue.q; }).map(function(c){
-    return '<div class="trap" style="background:#f2ead4;border-color:var(--gold);margin:10px 0"><b>第'+c.id+'章 · '+c.title+'</b><br>'+parseMath(c.dialogue.q)+'<br><span style="font-size:13px;color:var(--ink2)">→ 去「章节课堂」该章底部作答，或直接复制题目来对话里考自己。</span></div>';
+    return '<div class="trap" style="background:var(--blue-bg);border-color:rgba(0,113,227,.25);margin:10px 0"><b>第'+c.id+'章 · '+c.title+'</b><br>'+parseMath(c.dialogue.q)+'<br><span style="font-size:13px;color:var(--ink2)">→ 去「章节课堂」该章底部作答，或直接复制题目来对话里考自己。</span></div>';
   }).join('');
 }
 
@@ -1218,22 +1222,22 @@ function importProgress(){
   var wrap = document.createElement('div');
   wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
   var box = document.createElement('div');
-  box.style.cssText = 'background:#fffdf6;border:2px solid var(--gold);border-radius:12px;padding:20px;max-width:720px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px';
+  box.style.cssText = 'background:#fff;border-radius:18px;padding:22px;max-width:720px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px;box-shadow:0 12px 48px rgba(0,0,0,.2)';
   var title = document.createElement('div');
-  title.innerHTML = '<b style="color:var(--gold)">导入学习进度</b><span style="color:var(--ink2);font-size:13px"> —— 粘贴之前导出的进度数据，点「导入」。进度只写入<b>本机浏览器</b>，别人看不到。</span>';
+  title.innerHTML = '<b style="color:var(--blue)">导入学习进度</b><span style="color:var(--ink2);font-size:13px"> —— 粘贴之前导出的进度数据，点「导入」。进度只写入<b>本机浏览器</b>，别人看不到。</span>';
   var ta = document.createElement('textarea');
   ta.placeholder = '粘贴 { "pjc_lessons": [...] } 格式的进度数据……';
-  ta.style.cssText = 'flex:1;border:1px solid var(--line);border-radius:8px;padding:10px;font-family:Consolas,monospace;font-size:12px;min-height:240px;background:#fbf6ea';
+  ta.style.cssText = 'flex:1;border:1px solid var(--line);border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:12px;min-height:240px;background:#f5f5f7';
   var bar = document.createElement('div');
   bar.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap';
   var msg = document.createElement('span');
   msg.style.cssText = 'margin-right:auto;color:var(--red);font-size:13px;display:none';
   var btnOk = document.createElement('button');
   btnOk.textContent = '✅ 导入';
-  btnOk.style.cssText = 'border:none;background:var(--gold);color:#fff;border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  btnOk.style.cssText = 'border:none;background:var(--blue);color:#fff;border-radius:980px;padding:9px 20px;font-family:inherit;font-size:14px;cursor:pointer;font-weight:500';
   var btnClose = document.createElement('button');
   btnClose.textContent = '关闭';
-  btnClose.style.cssText = 'border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  btnClose.style.cssText = 'border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:980px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
   btnOk.addEventListener('click', function(){
     try{
       var data = JSON.parse(ta.value);
@@ -1276,21 +1280,21 @@ function exportProgress(){
   var wrap = document.createElement('div');
   wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
   var box = document.createElement('div');
-  box.style.cssText = 'background:#fffdf6;border:2px solid var(--gold);border-radius:12px;padding:20px;max-width:720px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px';
+  box.style.cssText = 'background:#fff;border-radius:18px;padding:22px;max-width:720px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px;box-shadow:0 12px 48px rgba(0,0,0,.2)';
   var title = document.createElement('div');
-  title.innerHTML = '<b style="color:var(--gold)">你的学习进度</b><span style="color:var(--ink2);font-size:13px"> —— 点下面「复制」后，整段粘贴发给你的助手即可</span>';
+  title.innerHTML = '<b style="color:var(--blue)">你的学习进度</b><span style="color:var(--ink2);font-size:13px"> —— 点下面「复制」后，整段粘贴发给你的助手即可</span>';
   var ta = document.createElement('textarea');
   ta.value = json;
   ta.readOnly = true;
-  ta.style.cssText = 'flex:1;border:1px solid var(--line);border-radius:8px;padding:10px;font-family:Consolas,monospace;font-size:12px;min-height:240px;background:#fbf6ea';
+  ta.style.cssText = 'flex:1;border:1px solid var(--line);border-radius:12px;padding:12px;font-family:Consolas,monospace;font-size:12px;min-height:240px;background:#f5f5f7';
   var bar = document.createElement('div');
   bar.style.cssText = 'display:flex;gap:10px;justify-content:flex-end';
   var btnCopy = document.createElement('button');
   btnCopy.textContent = '📋 复制';
-  btnCopy.style.cssText = 'border:none;background:var(--gold);color:#fff;border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  btnCopy.style.cssText = 'border:none;background:var(--blue);color:#fff;border-radius:980px;padding:9px 20px;font-family:inherit;font-size:14px;cursor:pointer;font-weight:500';
   var btnClose = document.createElement('button');
   btnClose.textContent = '关闭';
-  btnClose.style.cssText = 'border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  btnClose.style.cssText = 'border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:980px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
   btnCopy.addEventListener('click', function(){
     ta.select();
     try{ document.execCommand('copy'); btnCopy.textContent = '✅ 已复制'; }catch(e){ btnCopy.textContent = '请手动 Ctrl+C'; }
