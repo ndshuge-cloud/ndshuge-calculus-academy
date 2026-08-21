@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笛卡尔的普林斯顿微积分学院 · 修订版30章</title>
+<style>
+:root{
+  --parchment:#f4ecd9; --parchment2:#ece0c4; --ink:#2d2a26; --ink2:#5a5146;
+  --gold:#b8860b; --gold2:#d4a92a; --red:#9c2f2f; --green:#3a6b47;
+  --line:#c9b78e; --card:#fbf6ea; --shadow:0 2px 10px rgba(80,60,20,.14);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html,body{height:100%}
+body{
+  font-family: Georgia, 'Times New Roman', 'Songti SC','SimSun', serif;
+  background:
+    radial-gradient(ellipse at top, rgba(212,169,42,.10), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(140,110,40,.025) 0 2px, transparent 2px 6px),
+    var(--parchment);
+  color:var(--ink); line-height:1.75;
+}
+#app{display:flex; min-height:100vh}
+#side{
+  width:300px; flex-shrink:0; background:linear-gradient(180deg,#2f2a20,#241f18);
+  color:#e8dcc0; padding:26px 20px; display:flex; flex-direction:column; gap:18px;
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+#side .seal{
+  width:52px;height:52px;border-radius:50%;border:2px solid var(--gold2);margin:0 auto 4px;
+  display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold2);
+  background:radial-gradient(circle at 35% 30%, #4a412c, #241f18);
+}
+#side h1{font-size:19px; text-align:center; letter-spacing:2px; color:#f0e3c2; line-height:1.5}
+#side h1 small{display:block; font-size:11px; color:#a89a78; letter-spacing:3px; font-weight:normal; margin-top:3px}
+#side .divider{height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.nav{display:flex; flex-direction:column; gap:4px}
+.nav button{
+  background:transparent;border:none;color:#cbbd9c;text-align:left;font-family:inherit;
+  font-size:14.5px;padding:9px 12px;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.15s;
+}
+.nav button:hover{background:rgba(212,169,42,.12); color:#f0e3c2}
+.nav button.on{background:linear-gradient(90deg,rgba(212,169,42,.25),rgba(212,169,42,.06)); color:#ffd76e}
+.nav .sub{font-size:11.5px; color:#8d8063}
+.nav .done{color:var(--gold2); font-size:12px}
+#progressBox{background:rgba(0,0,0,.25); border:1px solid rgba(212,169,42,.25); border-radius:8px; padding:12px}
+#progressBox h3{font-size:12px; letter-spacing:2px; color:#a89a78; margin-bottom:8px; font-weight:normal}
+#bar{height:8px; background:rgba(255,255,255,.08); border-radius:4px; overflow:hidden}
+#bar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold2)); transition:.4s}
+#progressBox .pct{font-size:13px; color:#ffd76e; margin-top:6px; text-align:right}
+#quote{margin-top:auto; font-size:12px; color:#9c8f70; font-style:italic; border-left:2px solid rgba(212,169,42,.4); padding-left:10px; line-height:1.7}
+#main{flex:1; padding:40px 48px 80px; max-width:1000px; margin:0 auto}
+.page{display:none; animation:fade .35s}
+.page.on{display:block}
+@keyframes fade{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+.page-head{border-bottom:2px solid var(--gold); padding-bottom:14px; margin-bottom:26px}
+.page-head .kick{font-size:12px; letter-spacing:3px; color:var(--gold); text-transform:uppercase}
+.page-head h2{font-size:30px; margin-top:4px; letter-spacing:1px}
+.page-head p{color:var(--ink2); margin-top:6px; font-size:15px}
+.card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px 26px; margin-bottom:22px; box-shadow:var(--shadow)}
+.card h3{font-size:18px; color:var(--gold); margin-bottom:10px; display:flex; align-items:center; gap:8px}
+.card h3::before{content:'◆'; font-size:12px}
+.ch-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px}
+.ch-card{border:1px solid var(--line); border-radius:10px; padding:16px; background:var(--card); cursor:pointer; transition:.15s; box-shadow:var(--shadow)}
+.ch-card:hover{transform:translateY(-2px); border-color:var(--gold)}
+.ch-card .no{font-size:12px; color:var(--gold); letter-spacing:2px}
+.ch-card .t{font-size:16.5px; margin:4px 0 6px}
+.ch-card .w{font-size:12px; color:var(--ink2)}
+.ch-card .st{font-size:12px; margin-top:8px; color:var(--green)}
+.ch-card .st.empty{color:var(--ink2)}
+.motto{background:linear-gradient(135deg,#2f2a20,#4a412c); color:#f0e3c2; border-radius:10px; padding:20px 24px; margin-bottom:22px; font-style:italic; box-shadow:var(--shadow)}
+.motto .who{display:block; margin-top:8px; font-size:12.5px; color:var(--gold2); font-style:normal; letter-spacing:1px}
+.map{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px}
+.map span{border:1px solid var(--gold); color:var(--gold); border-radius:20px; padding:3px 14px; font-size:13px; background:rgba(184,134,11,.06)}
+.sec{margin-bottom:16px}
+.sec h4{font-size:16px; color:var(--ink); margin-bottom:6px}
+.sec h4 em{font-style:normal; color:var(--gold); font-size:12.5px; margin-right:8px}
+.sec p{color:var(--ink); margin-bottom:6px}
+.sec .formula{background:#efe6cc; border:1px solid var(--line); border-radius:6px; padding:6px 14px; margin:6px 0; font-size:16px; text-align:center; color:#4a3d22}
+.example{background:#f2ead4; border-left:3px solid var(--gold2); border-radius:0 8px 8px 0; padding:14px 18px; margin:10px 0}
+.example .lbl{font-size:12px; letter-spacing:2px; color:var(--gold)}
+.example p{margin:6px 0}
+.trap{background:#f7ece3; border:1px solid #dfc2a8; border-radius:8px; padding:12px 16px; margin:8px 0; font-size:14.5px}
+.trap b{color:var(--red)}
+.quiz{border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:16px; background:#fffdf6}
+.quiz .q{font-weight:bold; margin-bottom:12px; font-size:15.5px}
+.quiz .q .qn{color:var(--gold); margin-right:6px}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{border:1px solid var(--line); border-radius:8px; padding:10px 14px; cursor:pointer; background:#fff; transition:.12s; font-size:14.5px}
+.opt:hover{border-color:var(--gold2); background:#fdf6e3}
+.opt.ok{border-color:var(--green); background:#eaf3ec; color:var(--green)}
+.opt.bad{border-color:var(--red); background:#f9e9e6; color:var(--red)}
+.opt.lock{pointer-events:none}
+.fillrow{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.fillrow input{flex:1; min-width:220px; border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-family:inherit; font-size:15px; background:#fff}
+.fillrow input:focus{outline:none; border-color:var(--gold)}
+.fillrow button{border:none; background:var(--gold); color:#fff; border-radius:8px; padding:10px 20px; font-family:inherit; font-size:14.5px; cursor:pointer; letter-spacing:1px}
+.fillrow button:hover{background:var(--gold2)}
+.verdict{border-radius:8px; padding:12px 16px; margin-top:12px; font-size:14.5px; display:none}
+.verdict.show{display:block}
+.verdict.right{background:#eaf3ec; border:1px solid var(--green)}
+.verdict.wrong{background:#f9e9e6; border:1px solid var(--red)}
+.verdict .cm{font-style:italic; margin-bottom:6px}
+.verdict .ex{font-size:13.5px; color:var(--ink2)}
+.dia textarea{width:100%; min-height:100px; border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-family:inherit; font-size:14.5px; background:#fff; resize:vertical}
+.dia textarea:focus{outline:none; border-color:var(--gold)}
+.dia .act{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap}
+.dia button{border:1px solid var(--gold); background:transparent; color:var(--gold); border-radius:8px; padding:8px 18px; font-family:inherit; font-size:14px; cursor:pointer}
+.dia button.primary{background:var(--gold); color:#fff}
+.dia button:hover{background:var(--gold2); color:#fff}
+.week{display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:12px 14px; border:1px solid var(--line); border-radius:8px; margin-bottom:10px; background:var(--card)}
+.week.checked{background:#eef3e9; border-color:var(--green)}
+.week input{width:18px; height:18px; accent-color:var(--green); cursor:pointer}
+.week .wk{font-size:13px; color:var(--gold); letter-spacing:1px; width:70px; flex-shrink:0}
+.week .wd{font-size:15px}
+.week .st{margin-left:auto; font-size:12px; color:var(--ink2); flex-shrink:0}
+.week .subs{flex-basis:100%; margin-top:8px; padding:8px 4px 2px 22px; border-top:1px dashed var(--line); display:flex; flex-direction:column; gap:3px}
+.lesson-row{display:flex; align-items:center; gap:10px; padding:5px 8px; border-radius:6px; font-size:13.5px; color:var(--ink2)}
+.lesson-row:hover{background:rgba(184,134,11,.06)}
+.lesson-row input{width:15px; height:15px; accent-color:var(--gold); cursor:pointer}
+.lesson-row.on{color:var(--ink)}
+.lesson-row .ls{margin-left:auto; color:var(--green); font-size:12px; font-weight:bold}
+.badge-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px}
+.badge{border:1.5px dashed var(--gold); color:var(--gold); border-radius:8px; padding:6px 14px; font-size:13px; opacity:.35}
+.badge.got{opacity:1; border-style:solid; background:rgba(184,134,11,.08)}
+.badge.got::before{content:'✦ '}
+.btn-back{display:inline-block; margin-bottom:18px; border:1px solid var(--line); background:transparent; color:var(--ink2); border-radius:8px; padding:7px 16px; font-family:inherit; cursor:pointer; font-size:13.5px}
+.btn-back:hover{border-color:var(--gold); color:var(--gold)}
+.hint{font-size:13px; color:var(--ink2); margin-top:6px}
+/* 学习足迹 */
+.trace-day{margin:18px 0 8px; font-size:13.5px; letter-spacing:2px; color:var(--ink2); border-left:3px solid var(--gold); padding-left:10px}
+.trace-item{display:flex; gap:14px; padding:10px 6px; border-bottom:1px dashed var(--line); font-size:14.5px; align-items:baseline}
+.trace-item .tm{color:var(--gold); font-size:12.5px; width:118px; flex-shrink:0; font-family:Consolas,monospace}
+.trace-item .tt{flex:1}
+.trace-item .tag{font-size:11.5px; border:1px solid var(--gold); color:var(--gold); border-radius:20px; padding:1px 10px; margin-left:8px; white-space:nowrap}
+footer{margin-top:40px; text-align:center; color:#a89a78; font-size:12px; border-top:1px solid var(--line); padding-top:18px}
+@media (max-width:860px){
+  #app{flex-direction:column}
+  #side{width:100%; height:auto; position:static}
+  #main{padding:24px 18px 60px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <div class="seal">笛</div>
+    <h1>普林斯顿微积分学院<small>COLLÈGE DU CALCUL · 班纳读本 30 章</small></h1>
+    <div class="divider"></div>
+    <nav class="nav">
+      <button data-page="plan" class="on"><span>📜 学习计划</span><span class="sub" id="planCnt">0/87</span></button>
+      <button data-page="lesson"><span>🎓 章节课堂</span><span class="sub" id="chCnt">0/30</span></button>
+      <button data-page="hall"><span>🏛 练习大厅</span></button>
+      <button data-page="trace"><span>🕐 学习足迹</span><span class="sub" id="traceCnt"></span></button>
+      <button data-page="ask"><span>✍️ 问答批改</span></button>
+      <button data-page="about"><span>✒️ 关于导师</span></button>
+    </nav>
+    <div class="divider"></div>
+    <div id="progressBox">
+      <h3>学徒总进度</h3>
+      <div id="bar"><i></i></div>
+      <div class="pct" id="pctTxt">0%</div>
+      <div id="badges" class="badge-row"></div>
+    </div>
+    <div id="quote">「怀疑一切，但算完这题再怀疑。」—— 正在给你批作业的笛卡尔</div>
+    <button id="btnExport" style="margin-top:8px;border:1px solid var(--gold);background:transparent;color:var(--gold2);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer;letter-spacing:1px">📤 导出进度</button>
+    <button id="btnImport" style="margin-top:6px;border:1px dashed var(--gold);background:transparent;color:var(--gold2);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;cursor:pointer;letter-spacing:1px">📥 导入进度</button>
+  </aside>
+  <main id="main">
+    <!-- 计划页 -->
+    <section class="page on" id="page-plan">
+      <div class="page-head">
+        <div class="kick">THE CAMPAIGN PLAN</div>
+        <h2>廿八周攻城路线</h2>
+        <p>七大战役，按顺序攻下。勾选完成的周次，进度计入学徒档案（存在本机浏览器）。</p>
+      </div>
+      <div id="planList"></div>
+      <div class="card">
+        <h3>三条铁律</h3>
+        <p>① <b>不跳城</b>：极限没通别碰导数，导数没通别碰积分。链条比速度重要。</p>
+        <p>② <b>不裸奔</b>：做完立刻批改（本学院即时批改 + 把作业交给对话里的笛卡尔），错题 48 小时内重做，7 天后再测第三遍。</p>
+        <p>③ <b>不贪多</b>：每天新题不超过 8 道，但每道都想透「为什么这样解」。</p>
+      </div>
+    </section>
+    <!-- 课堂页 -->
+    <section class="page" id="page-lesson">
+      <div class="page-head">
+        <div class="kick">THE LECTURES</div>
+        <h2>章节课堂</h2>
+        <p>每章：开讲词 → 知识地图 → 讲义 → 例题 → 易错 → 练习（即时批改）→ 灵魂拷问。前六章已由笛卡尔亲授，后续章节随学习进度补全。</p>
+      </div>
+      <div id="chSelect" class="ch-grid"></div>
+      <div id="chDetail"></div>
+    </section>
+    <!-- 大厅页 -->
+    <section class="page" id="page-hall">
+      <div class="page-head">
+        <div class="kick">THE PRACTICE HALL</div>
+        <h2>练习大厅</h2>
+        <p>全册精选习题，按章刷题。全部选择题，点选作答，数学符号不用自己敲。</p>
+      </div>
+      <div id="hallNav" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px"></div>
+      <div id="hallList"></div>
+    </section>
+    <!-- 足迹页 -->
+    <section class="page" id="page-trace">
+      <div class="page-head">
+        <div class="kick">THE FOOTPRINTS</div>
+        <h2>学习足迹</h2>
+        <p>每次打开讲义、每次答题，自动记下时间。30 分钟内的连续活动算一次学习，按天分组。</p>
+      </div>
+      <div id="traceList"></div>
+    </section>
+    <!-- 问答页 -->
+    <section class="page" id="page-ask">
+      <div class="page-head">
+        <div class="kick">THE INTERROGATION</div>
+        <h2>问答批改</h2>
+        <p>把每章的「灵魂拷问」答案写在这里，先让本学院做关键词初判，再把完整答案贴给对话里的笛卡尔，他会认真批改你的论证。</p>
+      </div>
+      <div class="card">
+        <h3>灵魂拷问清单</h3>
+        <div id="askList"></div>
+      </div>
+    </section>
+    <!-- 关于 -->
+    <section class="page" id="page-about">
+      <div class="page-head">
+        <div class="kick">ABOUT THE TUTOR</div>
+        <h2>关于你的导师</h2>
+      </div>
+      <div class="card">
+        <h3>勒内·笛卡尔（1596-1650）</h3>
+        <p>法兰西人。白天思考哲学，晚上研究数学。1637 年《方法论》问世，附录《几何学》里，他把代数和几何焊接在一起：坐标系诞生，从此每一条曲线都有方程，每一个方程都有形状。</p>
+        <p>切线问题、求积问题，他早已把微积分逼到门口，只差把「无穷小」说清楚那一步。牛顿和莱布尼茨继承了他的坐标系，才完成最后临门一脚。而今天，你站在他们肩上。</p>
+        <div class="motto" style="margin-top:16px">「我思故我在。」<span class="who">—— 笛卡尔，1641 年，《第一哲学沉思集》</span></div>
+        <p style="margin-top:12px">他的方法四规则，翻译成学微积分的话就是：</p>
+        <p>① <b>决不接受</b>未经检验为真的命题——每一条公式，都要知道它从哪来。</p>
+        <p>② <b>把难题拆小</b>——极限拆成 ε 和 δ，积分拆成微元。</p>
+        <p>③ <b>从简单到复杂</b>——先函数，再极限；先直线，再曲线。</p>
+        <p>④ <b>全面复查</b>——算完回头看定义域、间断点、漏解、符号。</p>
+      </div>
+    </section>
+    <footer>笛卡尔的普林斯顿微积分学院 · 以班纳《普林斯顿微积分读本》为蓝本 · 进度存于本地浏览器</footer>
+  </main>
+</div>
+
+<script>
+/* ================= 工具 ================= */
+function $(s){return document.querySelector(s)}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function store(k,v){try{localStorage.setItem('pjc_'+k, JSON.stringify(v))}catch(e){}}
+function load(k,d){try{var v=JSON.parse(localStorage.getItem('pjc_'+k)); return v===null?d:v}catch(e){return d}}
+
+/* ================= 公式渲染（迷你 LaTeX，离线可用） ================= */
+function parseMath(s){
+  if(s===undefined||s===null) return '';
+  s=String(s); var i=0, out='';
+  function readGroup(){
+    var depth=0, j=i;
+    while(j<s.length){ if(s[j]==='{')depth++; if(s[j]==='}'){depth--; if(depth===0)break;} j++; }
+    var g=s.slice(i+1,j); i=Math.min(j+1,s.length); return g;
+  }
+  while(i<s.length){
+    var c=s[i];
+    if(c==='\\'){
+      if(s[i+1]==="'"||s[i+1]==='′'){out+='′'; i+=2; continue;}
+      var m=/^[a-zA-Z]+/.exec(s.slice(i+1));
+      if(m){
+        var cmd=m[0]; i+=1+cmd.length;
+        switch(cmd){
+          case 'frac': {var a=readGroup(),b=readGroup(); out+='<span class="fr" style="display:inline-block;vertical-align:middle;text-align:center;margin:0 2px"><span style="display:block;border-bottom:1px solid currentColor;padding:0 4px">'+parseMath(a)+'</span><span style="display:block;padding:0 4px">'+parseMath(b)+'</span></span>'; break;}
+          case 'lim': {var sub=''; if(s[i]==='_'){i++; sub=s[i]==='{'?readGroup():(s[i++]||'');} out+='<i>lim</i>'+(sub?'<sub>'+parseMath(sub)+'</sub>':''); break;}
+          case 'int': {var lw='',up=''; if(s[i]==='_'){i++; lw=s[i]==='{'?readGroup():(s[i++]||'');} if(s[i]==='^'){i++; up=s[i]==='{'?readGroup():(s[i++]||'');} out+='<span style="font-size:1.35em">∫</span>'+(up?'<sup>'+parseMath(up)+'</sup>':'')+(lw?'<sub>'+parseMath(lw)+'</sub>':''); break;}
+          case 'sum': {var lw2='',up2=''; if(s[i]==='_'){i++; lw2=s[i]==='{'?readGroup():(s[i++]||'');} if(s[i]==='^'){i++; up2=s[i]==='{'?readGroup():(s[i++]||'');} out+='<span style="font-size:1.25em">Σ</span>'+(up2?'<sup>'+parseMath(up2)+'</sup>':'')+(lw2?'<sub>'+parseMath(lw2)+'</sub>':''); break;}
+          case 'sqrt': {var r=readGroup(); out+='√<span style="border-top:1px solid currentColor;padding:0 3px">'+parseMath(r)+'</span>'; break;}
+          case 'pi': out+='π'; break;
+          case 'theta': out+='θ'; break;
+          case 'alpha': out+='α'; break;
+          case 'beta': out+='β'; break;
+          case 'gamma': out+='γ'; break;
+          case 'delta': out+='δ'; break;
+          case 'epsilon': out+='ε'; break;
+          case 'varepsilon': out+='ε'; break;
+          case 'xi': out+='ξ'; break;
+          case 'phi': out+='φ'; break;
+          case 'text': { var t=readGroup(); out+='<span>'+parseMath(t)+'</span>'; break; }
+          case 'circ': out+='°'; break;
+          case 'iff': out+='⇔'; break;
+          case 'cdots': out+='⋯'; break;
+          case 'dots': out+='…'; break;
+          case 'prime': out+='′'; break;
+          case 'quad': out+='　'; break;
+          case 'qquad': out+='　　'; break;
+          case 'mathbb': { var b=readGroup(); out+=b; break; }
+          case 'overline': { var o=readGroup(); out+='<span style="border-top:1px solid currentColor">'+parseMath(o)+'</span>'; break; }
+          case 'left': case 'right': case 'big': case 'Big': case 'bigg': case 'Bigg': i++; break;
+          case 'infty': out+='∞'; break;
+          case 'to': out+='→'; break;
+          case 'Rightarrow': out+='⇒'; break;
+          case 'cdot': out+='·'; break;
+          case 'times': out+='×'; break;
+          case 'pm': out+='±'; break;
+          case 'ne': out+='≠'; break;
+          case 'le': out+='≤'; break;
+          case 'ge': out+='≥'; break;
+          case 'approx': out+='≈'; break;
+          case 'in': out+='∈'; break;
+          case 'sin': out+='<i>sin</i>'; break;
+          case 'cos': out+='<i>cos</i>'; break;
+          case 'tan': out+='<i>tan</i>'; break;
+          case 'cot': out+='<i>cot</i>'; break;
+          case 'sec': out+='<i>sec</i>'; break;
+          case 'csc': out+='<i>csc</i>'; break;
+          case 'ln': out+='<i>ln</i>'; break;
+          case 'log': out+='<i>log</i>'; break;
+          case 'exp': out+='<i>exp</i>'; break;
+          case 'arcsin': out+='<i>arcsin</i>'; break;
+          case 'arccos': out+='<i>arccos</i>'; break;
+          case 'arctan': out+='<i>arctan</i>'; break;
+          case 'sinh': out+='<i>sinh</i>'; break;
+          case 'cosh': out+='<i>cosh</i>'; break;
+          case 'tanh': out+='<i>tanh</i>'; break;
+          default: out+=cmd;
+        }
+        continue;
+      }
+      out+=s[i+1]||''; i+=2; continue;
+    }
+    if(c==='^'){ i++; var su = s[i]==='{'?readGroup():(s[i++]||''); out+='<sup>'+parseMath(su)+'</sup>'; continue; }
+    if(c==='_'){ i++; var sb = s[i]==='{'?readGroup():(s[i++]||''); out+='<sub>'+parseMath(sb)+'</sub>'; continue; }
+    out+=c; i++;
+  }
+  return out;
+}
+
+/* ================= 数据：28 周计划（课粒度，上一课勾一课） ================= */
+var PLAN = [
+  {wk:'第 1 周', title:'第1章 函数、图像和直线', lessons:[
+    {k:'1_1', t:'函数：定义域、区间记号、垂线检验'},
+    {k:'1_2', t:'反函数与水平线检验'},
+    {k:'1_3', t:'复合函数、奇偶函数'},
+    {k:'1_4', t:'线性函数与常见函数图像'}
+  ]},
+  {wk:'第 2 周', title:'第2章 三角学回顾', lessons:[
+    {k:'2_1', t:'弧度制、单位圆与六函数'},
+    {k:'2_2', t:'三角函数的图像与象限符号'},
+    {k:'2_3', t:'三角恒等式、和角与倍角公式'},
+    {k:'2_4', t:'特殊角的三角函数值'}
+  ]},
+  {wk:'第 3 周', title:'第3章 极限导论', lessons:[
+    {k:'3_1', t:'极限的直觉定义与左右极限'},
+    {k:'3_2', t:'何时不存在极限、∞ 处的极限'},
+    {k:'3_3', t:'渐近线与两个常见误解'},
+    {k:'3_4', t:'三明治定理与极限基本类型小结'}
+  ]},
+  {wk:'第 4 周', title:'第4章 求解多项式的极限问题', lessons:[
+    {k:'4_1', t:'x→a：直接代入与 0/0 约分'},
+    {k:'4_2', t:'x→∞ 与 x→−∞：比最高次项'},
+    {k:'4_3', t:'多项式型函数与绝对值极限'},
+    {k:'4_4', t:'含根号的 0/0：有理化'}
+  ]},
+  {wk:'第 5 周', title:'第5章 连续性和可导性', lessons:[
+    {k:'5_1', t:'连续性三条件与间断点分类'},
+    {k:'5_2', t:'可导性定义与几何意义'},
+    {k:'5_3', t:'可导与连续的关系、不可导情形'},
+    {k:'5_4', t:'分段函数的连续与可导'}
+  ]},
+  {wk:'第 6 周', title:'战役二回炉：极限综合', lessons:[
+    {k:'6_1', t:'极限综合训练 20 题'},
+    {k:'6_2', t:'错题重做与战役二关卡'}
+  ]},
+  {wk:'第 7 周', title:'第6章 求解微分问题', lessons:[
+    {k:'7_1', t:'用定义求导、幂法则'},
+    {k:'7_2', t:'四则运算法则'},
+    {k:'7_3', t:'链式法则'},
+    {k:'7_4', t:'切线方程、速度加速度'},
+    {k:'7_5', t:'导数伪装的极限、分段函数求导'}
+  ]},
+  {wk:'第 8 周', title:'第7章 三角函数的极限和导数', lessons:[
+    {k:'8_1', t:'sin x/x 及三角极限'},
+    {k:'8_2', t:'六种三角函数的导数'}
+  ]},
+  {wk:'第 9 周', title:'第8章 隐函数求导和相关变化率', lessons:[
+    {k:'9_1', t:'隐函数求导'},
+    {k:'9_2', t:'相关变化率'}
+  ]},
+  {wk:'第10 周', title:'第9章 指数函数和对数函数', lessons:[
+    {k:'10_1', t:'指数对数基础与 e 的定义'},
+    {k:'10_2', t:'指对函数求导'},
+    {k:'10_3', t:'指对极限、双曲函数'}
+  ]},
+  {wk:'第11 周', title:'第10章 反函数和反三角函数', lessons:[
+    {k:'11_1', t:'导数与反函数'},
+    {k:'11_2', t:'反三角函数及其导数'},
+    {k:'11_3', t:'反双曲函数'}
+  ]},
+  {wk:'第12 周', title:'第11章 导数和图像', lessons:[
+    {k:'12_1', t:'极值、罗尔定理'},
+    {k:'12_2', t:'中值定理'},
+    {k:'12_3', t:'二阶导数与凹凸、零点分类'}
+  ]},
+  {wk:'第13 周', title:'第12章 绘制函数图像', lessons:[
+    {k:'13_1', t:'建立符号表格'},
+    {k:'13_2', t:'绘制函数图像完整流程与例题'}
+  ]},
+  {wk:'第14 周', title:'第13章 最优化和线性化', lessons:[
+    {k:'14_1', t:'最优化问题建模'},
+    {k:'14_2', t:'线性化'},
+    {k:'14_3', t:'牛顿法'}
+  ]},
+  {wk:'第15 周', title:'第14章 洛必达法则及极限总结', lessons:[
+    {k:'15_1', t:'洛必达法则'},
+    {k:'15_2', t:'极限问题总结'}
+  ]},
+  {wk:'第16 周', title:'第15-16章 积分入门与定积分', lessons:[
+    {k:'16_1', t:'求和符号 Σ'},
+    {k:'16_2', t:'位移和面积'},
+    {k:'16_3', t:'定积分定义'},
+    {k:'16_4', t:'定积分性质、估算、积分中值定理'}
+  ]},
+  {wk:'第17 周', title:'第17章 微积分基本定理', lessons:[
+    {k:'17_1', t:'用积分表示的函数、第一基本定理'},
+    {k:'17_2', t:'第二基本定理、不定积分'},
+    {k:'17_3', t:'基本定理解题技巧'}
+  ]},
+  {wk:'第18 周', title:'第18章 积分的方法 I', lessons:[
+    {k:'18_1', t:'换元法'},
+    {k:'18_2', t:'分部积分法'},
+    {k:'18_3', t:'部分分式'}
+  ]},
+  {wk:'第19 周', title:'第19章 积分的方法 II', lessons:[
+    {k:'19_1', t:'三角恒等式的积分'},
+    {k:'19_2', t:'三角函数的幂积分'},
+    {k:'19_3', t:'三角换元、积分技巧总结'}
+  ]},
+  {wk:'第20 周', title:'第20章 反常积分：基本概念', lessons:[
+    {k:'20_1', t:'收敛和发散、无穷区间积分'},
+    {k:'20_2', t:'比较判别法、极限比较'},
+    {k:'20_3', t:'p 判别法、绝对收敛'}
+  ]},
+  {wk:'第21 周', title:'第21章 反常积分：如何解题', lessons:[
+    {k:'21_1', t:'常见函数在 ∞ 附近的表现'},
+    {k:'21_2', t:'常见函数在 0 附近的表现、瑕点处理'},
+    {k:'21_3', t:'积分判别法总结与综合练习'}
+  ]},
+  {wk:'第22 周', title:'第22章 数列和级数：基本概念', lessons:[
+    {k:'22_1', t:'数列的收敛和发散'},
+    {k:'22_2', t:'级数的收敛与发散、第 n 项判别法'}
+  ]},
+  {wk:'第23 周', title:'第23章 求解级数问题', lessons:[
+    {k:'23_1', t:'几何级数、第 n 项判别法应用'},
+    {k:'23_2', t:'比式判别法、根式判别法'},
+    {k:'23_3', t:'积分判别法、比较与 p 判别法'},
+    {k:'23_4', t:'含负项的级数'}
+  ]},
+  {wk:'第24 周', title:'第24章 泰勒多项式、泰勒级数和幂级数导论', lessons:[
+    {k:'24_1', t:'近似值与泰勒多项式'},
+    {k:'24_2', t:'幂级数和泰勒级数'}
+  ]},
+  {wk:'第25 周', title:'第25章 求解估算问题', lessons:[
+    {k:'25_1', t:'求泰勒多项式与泰勒级数'},
+    {k:'25_2', t:'用误差项估算问题'}
+  ]},
+  {wk:'第26 周', title:'第26章 泰勒级数和幂级数：如何解题', lessons:[
+    {k:'26_1', t:'幂级数的收敛性'},
+    {k:'26_2', t:'合成新的泰勒级数'},
+    {k:'26_3', t:'用麦克劳林级数求极限'}
+  ]},
+  {wk:'第27 周', title:'第27-28章 参数方程、极坐标与复数', lessons:[
+    {k:'27_1', t:'参数方程'},
+    {k:'27_2', t:'极坐标'},
+    {k:'27_3', t:'复数基础与复平面'},
+    {k:'27_4', t:'欧拉恒等式与高次幂'}
+  ]},
+  {wk:'第28 周', title:'第29-30章 体积、弧长、微分方程 + 总复习', lessons:[
+    {k:'28_1', t:'旋转体体积、一般立体体积'},
+    {k:'28_2', t:'弧长与旋转体表面积'},
+    {k:'28_3', t:'微分方程入门（可分离/一阶线性/常系数）'},
+    {k:'28_4', t:'全册总复习'}
+  ]}
+];
+var BADGES = ['函数侦察兵','三角守门人','极限征服者','求导剑客','图像画师','积分炼金师','级数大师','收官学士'];
+var QUOTES = [
+  '「我思故我在。你算，故你会。」',
+  '「怀疑一切是方法，不是目的。算完这题，你就是我的同志。」',
+  '「坐标是精神的尺子，极限是精神的显微镜。」',
+  '「每一条曲线都在等一个方程，正如每一个问题都在等一个明白人。」',
+  '「切线的斜率教会我：再陡峭的人生，也是由无穷个平缓的瞬间组成的。」',
+  '「积分是拼图：上帝打碎的，你负责拼回。」'
+];
+var RIGHT_CM = ['妙哉！此解足慰我心。','漂亮。牛顿见此，当引你为知己。','坐标系若会说话，此刻定在为你喝彩。','正确！你算故你会。','无懈可击，年轻的几何学徒。'];
+var WRONG_CM = ['且慢。怀疑一切是美德，但把符号抄错不是怀疑，是手滑。','无妨。我当年也在坐标系里迷过路，后来就发明了它。','错了。不过错题是最好的老师，前提是你肯重新读题。','这道题还没投降，你也不许。再想一遍。','差一点。重看条件和定义，答案往往藏在「为什么」里。'];
+
+/* ================= 数据：章节（前 6 章全量，其余占位） ================= */
+var CHAPTERS = [
+{
+  id:1, no:'Ⅰ', title:'函数、图像和直线', weeks:'第 1 周', diff:'★☆☆', full:true,
+  motto:'「怀疑一切，但先怀疑你的定义域：函数的地图，从边界画起。」',
+  mottoWho:'笛卡尔 · 开讲词',
+  map:['函数与垂线检验','定义域与值域','反函数与水平线检验','复合函数','奇偶函数','线性函数','常见函数图像'],
+  sections:[
+    {t:'函数：变化的规则', p:'函数是把一个数变成另一个数的规则：输入 x，输出 f(x)。它有三件套：定义域（允许哪些输入）、对应规则、值域（可能的输出）。笛卡尔坐标系让规则变成看得见的曲线——从此函数可以「看」。把它想成一座磨坊：麦子从这边进去（输入），面粉从那边出来（输出）。定义域是「只收哪种麦子」的规定——发霉的不收；值域是「能磨出什么面」。有些磨坊拒绝过大的石头，有些拒绝空手入内——禁区的规矩，就是定义域的铁律。', formula:'y = f(x),\\ x \\in D'},
+    {t:'垂线检验：是不是函数，一条垂线说了算', p:'一个图像是函数图像，当且仅当任意竖直线至多穿过它一次。因为一个 x 只能对应一个 y。曲线再妖娆，竖线穿两次就出局。', formula:'x = a \\Rightarrow 唯一\\ y'},
+    {t:'定义域：函数的边境', p:'求定义域三条铁律：分母 ≠ 0；偶次根号内 ≥ 0；对数真数 > 0。还有 tan 的禁区、反正弦的值域限制。先定边境，再谈其他。定义域是函数的国境线：海关不让进的东西（分母为零、根号里为负、对数里非正），一律挡在门外。画函数图像前先画边境，是笛卡尔的老规矩——地图的第一笔永远是边界。', formula:'f(x)=\\frac{\\sqrt{x+1}}{x-2} \\Rightarrow x \\ge -1, x \\ne 2'},
+    {t:'反函数：把规则倒着放', p:'若每个 y 恰好来自一个 x（水平线检验通过），函数可逆。求法三步：解出 x、交换 x 与 y、注明新定义域。图像上，反函数与原函数关于 y=x 对称。反函数像录像倒带：正放是「输入 x 变 y」，倒放是「从 y 找回 x」。但倒带有前提——不能有「一鱼两吃」的时刻（两个不同 x 给出同一 y），否则不知道倒回哪个镜头，这就是水平线检验的意义。', formula:'f(f^{-1}(x)) = x'},
+    {t:'复合函数：从里往外算', p:'f(g(x))：先算里层 g，再把结果喂给外层 f。复合的次序极其重要，f(g(x)) 和 g(f(x)) 通常不是一回事。', formula:'(f \\circ g)(x) = f(g(x))'},
+    {t:'奇偶与常见图像', p:'偶函数 f(−x)=f(x)，关于 y 轴对称；奇函数 f(−x)=−f(x)，关于原点对称。幂函数、多项式、绝对值、根号、指数、对数的图像必须烂熟，它们是后续所有章节的演员。', formula:'偶: x^2,\\cos x \\qquad 奇: x^3,\\sin x'}
+  ],
+  example:{q:'求 f(x)=√(x²−4) 的定义域，并判断奇偶性。', s:'内心独白：我看到根号，第一反应不是抄公式，是问「根号下能装负的吗？」不能。于是写下 x²−4≥0，解出 x≥2 或 x≤−2。然后我停了一下——奇偶性要求定义域关于原点对称，先查：含 ±2，对称，可以继续。f(−x)=√((−x)²−4)=f(x)，偶函数。整道题的节奏是：规则触发 → 解不等式 → 先验资格（对称性）→ 再下结论。判断奇偶前不查定义域对称性的人，等于没看护照就盖章。'},
+  traps:[
+    '定义域漏掉「所有」限制：分母、根号、对数、tan 禁区要一次查全，缺一不可。',
+    '反函数定义域与值域混淆：f 的值域才是 f⁻¹ 的定义域，别抄反。',
+    '垂线检验和水平线检验混用：垂线验「函数」，水平线验「可逆」。',
+    '复合函数看错次序：f(g(x)) 先 g 后 f，从里往外，别反。'
+  ],
+  quiz:[
+    {type:'choice', q:'下列哪个图像不可能是函数 y=f(x) 的图像？', options:['任何一条竖直线至多穿过它一次','存在一条竖直线穿过它两次','关于 y 轴对称','关于原点对称'], answer:1,
+     explain:'垂线检验：任意竖直线至多穿过图像一次才是函数。穿两次意味着一个 x 对应两个 y，出局。'},
+    {type:'choice', q:'f(x)=√(9−x²) 的定义域是？', options:['[−3,3]','[0,9]','(−∞,−3]∪[3,∞)','(−3,3)'], answer:0,
+     explain:'9−x²≥0 → x²≤9 → −3≤x≤3，闭区间两端都能取。选 [0,9] 的是忘了开方；选 C 是把不等号方向解反了；选 (−3,3) 的是丢了端点。'},
+    {type:'choice', q:'f(x)=x³−x 的奇偶性是？', options:['偶函数','奇函数','非奇非偶','既是奇又是偶'], answer:1,
+     explain:'f(−x)=(−x)³−(−x)=−x³+x=−(x³−x)=−f(x)，奇函数。'},
+    {type:'choice', q:'f(x)=x²（x≥0）的反函数是？', options:['y=x²','y=√x','y=−√x','不存在'], answer:1,
+     explain:'限制定义域 x≥0 后水平线检验通过。解 x=√y，交换得 y=√x，定义域 x≥0。'},
+    {type:'choice', q:'g(x)=x², f(x)=sin x，则 f(g(2)) = ?', options:['sin 4 ≈ −0.757','sin 2 ≈ 0.909','(sin 2)² ≈ 0.826','sin 4 ≈ 0.757'], answer:0,
+     explain:'先算里层 g(2)=4，再算外层 sin 4 ≈ −0.7568。sin 2 是只算了一层；选 C 是把复合次序弄反了；选 D 的是符号丢了。次序不能乱。'},
+    {type:'choice', q:'f(x)=3x+2 的反函数是？', options:['(x−2)/3','(x+2)/3','3x−2','x/3+2'], answer:0,
+     explain:'反函数三步：解 x=(y−2)/3，交换得 y=(x−2)/3。套路：解出 x、换字母、注意新定义域。'},
+    {type:'choice', q:'f(x)=x²+1 的奇偶性是？', options:['偶函数','奇函数','非奇非偶','周期函数'], answer:0,
+     explain:'f(−x)=(−x)²+1=x²+1=f(x)，偶函数。记住：x 的偶次幂之和必为偶函数。'},
+    {type:'choice', q:'f(x)=√x, g(x)=x+1，则 f(g(x)) 的定义域是？', options:['x≥−1','x≥1','x≥0','全体实数'], answer:0,
+     explain:'先复合：f(g(x))=√(x+1)，根号内 ≥0 → x≥−1。定义域由最外层函数的要求决定。'},
+    {type:'choice', q:'过点 (1,2) 和 (3,8) 的直线斜率是？', options:['3','2','4','−3'], answer:0,
+     explain:'斜率 = (8−2)/(3−1) = 6/2 = 3。两点求斜率：纵坐标差 ÷ 横坐标差，分子分母别写反。'}
+  ],
+  dialogue:{q:'垂线检验为什么能判定「一个图像是不是函数」？这背后是函数定义的哪一条？',
+    keys:['一个x','唯一','对应','一个输出','单值','映射','输入','输出'],
+    model:'函数的定义是：每个输入 x 恰好对应一个输出 y（单值对应）。垂线检验就是在几何上执行这条定义：竖直线 x=a 与图像的交点个数，就是 x=a 这个输入「被映射到几个输出」。一个交点=唯一输出=合法；两个及以上=一个输入对应多个输出=违反定义。所以说到底，垂线检验不是技巧，它是「函数」这个词的定义本身在图像上的投影。'}
+},
+{
+  id:2, no:'Ⅱ', title:'三角学回顾', weeks:'第 2 周', diff:'★☆☆', full:true,
+  motto:'「弧度制是上帝的语言，角度制是凡人的方言。微积分只听得懂上帝的话。」',
+  mottoWho:'笛卡尔 · 开讲词',
+  map:['弧度制','单位圆与六函数','三角图像','三角恒等式','和角公式','两倍角公式'],
+  sections:[
+    {t:'弧度制：为什么必须用它', p:'一弧度 = 半径长度的弧对应的圆心角。2π 弧度 = 360°。微积分里一切公式（尤其导数）都默认弧度：因为 sin x 在 x=0 附近的斜率恰好是 1，只在弧度制下成立。弧度是上帝的语言，角度是凡人的方言，微积分只听得懂上帝的话：弧度制里「弧长」和「角度」用同一把尺子量，sin 在原点附近的斜率才恰好是 1。若坚持用度数，每条导数公式都要拖一个 π/180 的尾巴，像穿着雨靴跳舞。', formula:'180^{\\circ} = \\pi \\ \\text{rad}'},
+    {t:'单位圆：六函数的全家福', p:'单位圆上一点 (cos θ, sin θ)。tan = sin/cos，其余三个是倒数。象限符号口诀：一全正、二正弦、三正切、四余弦。', formula:'\\sin^2\\theta + \\cos^2\\theta = 1'},
+    {t:'三角函数的图像', p:'sin 和 cos 是波形，周期 2π，振幅 1。sin 过原点，cos 过 (0,1)。tan 周期 π，有垂直渐近线 x=π/2+kπ。这些图像是后面「极限和导数」的视觉弹药。sin 和 cos 是心电图与潮汐的节奏，2π 一次的呼吸；tan 像一支支冲向天空的火箭，在渐近线处升空又坠落。画熟了这三张脸，后面的三角极限和导数全靠「看图说话」。', formula:'\\sin\\theta \\in [-1,1],\\ \\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}'},
+    {t:'恒等式：三角函数界的乘法表', p:'毕达哥拉斯恒等式 sin²+cos²=1（及其变形 cos²=1−sin²）。和角公式 sin(A+B)、cos(A+B) 是一切推导的源头。倍角、半角都是它的推论。sin²+cos²=1 是三角函数界的勾股定理，和角公式是乘法表：所有倍角、半角、积化和差都是它的亲戚。考试时忘了就现场从和角公式推，别背一堆却不会溯源。', formula:'\\sin(A+B)=\\sin A\\cos B + \\cos A\\sin B'},
+    {t:'特殊角的三角函数值', p:'0、π/6、π/4、π/3、π/2 的正弦余弦必须秒答。记法：sin 值依次是 √0/2、√1/2、√2/2、√3/2、√4/2。', formula:'\\sin\\frac{\\pi}{4}=\\frac{\\sqrt{2}}{2},\\ \\cos\\frac{\\pi}{3}=\\frac{1}{2}'}
+  ],
+  example:{q:'求 sin(7π/6) 的精确值。', s:'7π/6 = π + π/6，第三象限。第三象限正弦为负，参考角 π/6，sin(π/6)=1/2，所以 sin(7π/6) = −1/2。套路：画单位圆 → 定象限（定符号）→ 找参考角（定大小）→ 组装。'},
+  traps:[
+    '角度制混进微积分公式：求导、极限公式全部默认弧度。用度数必错。',
+    '象限符号记反：一全正二正弦三正切四余弦，画单位圆别偷懒。',
+    '恒等式方向记反：cos²θ = 1−sin²θ 在换元时高频使用，别写成 1+sin²。',
+    '特殊角数值张冠李戴：π/3 的 cos 是 1/2，sin 是 √3/2，别和 π/6 混。'
+  ],
+  quiz:[
+    {type:'choice', q:'sin(π/3) = ?', options:['√3/2','1/2','√2/2','3/2'], answer:0,
+     explain:'π/3=60°，sin60°=√3/2≈0.866。1/2 是 sin(π/6)；√2/2 是 π/4 的值；3/2 超过正弦值域 [−1,1]，一眼假。'},
+    {type:'choice', q:'cos(5π/6) = ?', options:['√3/2','−√3/2','1/2','−1/2'], answer:1,
+     explain:'5π/6 = π − π/6，第二象限。余弦在第二象限为负，参考角 π/6：−cos(π/6)=−√3/2。'},
+    {type:'choice', q:'tan(π/4) = ?', options:['1','√3','√3/3','0'], answer:0,
+     explain:'tan = sin/cos，π/4 时两者相等，比值为 1。√3 是 tan(π/3)；√3/3 是 tan(π/6)；0 是 tan(0)。特殊角的亲戚别认错。'},
+    {type:'choice', q:'sin²θ + cos²θ = ?', options:['0','1','sinθ+cosθ','2'], answer:1,
+     explain:'毕达哥拉斯恒等式，单位圆上勾股定理的直接结果。它是换元法的弹药库。'},
+    {type:'choice', q:'sin(2θ) 等于？', options:['2sinθ','2sinθcosθ','sin²θ−cos²θ','cos²θ−sin²θ'], answer:1,
+     explain:'倍角公式 sin(2θ)=2sinθcosθ，由和角公式令 A=B=θ 推出。'},
+    {type:'choice', q:'cos(π) = ?', options:['−1','0','1','π/2'], answer:0,
+     explain:'π 弧度 = 180°，cos 180° = −1。单位圆上 (cos π, sin π) = (−1, 0)。'},
+    {type:'choice', q:'sin(0) + cos(0) = ?', options:['1','0','2','√2'], answer:0,
+     explain:'sin 0 = 0，cos 0 = 1，和为 1。特殊角全家桶：0、π/6、π/4、π/3、π/2 要背到条件反射。'},
+    {type:'choice', q:'1 + tan²θ = ?', options:['sec²θ','csc²θ','cos²θ','sin²θ'], answer:0,
+     explain:'由 sin²+cos²=1 两边同除以 cos²θ 得 tan²θ+1=sec²θ。这个恒等式在三角换元里是主力。'},
+    {type:'choice', q:'θ 在第二象限（90°<θ<180°），cos θ 的符号是？', options:['负','正','零','不定'], answer:0,
+     explain:'象限口诀：一全正、二正弦、三正切、四余弦。第二象限只有 sin 为正，cos 为负。'}
+  ],
+  dialogue:{q:'为什么微积分里的所有公式都默认弧度制？如果坚持用度数，sin x 的导数会变成什么？',
+    keys:['弧度','导数','cos','π/180','比例','极限','sinx/x','斜率'],
+    model:'关键是极限 lim sin x / x = 1（x→0），它只在弧度制下成立。直观地说：x 很小时 sin x ≈ x，这个近似在弧度制下误差极小（弧长≈弦长），而在度数制下 sin x 和 x 差了 180/π 倍，极限就变成 π/180。于是 (sin x)′ 在度数制下会是 (π/180)cos x，处处带着丑陋的系数。弧度制让「弧长」和「角度」用同一把尺子量，导数才干净。所以微积分选择弧度制不是习惯，是美学，也是必要。'}
+},
+{
+  id:3, no:'Ⅲ', title:'极限导论', weeks:'第 3 周', diff:'★★★★', full:true,
+  motto:'「极限：无限逼近，但不承诺抵达。微积分的一切精确，都诞生于这个「不抵达」。」',
+  mottoWho:'笛卡尔 · 开讲词',
+  map:['极限直觉定义','左极限与右极限','何时不存在极限','∞ 处的极限','渐近线','三明治定理','极限基本类型'],
+  sections:[
+    {t:'极限：逼近的艺术', p:'lim_{x→a} f(x)=L 说的是：当 x 无限靠近 a（但不等于 a）时，f(x) 无限靠近 L。关键词：无限靠近、不等于 a。函数在 a 处有没有定义、等于多少，与极限无关。想象阿喀琉斯追乌龟：每次先到乌龟刚才的位置，看似永远追不上。极限说：不，无限个步骤的和可以是有限的——逼近的过程可以收敛到精确的值。f(a) 是多少不重要，重要的是「怎么走过来」的趋势。', formula:'\\lim_{x\\to a} f(x) = L'},
+    {t:'左极限与右极限', p:'x 从左边逼近 a 记作 x→a⁻，从右边记作 x→a⁺。双侧极限存在，当且仅当左右极限都存在且相等。这是判断极限存在与否的宪法。左右极限是两条单向车道：从左边来的车（x→a⁻）和从右边来的车（x→a⁺）必须在同一地点以同一速度汇合，双向极限才成立。任一边缺席或速度不同，整条路就「不存在极限」——是交警开罚单的那种不存在。', formula:'\\lim_{x\\to a^-} f(x) = \\lim_{x\\to a^+} f(x) = L \\iff \\lim_{x\\to a} f(x)=L'},
+    {t:'何时极限不存在', p:'三种典型：左右极限不相等（跳跃）；函数趋于无穷（垂直渐近线）；震荡不收敛（如 sin(1/x) 在 0 附近）。', formula:'f(x)=\\frac{1}{x}:\\ \\lim_{x\\to 0^+}=\\infty,\\ \\lim_{x\\to 0^-}=-\\infty'},
+    {t:'∞ 处的极限与渐近线', p:'lim_{x→∞} f(x)=L 表示水平渐近线 y=L。lim_{x→a} f(x)=±∞ 表示垂直渐近线 x=a。两个常见误解：有水平渐近线不代表没有垂直渐近线；水平渐近线看两端分别看。', formula:'\\lim_{x\\to\\infty} \\frac{1}{x} = 0'},
+    {t:'三明治定理（夹逼）', p:'若 g(x) ≤ f(x) ≤ h(x)（a 附近），且 g、h 在 a 处极限同为 L，则 f 的极限也是 L。找不着正门就包抄，这是极限最优雅的战术。三明治定理是包围圈战术：正面攻不下的城，就用两座山把它夹在中间——上面 g 压着，下面 h 托着，两座山在同一高度会师，中间的 f 想跑也跑不掉，只能在同一高度就擒。', formula:'g \\le f \\le h,\\ \\lim g = \\lim h = L \\Rightarrow \\lim f = L'}
+  ],
+  example:{q:'证明 lim_{x→0} sin x / x = 1 的思路是什么？', s:'内心独白：看到 0/0，我的第一反应不是慌，是问「几何上它想告诉我什么」。画单位圆：x 是圆心角，sin x 是竖着的弦，x 本身是弧长。角度极小时，弧长≈弦长——这不就是 sin x/x≈1 吗？但直觉不算证明，要严格化：比较三块面积（三角形 OAB < 扇形 OAB < 三角形 OAC），把 sin x 夹在中间，整理取倒数得 cos x < sin x/x < 1，两端极限都是 1，三明治定理一击收网。先有直觉，再补证明，这是全书的做题节奏。'},
+  traps:[
+    '把极限当普通代数搬：极限是过程不是数，先判断型（0/0、∞/∞、∞−∞）再动手。',
+    '只看一边：双侧极限必须左右都验证，尤其在分段函数、绝对值、√x² 处。',
+    '用 f(a) 的值冒充极限：f(a)=5 不意味着极限是 5。可去间断点就是反例。',
+    '三明治定理用反：夹逼要求 f 在两端之间，不能自己定义「差不多」。'
+  ],
+  quiz:[
+    {type:'choice', q:'lim_{x→0} f(x) 存在，下列哪种情况一定正确？', options:['f(0) 必须存在','f(0) 必须等于极限','左右极限存在且相等','f 在 0 附近必须单调'], answer:2,
+     explain:'极限存在 ⇔ 左右极限存在且相等。与 f(0) 有无定义、等于多少无关。'},
+    {type:'choice', q:'lim_{x→0} sin(1/x) 为什么不存在？', options:['因为 sin(1/x) 在 0 处无定义','因为函数在 0 附近无穷震荡，不收敛到任何数','因为左右极限不相等','因为值是无穷大'], answer:1,
+     explain:'x→0 时 1/x→∞，sin 在 −1 到 1 间无限震荡，永远不靠近任何固定值。不是无定义的问题（无定义可以有极限），是根本不收敛。'},
+    {type:'choice', q:'lim_{x→0} sin(3x)/(3x) = ?', options:['1','3','0','不存在'], answer:0,
+     explain:'令 t=3x，x→0 时 t→0，变成 lim_{t→0} sin t/t = 1。选 3 是把系数当成了结果；选 0 是只看到分子趋于 0；选「不存在」是混淆了「无定义」与「无极限」。'},
+    {type:'choice', q:'lim_{x→∞} (2x²+1)/(3x²−x) = ?', options:['0','2/3','∞','2'], answer:1,
+     explain:'分子分母同除 x²：lim (2+1/x²)/(3−1/x) = 2/3。∞/∞ 型，比最高次项系数。'},
+    {type:'choice', q:'lim_{x→0} (1−cos x)/x² = ?', options:['1/2','0','1','2'], answer:0,
+     explain:'1−cos x = 2sin²(x/2)，除以 x² 得 2·(sin(x/2)/x)² → 2·(1/2)² = 1/2。选 0 是直接代入 1−cos0=0 的误判；选 1 是漏了 1−cos x ~ x²/2 的系数。'},
+    {type:'choice', q:'lim_{x→3} (x²−9)/(x−3) = ?', options:['6','0','3','不存在'], answer:0,
+     explain:'分解 (x−3)(x+3)/(x−3) → x+3 → 6。和 (x²−4)/(x−2)→4 同款套路：先约分再代值。'},
+    {type:'choice', q:'lim_{x→0} tan(x)/x = ?', options:['1','0','∞','−1'], answer:0,
+     explain:'tan x = sin x / cos x，除以 x 得 (sin x/x)·(1/cos x) → 1·1 = 1。重要极限的变体，会拆就会。'},
+    {type:'choice', q:'f(x)=1/(x−2) 的垂直渐近线是？', options:['x=2','y=2','x=0','y=0'], answer:0,
+     explain:'分母为 0 的点是垂直渐近线候选：x=2 处分母为 0，两侧分别趋于 ∓∞。注意垂直渐近线是竖直线 x=a，不是 y= 的形式。'},
+    {type:'choice', q:'f(x)=|x|/x，x→0⁻（从左边）时极限是？', options:['−1','1','0','不存在'], answer:0,
+     explain:'x<0 时 |x|=−x，|x|/x = −1，左极限是 −1。这题和右极限 +1 不同，正好演示「左右极限不同 → 整体极限不存在」。'}
+  ],
+  dialogue:{q:'为什么说「极限与函数在那一点的值无关」是微积分里最反直觉、也最关键的设定？',
+    keys:['逼近','过程','无关','定义','切线','斜率','瞬时','可去间断'],
+    model:'因为我们想要的不是「那一点」本身，而是「那一点附近的变化趋势」。求瞬时速度时，t=t₀ 时刻的速度不是一个「点」能定义的（一点处的位移是 0），必须看 t→t₀ 时平均速度的逼近过程。求切线斜率同理：切点是「两个无限近的点」的极限。如果极限依赖 f(a) 的值，那这些过程全都会失效。所以极限必须独立于函数值：过程归过程，结果归结果。可去间断点正是「过程有极限、结果对不上」的活标本——也正因为如此，我们才能「补上那一点」让函数连续。'}
+},
+{
+  id:4, no:'Ⅳ', title:'求解多项式的极限问题', weeks:'第 4 周', diff:'★★★', full:true,
+  motto:'「极限题全是套路，套路全是「抓主要矛盾」。谁在 x 很大或很小时当家，一眼看清。」',
+  mottoWho:'笛卡尔 · 开讲词',
+  map:['x→a 直接代入','0/0 型约分','x→∞ 比首项','多项式型函数','x→−∞','含绝对值'],
+  sections:[
+    {t:'x→a 直接代入：先试，不行再说', p:'只要代入不出现 0/0、∞/∞ 等不定型，直接代。f 在 a 连续时，lim f(x)=f(a)。这是第一反应，多半能省事。', formula:'\\lim_{x\\to 3} (x^2+1) = 10'},
+    {t:'0/0 型：约分是主角', p:'分子分母同时趋于 0，说明它们共享因子 (x−a)。分解因式约掉它，再代入。二次多项式优先十字相乘，还不行就用多项式除法。', formula:'\\lim_{x\\to 2}\\frac{x^2-4}{x-2} = \\lim_{x\\to 2}(x+2)=4'},
+    {t:'x→∞ 型：比最高次项', p:'有理函数 x→∞ 时，分子分母同除以最高次项。结果由「谁的头最大」决定：分子次数高→∞，分母次数高→0，相等→首项系数比。无穷大的世界也讲「拳击按体重分级」：x³ 是重量级，x² 是中量级，在 ∞ 面前差一个量级就是天壤之别。谁的头最大谁说了算；同级别的才谈系数比。低阶项在无穷大面前轻如鸿毛，同除最高次后直接归零。', formula:'\\lim_{x\\to\\infty}\\frac{3x^2+5}{2x^2+1}=\\frac{3}{2}'},
+    {t:'含根号的 0/0：有理化', p:'分子或分母出现 √a−√b 型，乘上共轭 (√a+√b)，把根号消掉，不定型解除。√a−√b 是嵌在极限题里的钉子，共轭 (√a+√b) 就是拔钉器：乘上去，利用 (A−B)(A+B)=A²−B²，根号应声消失，不定型立刻解除。见到根号相减，条件反射先掏拔钉器。', formula:'\\lim_{x\\to 0}\\frac{\\sqrt{x+1}-1}{x} = \\frac{1}{2}'},
+    {t:'x→−∞ 的陷阱', p:'x 为负时，√x² = |x| = −x，不是 x。含根号的 ∞ 型极限，分子分母同除 x 时要当心符号。', formula:'x<0 \\Rightarrow \\sqrt{x^2} = -x'}
+  ],
+  example:{q:'求 lim_{x→3} (x²−9)/(x−3)。', s:'代入 3 得 0/0，不定型。分解：x²−9=(x−3)(x+3)，约分后 lim(x+3)=6。要点：约分后 x≠3 的条件仍然隐含（极限本来就不在乎 x=3），放心代入 3。'},
+  traps:[
+    '0/0 型直接代入完事：那是「约分前」的假答案。先分解再约。',
+    'x→∞ 只看系数忘了次数：分母次数更高才是 0，分子更高是 ±∞，相等才比系数。',
+    '有理化时共轭乘错：√a−√b 的共轭是 √a+√b，乘了之后根号消失靠的是 (A−B)(A+B)=A²−B²。',
+    'x→−∞ 时把 √x² 当 x：√x²=|x|，负方向必须取 −x。'
+  ],
+  quiz:[
+    {type:'choice', q:'lim_{x→2} (x²−4)/(x−2) = ?', options:['4','0','2','不存在'], answer:0,
+     explain:'0/0 型先分解：(x−2)(x+2)/(x−2) → x+2 → 4。选 0 是把 0/0 当成了结果；选 2 是约分时把 x+2 错看成 x；「不存在」混淆了无定义与无极限。'},
+    {type:'choice', q:'lim_{x→∞} (5x³+2)/(2x³−x) = ?', options:['5/2','2/5','5','∞'], answer:0,
+     explain:'分子分母同除 x³：(5+2/x³)/(2−1/x²) → 5/2。2/5 是系数比反了；5 是只取了分子系数；∞ 是忘了次数相同会收敛而不是发散。'},
+    {type:'choice', q:'lim_{x→0} (√(x+4)−2)/x = ?', options:['1/4','1/2','0','4'], answer:0,
+     explain:'有理化：((x+4)−4)/(x(√(x+4)+2)) = 1/(√(x+4)+2) → 1/4。1/2 是忘了 √(x+4)+2 趋于 4；0 是直接代入 0/0 的假象；4 是拿了 √4 的底数当答案。'},
+    {type:'choice', q:'lim_{x→−∞} (x²+1)/(x+1) = ?', options:['0','1','−∞','∞'], answer:2,
+     explain:'分子是 x²，分母是 x，分子次数高。同除 x：x 起主导，x→−∞ 时为负无穷。或直接想：|x| 很大时 (x²+1)/(x+1) ≈ x → −∞。'},
+    {type:'choice', q:'lim_{x→1} (x³−1)/(x−1) = ?', options:['0','1','2','3'], answer:3,
+     explain:'x³−1=(x−1)(x²+x+1)，约分后 lim(x²+x+1)=3。记住 a³−b³ 的分解，高频。'},
+    {type:'choice', q:'lim_{x→−∞} (2x+1)/(x²+1) = ?', options:['0','2','−2','∞'], answer:0,
+     explain:'分母是 x²（次数更高），x→±∞ 时整体趋于 0。口诀：分母跑得快，分数归零。'},
+    {type:'choice', q:'lim_{x→0} sin(5x)/sin(2x) = ?', options:['5/2','2/5','1','10'], answer:0,
+     explain:'sin 5x ~ 5x，sin 2x ~ 2x，比值 5/2。等价无穷小替换：同阶就比系数。'},
+    {type:'choice', q:'lim_{x→4} (√x−2)/(x−4) = ?', options:['1/4','1/2','0','4'], answer:0,
+     explain:'有理化：((√x−2)(√x+2))/((x−4)(√x+2)) = (x−4)/((x−4)(√x+2)) → 1/4。根号减法的标准动作：乘共轭。'}
+  ],
+  dialogue:{q:'为什么 x→∞ 时有理函数的极限只看最高次项？「抓主要矛盾」的数学依据是什么？',
+    keys:['最高次','主导','同除','系数','相对','低阶','无穷大','分子分母'],
+    model:'把分子分母同时除以 x 的最高次项后，所有低次项都变成 1/x 的幂，在 x→∞ 时全部趋于 0。剩下最高次项的系数比，就是极限。数学依据是：无穷大的「阶」不同——x³ 比 x² 增长快得多，差出来的那点低阶项，在无穷大面前可以忽略。所以不是「大概差不多」，而是严格地：低阶项除以高阶项后极限为 0，被除掉了。抓主要矛盾在这里不是比喻，是除法算出来的事实。'}
+},
+{
+  id:5, no:'Ⅴ', title:'连续性和可导性', weeks:'第 5 周', diff:'★★★★', full:true,
+  motto:'「连续是笔不离纸，可导是不仅连着，还知道往哪个方向去。」',
+  mottoWho:'笛卡尔 · 开讲词',
+  map:['连续三条件','间断点分类','可导性定义','可导⇒连续','不可导的情形','分段函数'],
+  sections:[
+    {t:'连续性：三点齐备', p:'f 在 x=a 连续，当且仅当：① f(a) 有定义；② lim_{x→a} f(x) 存在；③ 两者相等。直观：画这条曲线时笔尖没离开过纸。连续性像伤口愈合：裂开的地方（断点）用极限把两边拉拢，只要左右极限汇合到同一点，伤口就长上了。但长上不等于光滑——愈合的疤（尖点）还在那里，那是下一课可导性要管的事。', formula:'\\lim_{x\\to a} f(x) = f(a)'},
+    {t:'间断点分类', p:'左右极限都存在（可能不等）→ 第一类间断（可去：相等但不等于 f(a) 或 f(a) 无定义；跳跃：不相等）。至少一边趋于无穷或震荡 → 第二类间断。', formula:'\\text{可去: } \\lim \\text{存在};\\ \\text{跳跃: } \\lim^- \\ne \\lim^+'},
+    {t:'可导性：切线的存在', p:'f 在 a 可导，当且仅当「差商」的极限存在：f′(a)=lim_{h→0} (f(a+h)−f(a))/h。几何意义：切线斜率；物理意义：瞬时速度。', formula:'f\'(a) = \\lim_{h\\to 0}\\frac{f(a+h)-f(a)}{h}'},
+    {t:'可导 ⇒ 连续（反过来不成立）', p:'可导必连续：有切线一定有曲线。但连续不一定可导：尖点（如 |x| 在 0）、竖直切线、震荡处都连续但不可导。', formula:'\\text{可导} \\Rightarrow \\text{连续},\\ \\text{反之不然}'},
+    {t:'分段函数：衔接点的战场', p:'分段函数在衔接点是否连续、可导，必须用定义单独检验：左极限=右极限验连续；左导数=右导数验可导。不能只看一边。分段函数的衔接点是国家边境：两边各自的法律（表达式）不同，过境时必须两边手续齐全——左极限验左边，右极限验右边，导数还要左右各验一次。少验一边，就是偷渡。', formula:'f(x)=|x|:\\ x=0 \\ \\text{连续但不可导}'}
+  ],
+  example:{q:'讨论 f(x)=|x| 在 x=0 处的连续性与可导性。', s:'连续性：f(0)=0；lim_{x→0⁺}x=0，lim_{x→0⁻}(−x)=0，左右极限相等为 0，等于 f(0)。连续。可导性：左导数 lim_{h→0⁻} (|h|−0)/h = lim (−h)/h = −1；右导数 lim_{h→0⁺} h/h = 1。左右导数不相等，不可导。结论：连续但不可导，典型尖点。几何：|x| 在 0 处有个尖角，尖角处没有唯一切线。'},
+  traps:[
+    '只验连续性不验可导性：连续和可导是两个关卡，逐关过。',
+    '可导性的差商写错：分子是 f(a+h)−f(a)，不是 f(a)−f(a+h)，符号反了导数差个负号。',
+    '分段函数用「初等函数部分」的结论偷懒：衔接点必须回到定义，左右分开验。',
+    '认为连续必可导：尖点、竖直切线、震荡点都是连续但不可导的反例。'
+  ],
+  quiz:[
+    {type:'choice', q:'f(x)=|x| 在 x=0 处：', options:['连续且可导','连续但不可导','可导但不连续','不连续也不可导'], answer:1,
+     explain:'左右极限相等（连续），左右导数 −1 和 1 不相等（不可导）。'},
+    {type:'choice', q:'函数在 x=a 可导，下列说法正确的是？', options:['f(a) 一定存在且极限等于 f(a)','f 在 a 的切线可以不存在','lim_{x→a} f(x) 可以不存在','f 在 a 附近必须单调'], answer:0,
+     explain:'可导 ⇒ 连续 ⇒ 三点齐备。切线存在、极限存在、附近单调都不需要。'},
+    {type:'choice', q:'用定义求 f(x)=x² 在 x=3 的导数，f′(3) = ?', options:['6','3','9','0'], answer:0,
+     explain:'lim_{h→0} ((3+h)²−9)/h = lim (6h+h²)/h = 6。3 是 x 的值；9 是 f(3)=9，和导数混淆；0 是把常数求导的思维用错了地方。'},
+    {type:'choice', q:'f(x)=1/x 在 x=0 处：', options:['连续','可导','第二类间断（无穷型）','可去间断'], answer:2,
+     explain:'x→0⁺ 时 1/x→+∞，x→0⁻ 时→−∞，趋于无穷，第二类间断。'},
+    {type:'choice', q:'下列哪个函数在 x=0 处不可导？', options:['x²','√x (x≥0)','sin x','cos x'], answer:1,
+     explain:'√x 在 x=0 处切线竖直（导数为 ∞），虽然连续但不可导。注意 √x 定义域右端点的特殊性。'},
+    {type:'choice', q:'f(x)=⌊x⌋（取整函数）在 x=1 处的间断类型是？', options:['跳跃间断','可去间断','第二类间断','连续'], answer:0,
+     explain:'x→1⁻ 时 ⌊x⌋→0，x→1⁺ 时 ⌊x⌋→1，左右极限存在但不相等 → 跳跃间断。楼梯函数在每个整数台阶处都跳一下。'},
+    {type:'choice', q:'f(x)=|x−1| 在 x=1 处：', options:['连续但不可导','可导但不连续','连续且可导','不连续也不可导'], answer:0,
+     explain:'图像是 V 字尖点，尖在 x=1。左右极限相等（连续），左右导数 −1 和 +1 不相等（不可导）。尖点永远不可导。'},
+    {type:'choice', q:'用定义求 f(x)=1/x 在 x=2 的导数，f′(2) = ?', options:['−1/4','1/4','−1/2','1'], answer:0,
+     explain:'lim_{h→0} (1/(2+h)−1/2)/h = lim (−h)/(2(2+h)·h) = −1/4。通分是这道题的关键动作。'},
+    {type:'choice', q:'f(x)=x·sin x 在实数范围内：', options:['连续且处处可导','处处连续但不可导','有间断点','只在有理点连续'], answer:0,
+     explain:'x 和 sin x 都是处处光滑的初等函数，乘积仍处处连续可导。初等函数在其定义域内几乎都是连续可导的，例外只出现在尖点类。'},
+    {type:'choice', q:'挑战题（原书彩蛋）：f(x)=x²·sin(1/x)（x≠0），f(0)=0。问 f 在 x=0 处？', options:['连续但不可导','连续且可导，但导函数在 0 处不连续','不连续','可导，且导函数在 0 处连续'], answer:1,
+     explain:'|x²sin(1/x)|≤x²→0，连续；差商 x·sin(1/x)→0，可导且 f′(0)=0；但 x≠0 时 f′(x)=2x·sin(1/x)−cos(1/x)，x→0 时震荡不收敛，所以导函数在 0 处不连续。这是「可导却导数不连续」的著名例子，班纳书里的彩蛋：连续性和可导性只是入门，光滑性是另一层世界。'}
+  ],
+  dialogue:{q:'可导必连续，但连续不一定可导。请你用「尖点」和「瞬时速度」的类比，解释为什么连续性不足以保证可导性？',
+    keys:['尖点','方向','切线','速度','变化率','左导数','右导数','趋势'],
+    model:'连续性只保证「过程连续」：走到那一点时没断。可导性要的是「趋势唯一」：走到那一点时，趋势是明确的、唯一的。类比：一辆车匀速经过某路口（连续），它「此刻的速度」就是明确的（可导）。但若这辆车到路口瞬间掉头（尖点），位置轨迹还是连续的——它确实到了路口——但「掉头那一瞬的速度」无法定义：来的时候速度是 +v，去的时候是 −v，左右极限不相等。位置没断，速度断了。所以连续性管「到没到」，可导性管「怎么到的」。尖点就是「到了，但来路和去路方向不同」，所以没有唯一切线。'}
+},
+{
+  id:6, no:'Ⅵ', title:'求解微分问题', weeks:'第 7 周', diff:'★★★', full:true,
+  motto:'「求导不是智力，是肌肉。练到条件反射，你才有资格谈微积分。」',
+  mottoWho:'笛卡尔 · 开讲词',
+  map:['定义求导','幂法则','四则运算法则','链式法则','切线方程','导数伪装的极限','分段函数求导'],
+  sections:[
+    {t:'用定义求导：一切导数的出处', p:'f′(x)=lim_{h→0} (f(x+h)−f(x))/h。步骤固定：展开差商、化简消去 h、取极限。虽然慢，但它是理解「斜率函数」的必经之路。', formula:'f\'(x) = \\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}'},
+    {t:'幂法则与四则', p:'(xⁿ)′=nxⁿ⁻¹。和差、常数倍照抄；(uv)′=u′v+uv′；(u/v)′=(u′v−uv′)/v²。口诀：乘法则「前导后不导 + 前不导后导」，除法则「上导下不导 − 上不导下导，除以下方平方」。', formula:'(x^n)\'=nx^{n-1},\\ (uv)\'=u\'v+uv\''},
+    {t:'链式法则：微积分最常用的一条', p:'复合函数 f(g(x)) 的导数 = 外层导数（在内层处取值）× 内层导数。口诀：由外到内，逐层脱壳，每层都乘。链式法则是传动轴系统：x 转动带动内层 u，u 再带动外层 y，总转速 = 每根轴的转速相乘。也像剥洋葱：由外到内一层层剥，每层都留下它的导数，剥到底全部乘起来。忘了乘内层导数，等于只剥了皮没吃到心。', formula:'(f(g(x)))\' = f\'(g(x))\\cdot g\'(x)'},
+    {t:'切线方程', p:'曲线 y=f(x) 在 (a, f(a)) 处的切线：y − f(a) = f′(a)(x − a)。斜率就是导数，这是导数最直观的几何兑现。', formula:'y = f(a) + f\'(a)(x-a)'},
+    {t:'导数伪装的极限', p:'形如 lim_{h→0} (f(a+h)−f(a))/h 的极限，本质就是 f′(a)，别傻傻去硬算。一眼认出「这是某个函数的导数在某点的值」，是第6章要练成的火眼金睛。这种极限是披着狼皮的羊：表面是繁琐的差商，内里就是某个函数的导数在某点的值。认出它，等于猎人认出了伪装的猎物——不用追，直接报出猎物编号 f′(a)。练到条件反射，这类题就是送分题。', formula:'\\lim_{h\\to 0}\\frac{(1+h)^{10}-1}{h} = 10'}
+  ],
+  example:{q:'求 f(x)=√(3x+1) 的导数。', s:'内心独白：这函数是「套娃」——根号套着 3x+1。链式法则的指令很明确：由外到内，逐层脱壳。先剥外层：√u 的导数是 1/(2√u)，此时壳里的 u 还是 3x+1，原样不动；再剥内层：3x+1 的导数是 3。最后把两层相乘：1/(2√(3x+1)) × 3 = 3/(2√(3x+1))。关键动作就一个：剥完外层别急着走，内层导数必须乘上。忘了乘的人，只剥了皮没吃到心。'},
+  traps:[
+    '链式法则漏乘内层导数：这是求导错误的第一大来源，没有之一。',
+    '乘积法则和复合法则混用：两个函数「相乘」用乘积法则，「套在一起」才用链式。',
+    '除法则分子顺序记反：上导×下 − 上×下导，减号位置错了全错。',
+    '切线方程只求斜率不给方程：题目要的是「切线」，点斜式写完整。'
+  ],
+  quiz:[
+    {type:'choice', q:'f(x)=x⁵，f′(x) = ?', options:['5x⁴','4x⁵','x⁴','5x⁵'], answer:0,
+     explain:'幂法则：系数 5 提前，指数减 1 → 5x⁴。4x⁵ 是系数和指数写反了；x⁴ 是忘了系数；5x⁵ 是指数没减一。'},
+    {type:'choice', q:'f(x)=sin(x²)，f′(x) = ?', options:['2x·cos(x²)','cos(x²)','2x·cos(2x)','−2x·cos(x²)'], answer:0,
+     explain:'链式：外层 cos(x²)，乘内层导数 2x → 2x·cos(x²)。cos(x²) 是漏了内层导数（链式第一大错）；2x·cos(2x) 是内外层都求了导；符号别反，sin 的导数是 cos。'},
+    {type:'choice', q:'f(x)=x²·sin x，f′(x) = ?', options:['2x·cos x','2x·sin x + x²·cos x','x²·cos x','2x·sin x − x²·cos x'], answer:1,
+     explain:'乘积法则：前导后不导 + 前不导后导 = 2x·sin x + x²·cos x。'},
+    {type:'choice', q:'lim_{h→0} ((2+h)³−8)/h = ?', options:['12','8','3','6'], answer:0,
+     explain:'这是 f(x)=x³ 在 x=2 的导数伪装：f′(2)=3·2²=12。8 是 2³；3 是只取了指数；6 是 2×3 拿错了乘数。火眼金睛：认出导数的形状，别硬算。'},
+    {type:'choice', q:'曲线 y=x² 在点 (1,1) 处的切线方程是？', options:['y=2x−1','y=x','y=2x+1','y=x²'], answer:0,
+     explain:'f′(x)=2x，f′(1)=2。点斜式 y−1=2(x−1)，整理 y=2x−1。'},
+    {type:'choice', q:'f(x)=x³·sin x，f′(x) = ?', options:['3x²·sin x + x³·cos x','3x²·cos x','x³·cos x + 3x²','3x²·sin x − x³·cos x'], answer:0,
+     explain:'乘积法则：前导后不导 + 前不导后导 = 3x²·sin x + x³·cos x。注意是加号，别手滑写成减号。'},
+    {type:'choice', q:'f(x)=x/(x²+1)，f′(x) = ?', options:['(1−x²)/(x²+1)²','(1+x²)/(x²+1)²','(x²−1)/(x²+1)²','1/(x²+1)'], answer:0,
+     explain:'商法则：(1·(x²+1) − x·2x)/(x²+1)² = (1−x²)/(x²+1)²。口诀：上导下不导减上不导下导，除以下方平方。'},
+    {type:'choice', q:'f(x)=(2x+1)⁵，f′(x) = ?', options:['10(2x+1)⁴','5(2x+1)⁴','10(2x+1)⁵','2(2x+1)⁵'], answer:0,
+     explain:'链式：外层 u⁵ 导数 5u⁴（u=2x+1），乘内层导数 2 → 10(2x+1)⁴。5u⁴ 是忘了乘内层；10u⁵ 是指数没减；2u⁵ 是内外全乱。'},
+    {type:'choice', q:'曲线 y=√x 在点 (4,2) 处的切线斜率是？', options:['1/4','1/2','2','4'], answer:0,
+     explain:'y′=1/(2√x)，代入 x=4 得 1/(2·2)=1/4。√x 即 x^{1/2}，幂法则 (1/2)x^{−1/2}。'}
+  ],
+  dialogue:{q:'链式法则为什么是「外层导数 × 内层导数」？用「放大镜倍数」或「单位换算」打一个比方解释它。',
+    keys:['复合','外层','内层','相乘','放大','倍数','变化率','连锁','速率'],
+    model:'把复合想成「连锁放大镜」：x 变化 dx 时，内层 g 的变化是 g′(x)dx（内层放大镜倍数 g′）；外层 f 再看 g 的变化，放大了 f′(g) 倍。总放大倍数 = 两层倍数相乘。或者用单位换算：若 y=f(u) 的单位是「公里/小时」，u=g(x) 的单位是「小时/公里×x」……更直观的：y 随 u 的变化率 × u 随 x 的变化率 = y 随 x 的变化率。中间变量 u 像个传动轴，两层速率相乘，就是总速率。这就是为什么叫「链式」：一环扣一环，速率沿链条相乘。'}
+},
+/* ===== 第 7 章起：占位，待笛卡尔随进度补全 ===== */
+{id:7, no:'Ⅶ', title:'三角函数的极限和导数', weeks:'第 8 周', diff:'★★★', full:false,
+ motto:'「sin x 在原点附近的斜率恰好是 1，这是上帝给微积分的见面礼。」', mottoWho:'笛卡尔 · 预告',
+ map:['sin x/x 极限','六个三角函数的导数'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 7 章」，我立刻来。'},
+{id:8, no:'Ⅷ', title:'隐函数求导和相关变化率', weeks:'第 9 周', diff:'★★★', full:false,
+ motto:'「y 藏在方程里？那就把两边同时对 x 求导，把它逼出来。」', mottoWho:'笛卡尔 · 预告',
+ map:['隐函数求导','相关变化率'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 8 章」，我立刻来。'},
+{id:9, no:'Ⅸ', title:'指数函数和对数函数', weeks:'第 10 周', diff:'★★★', full:false,
+ motto:'「e 是复利滚出来的常数，是指数的自我，是对数的故乡。」', mottoWho:'笛卡尔 · 预告',
+ map:['e 的定义','指对函数求导','指数对数极限','双曲函数'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 9 章」，我立刻来。'},
+{id:10, no:'Ⅹ', title:'反函数和反三角函数', weeks:'第 11 周', diff:'★★★', full:false,
+ motto:'「arcsin 是 sin 的倒放。倒放的函数，导数也要倒着算。」', mottoWho:'笛卡尔 · 预告',
+ map:['导数与反函数','反三角函数求导','反双曲'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 10 章」，我立刻来。'},
+{id:11, no:'Ⅺ', title:'导数和图像', weeks:'第 12 周', diff:'★★★★', full:false,
+ motto:'「导数告诉你往哪走，二阶导数告诉你路是弯向哪边。」', mottoWho:'笛卡尔 · 预告',
+ map:['极值','罗尔定理','中值定理','二阶导与凹凸'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 11 章」，我立刻来。'},
+{id:12, no:'Ⅻ', title:'绘制函数图像', weeks:'第 13 周', diff:'★★★★', full:false,
+ motto:'「一张好图，胜过十段论证。」', mottoWho:'笛卡尔 · 预告',
+ map:['符号表格','全面绘图流程'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 12 章」，我立刻来。'},
+{id:13, no:'ⅩⅢ', title:'最优化和线性化', weeks:'第 14 周', diff:'★★★★', full:false,
+ motto:'「世界在问最大与最小，微积分负责回答。」', mottoWho:'笛卡尔 · 预告',
+ map:['最优化','线性化','牛顿法'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 13 章」，我立刻来。'},
+{id:14, no:'ⅩⅣ', title:'洛必达法则及极限问题总结', weeks:'第 15 周', diff:'★★★★', full:false,
+ motto:'「0/0 ？∞/∞ ？先问一句：能不能求导。」', mottoWho:'笛卡尔 · 预告',
+ map:['洛必达法则','极限总结'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 14 章」，我立刻来。'},
+{id:15, no:'ⅩⅤ', title:'积分（求和符号与面积）', weeks:'第 16 周', diff:'★★★', full:false,
+ motto:'「Σ 是把无数碎片收拢的手，∫ 是它的微积分形态。」', mottoWho:'笛卡尔 · 预告',
+ map:['求和符号','位移和面积'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 15 章」，我立刻来。'},
+{id:16, no:'ⅩⅥ', title:'定积分', weeks:'第 16 周', diff:'★★★★', full:false,
+ motto:'「面积不是数出来的，是极限逼出来的。」', mottoWho:'笛卡尔 · 预告',
+ map:['定积分定义','性质','求面积','估算','积分中值定理'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 16 章」，我立刻来。'},
+{id:17, no:'ⅩⅦ', title:'微积分基本定理', weeks:'第 17 周', diff:'★★★★★', full:false,
+ motto:'「微分与积分在此握手言和：求面积，不过是求导的倒放。」', mottoWho:'笛卡尔 · 预告',
+ map:['第一基本定理','第二基本定理','不定积分'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 17 章」，我立刻来。'},
+{id:18, no:'ⅩⅧ', title:'积分的方法 I（换元、分部、部分分式）', weeks:'第 18 周', diff:'★★★★', full:false,
+ motto:'「积分是猜原函数，而换元让猜测有章法。」', mottoWho:'笛卡尔 · 预告',
+ map:['换元法','分部积分','部分分式'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 18 章」，我立刻来。'},
+{id:19, no:'ⅩⅨ', title:'积分的方法 II（三角积分与换元）', weeks:'第 19 周', diff:'★★★★', full:false,
+ motto:'「三角恒等式是积分的瑞士军刀。」', mottoWho:'笛卡尔 · 预告',
+ map:['三角恒等式积分','三角幂积分','三角换元'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 19 章」，我立刻来。'},
+{id:20, no:'ⅩⅩ', title:'反常积分：基本概念', weeks:'第 20 周', diff:'★★★★', full:false,
+ motto:'「把积分的边界推到无穷远，收敛还是发散，这是个问题。」', mottoWho:'笛卡尔 · 预告',
+ map:['收敛与发散','无穷区间积分','比较判别法','p 判别法'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 20 章」，我立刻来。'},
+{id:21, no:'ⅩⅪ', title:'反常积分：如何解题', weeks:'第 21 周', diff:'★★★★', full:false,
+ motto:'「先问：这个函数在 0 和 ∞ 附近长什么样？」', mottoWho:'笛卡尔 · 预告',
+ map:['解题流程','常见函数行为','瑕点处理'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 21 章」，我立刻来。'},
+{id:22, no:'ⅩⅫ', title:'数列和级数：基本概念', weeks:'第 22 周', diff:'★★★★', full:false,
+ motto:'「数列是排好队的数，级数是它们的总账。」', mottoWho:'笛卡尔 · 预告',
+ map:['数列收敛','级数收敛','第 n 项判别法'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 22 章」，我立刻来。'},
+{id:23, no:'ⅩⅩⅢ', title:'求解级数问题', weeks:'第 23 周', diff:'★★★★★', full:false,
+ motto:'「判别法如兵器库：先判断用哪件，再出手。」', mottoWho:'笛卡尔 · 预告',
+ map:['几何级数','比式判别法','根式判别法','积分判别法','比较判别法'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 23 章」，我立刻来。'},
+{id:24, no:'ⅩⅩⅣ', title:'泰勒多项式、泰勒级数和幂级数导论', weeks:'第 24 周', diff:'★★★★★', full:false,
+ motto:'「任何足够光滑的函数，都能用多项式无限逼近——这是微积分的预言术。」', mottoWho:'笛卡尔 · 预告',
+ map:['泰勒多项式','幂级数','泰勒级数'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 24 章」，我立刻来。'},
+{id:25, no:'ⅩⅩⅤ', title:'求解估算问题', weeks:'第 25 周', diff:'★★★★★', full:false,
+ motto:'「近似不可怕，可怕的是不知道近似有多准。」', mottoWho:'笛卡尔 · 预告',
+ map:['泰勒总结','求泰勒展开','误差估算'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 25 章」，我立刻来。'},
+{id:26, no:'ⅩⅩⅥ', title:'泰勒级数和幂级数：如何解题', weeks:'第 26 周', diff:'★★★★★', full:false,
+ motto:'「收敛半径是权力的边界，麦克劳林是泰勒的归乡。」', mottoWho:'笛卡尔 · 预告',
+ map:['收敛半径','合成泰勒级数','用级数求极限'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 26 章」，我立刻来。'},
+{id:27, no:'ⅩⅩⅦ', title:'参数方程和极坐标', weeks:'第 27 周', diff:'★★★★', full:false,
+ motto:'「参数方程让点学会走路，极坐标让圆学会说话。」', mottoWho:'笛卡尔 · 预告',
+ map:['参数方程','极坐标'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 27 章」，我立刻来。'},
+{id:28, no:'ⅩⅩⅧ', title:'复数', weeks:'第 27 周', diff:'★★★', full:false,
+ motto:'「i 是想象力的单位，欧拉恒等式是它的封神榜。」', mottoWho:'笛卡尔 · 预告',
+ map:['复数基础','复平面','欧拉恒等式'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 28 章」，我立刻来。'},
+{id:29, no:'ⅩⅩⅨ', title:'体积、弧长和表面积', weeks:'第 28 周', diff:'★★★★', full:false,
+ motto:'「旋转体是静态曲线的舞蹈，积分负责记录舞步。」', mottoWho:'笛卡尔 · 预告',
+ map:['旋转体体积','一般立体','弧长','表面积'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 29 章」，我立刻来。'},
+{id:30, no:'ⅩⅩⅩ', title:'微分方程', weeks:'第 28 周', diff:'★★★★', full:false,
+ motto:'「已知变化率，反推函数本身——微积分最骄傲的倒放。」', mottoWho:'笛卡尔 · 预告',
+ map:['可分离变量','一阶线性','常系数','建模'], sections:[], example:null, traps:[], quiz:[],
+ dialogue:{q:'', keys:[], model:''},
+ note:'本章讲义待笛卡尔补全。学到这里时，在对话里说一声「开第 30 章」，我立刻来。'}
+];
+
+/* ================= 状态 ================= */
+var lessonsDone = load('lessons', null);
+if(lessonsDone === null){ lessonsDone = ['1_1']; store('lessons', lessonsDone); } // 首次加载：预置第 1 课（函数/定义域/垂线检验）已完成
+var chDone = load('ch', []);
+var hallDone = load('hall', []);
+var TOTAL_LESSONS = PLAN.reduce(function(s,w){ return s + w.lessons.length; }, 0);
+
+/* 学习足迹：30 分钟内同一章的连续活动并作一次学习 */
+var studyLog = load('log', []);
+function logStudy(type, chId, chTitle){
+  var now = Date.now();
+  var last = studyLog.length ? studyLog[studyLog.length-1] : null;
+  if(last && now - last.end < 30*60*1000 && last.ch === chId){
+    last.end = now;
+    if(type === 'lesson') last.lessonN = (last.lessonN||0) + 1;
+    else last.quizN = (last.quizN||0) + 1;
+  } else {
+    studyLog.push({start: now, end: now, ch: chId, title: chTitle, lessonN: type==='lesson'?1:0, quizN: type==='quiz'?1:0});
+  }
+  if(studyLog.length > 300) studyLog = studyLog.slice(-300);
+  store('log', studyLog);
+}
+
+/* 章节完成判定：本章所有随堂练习都做过 = 已学 */
+function chQuizCount(c){ return c.quiz ? c.quiz.length : 0; }
+function chQuizDone(c){ return c.quiz ? c.quiz.filter(function(q,i){ return hallDone.indexOf(c.id+'_'+i) > -1; }).length : 0; }
+function chIsDone(c){ return c.full && chQuizCount(c) > 0 && chQuizDone(c) === chQuizCount(c); }
+
+/* 课 → 所属章节映射（用于做题自动跟进） */
+var WEEK2CH = {1:1,2:2,3:3,4:4,5:5,6:0,7:6,8:7,9:8,10:9,11:10,12:11,13:12,14:13,15:14,16:0,17:17,18:18,19:19,20:20,21:21,22:22,23:23,24:24,25:25,26:26,27:0,28:0};
+function lessonChapter(k){
+  var p = String(k).split('_'), w = +p[0], n = +p[1];
+  if(w === 16) return n <= 2 ? 15 : 16;
+  if(w === 27) return n <= 2 ? 27 : 28;
+  if(w === 28) return n <= 2 ? 29 : (n === 3 ? 30 : 0);
+  return WEEK2CH[w];
+}
+/* 自动跟进：某章练习全做完 → 该章所有课自动标完成（做题即打卡，无需手动勾选） */
+function autoSyncLessons(){
+  var changed = false;
+  CHAPTERS.forEach(function(c){
+    if(!chIsDone(c)) return;
+    PLAN.forEach(function(w){
+      w.lessons.forEach(function(l){
+        if(lessonChapter(l.k) === c.id && lessonsDone.indexOf(l.k) === -1){
+          lessonsDone.push(l.k); changed = true;
+        }
+      });
+    });
+  });
+  if(changed){ store('lessons', lessonsDone); renderPlan(); }
+}
+
+/* ================= 渲染：计划页 ================= */
+function renderPlan(){
+  var el = $('#planList');
+  el.innerHTML = PLAN.map(function(w, wi){
+    var doneN = w.lessons.filter(function(l){ return lessonsDone.indexOf(l.k) > -1; }).length;
+    var allDone = doneN === w.lessons.length;
+    var rows = w.lessons.map(function(l){
+      var ck = lessonsDone.indexOf(l.k) > -1;
+      return '<div class="lesson-row'+(ck?' on':'')+'"><input type="checkbox" data-k="'+l.k+'"'+(ck?' checked':'')+'><span>'+esc(l.t)+'</span>'+(ck?'<span class="ls">✓</span>':'')+'</div>';
+    }).join('');
+    return '<div class="week'+(allDone?' checked':'')+'"><input type="checkbox" data-w="'+wi+'"'+(allDone?' checked':'')+'><span class="wk">'+w.wk+'</span><span class="wd">'+esc(w.title)+'</span><span class="st">'+doneN+'/'+w.lessons.length+' 课'+(allDone?' · 周完成':'')+'</span><div class="subs">'+rows+'</div></div>';
+  }).join('');
+  $('#planCnt').textContent = lessonsDone.length + '/' + TOTAL_LESSONS;
+}
+$('#planList').addEventListener('change', function(e){
+  var t = e.target;
+  if(t.type !== 'checkbox') return;
+  if(t.dataset.k){ // 勾选单课
+    var k = t.dataset.k, p = lessonsDone.indexOf(k);
+    if(t.checked && p === -1) lessonsDone.push(k);
+    if(!t.checked && p > -1) lessonsDone.splice(p,1);
+  } else if(t.dataset.w !== undefined){ // 勾选整周
+    var w = PLAN[+t.dataset.w];
+    w.lessons.forEach(function(l){
+      var p = lessonsDone.indexOf(l.k);
+      if(t.checked && p === -1) lessonsDone.push(l.k);
+      if(!t.checked && p > -1) lessonsDone.splice(p,1);
+    });
+  }
+  store('lessons', lessonsDone);
+  renderPlan(); renderAll();
+});
+
+/* ================= 渲染：课堂页 ================= */
+var curCh = null;
+function renderChSelect(){
+  var el = $('#chSelect');
+  el.innerHTML = CHAPTERS.map(function(c){
+    var done = chIsDone(c);
+    var st = done ? '✓ 已学' : (c.full ? '🎓 讲义已就位（'+chQuizDone(c)+'/'+chQuizCount(c)+' 题）' : '📚 待笛卡尔开讲');
+    return '<div class="ch-card" data-c="'+c.id+'"><div class="no">第 '+c.id+' 章</div><div class="t">'+c.title+'</div><div class="w">'+c.weeks+' · '+c.diff+(c.full?' · 已授':'')+'</div><div class="st'+(done?'':' empty')+'">'+st+'</div></div>';
+  }).join('');
+  el.querySelectorAll('.ch-card').forEach(function(card){
+    card.addEventListener('click', function(){ openCh(+card.dataset.c); });
+  });
+}
+function openCh(id){
+  var c = CHAPTERS.filter(function(x){return x.id===id})[0];
+  if(!c) return;
+  curCh = c;
+  logStudy('lesson', c.id, c.title);
+  var el = $('#chDetail');
+  var h = '<button class="btn-back" onclick="closeCh()">← 返回章节列表</button>';
+  h += '<div class="motto">'+esc(c.motto)+'<span class="who">—— '+esc(c.mottoWho)+'</span></div>';
+  if(chIsDone(c)) h += '<div class="trap" style="background:#eaf3ec;border-color:var(--green)"><b>✦ 本章已学完</b>　随堂练习全部通关。回列表看看战果，或去练习大厅再巩固一遍。</div>';
+  h += '<div class="card"><h3>知识地图</h3><div class="map">'+c.map.map(function(m){return '<span>'+esc(m)+'</span>'}).join('')+'</div></div>';
+  if(c.full){
+    c.sections.forEach(function(sec, s){
+      h += '<div class="sec"><h4><em>§'+(s+1)+'</em>'+esc(sec.t)+'</h4><p>'+parseMath(sec.p)+'</p>'+(sec.formula?'<div class="formula">'+parseMath(sec.formula)+'</div>':'')+'</div>';
+    });
+    if(c.example){
+      h += '<div class="card"><h3>例题 · 班纳式内心独白</h3><div class="example"><div class="lbl">SOLVE WITH YOUR INNER MONOLOGUE</div><p><b>'+parseMath(c.example.q)+'</b></p><p>'+parseMath(c.example.s)+'</p><p style="font-size:13px;color:var(--ink2);margin-top:8px">班纳的原话：看求解过程教不会你思考。先挡住解答自己试做，再对照这段「内心独白」——注意看我是怎么想出来的，而不是只看我写了什么。</p></div></div>';
+    }
+    h += '<div class="card"><h3>易错陷阱</h3>'+(c.traps.map(function(t,i){return '<div class="trap"><b>陷阱'+(i+1)+'</b>　'+parseMath(t)+'</div>'}).join(''))+'</div>';
+    h += '<div class="card"><h3>随堂练习（即时批改）</h3><div class="quizwrap"></div></div>';
+    h += '<div class="card dia"><h3>灵魂拷问（笛卡尔的追问）</h3><p style="margin-bottom:8px">'+parseMath(c.dialogue.q)+'</p><textarea id="diaInput" placeholder="把你的想法写在这里……"></textarea><div class="act"><button id="diaBtn" class="primary">交给我自检</button><button id="diaSend">发给笛卡尔精批</button></div><div id="diaResult"></div></div>';
+  } else {
+    h += '<div class="card"><p style="margin:6px 0">'+esc(c.note)+'</p><p style="color:var(--ink2);font-size:14px">在那之前，你可以先读教材本章，挡住解答做例题，把卡住的地方记下来问我。</p></div>';
+  }
+  el.innerHTML = h;
+  el.style.display = 'block';
+  $('#chSelect').style.display = 'none';
+  if(c.full){
+    renderQuiz(c, el.querySelector('.quizwrap'));
+    var btn = el.querySelector('#diaBtn'), inp = el.querySelector('#diaInput'), res = el.querySelector('#diaResult');
+    btn.addEventListener('click', function(){
+      var txt = inp.value.trim();
+      if(!txt){ res.innerHTML = '<div class="verdict show" style="display:block;background:#f7f2e3;border:1px solid var(--line)"><div class="cm">你一个字都没写，我怎么给你批？怀疑可以，沉默不行。</div></div>'; return; }
+      var hit = c.dialogue.keys.filter(function(k){ return txt.indexOf(k) > -1; });
+      var pct = c.dialogue.keys.length ? Math.round(hit.length / c.dialogue.keys.length * 100) : 0;
+      var grade = pct >= 70 ? '优秀' : pct >= 40 ? '及格' : '需补';
+      var cm = pct >= 70 ? '思路已上路，关键词基本都踩中了。去把完整论证写顺，然后发给笛卡尔精批。' : pct >= 40 ? '方向有了，但关键概念还没说透。看看「参考思路」，再补一遍。' : '这把没押中要害。先看参考思路，然后用自己的话重新写一遍。';
+      res.innerHTML = '<div class="verdict show" style="display:block;background:#f2ead4;border:1px solid var(--gold)"><div class="cm">关键词命中 '+hit.length+'/'+c.dialogue.keys.length+'，评级：'+grade+'。'+cm+'</div><div class="ex"><b>参考思路：</b>'+parseMath(c.dialogue.model)+'</div></div>';
+    });
+    el.querySelector('#diaSend').addEventListener('click', function(){
+      var txt = inp.value.trim();
+      res.innerHTML = '<div class="verdict show" style="display:block;background:#eaf3ec;border:1px solid var(--green)"><div class="cm">好，把你的这段话连同题目，复制到对话里发给潇湘（笛卡尔会借她的嘴说话）。他会逐句批改你的论证，追问漏洞，再给你一道变式题练手。</div></div>';
+    });
+  }
+}
+function closeCh(){ curCh = null; $('#chDetail').innerHTML=''; $('#chDetail').style.display='none'; $('#chSelect').style.display=''; renderChSelect(); }
+
+/* ================= 渲染：练习（即时批改） ================= */
+function renderQuiz(c, container, inHall){
+  if(!c.quiz || !c.quiz.length){ if(container) container.innerHTML='<p style="color:var(--ink2)">本章练习待笛卡尔出题。</p>'; return; }
+  var html = c.quiz.map(function(q, i){
+    var key = c.id + '_' + i;
+    var qh = '<div class="quiz" data-k="'+key+'"><div class="q"><span class="qn">Q'+(i+1)+'</span>'+parseMath(q.q)+'</div>';
+    if(q.type === 'choice'){
+      qh += '<div class="opts">'+q.options.map(function(o, oi){
+        return '<div class="opt" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+parseMath(o)+'</div>';
+      }).join('')+'</div>';
+    } else {
+      qh += '<div class="fillrow"><input placeholder="输入答案（备用）"><button>批改</button></div>';
+    }
+    qh += '<div class="verdict"></div></div>';
+    return qh;
+  }).join('');
+  if(container) container.innerHTML = html;
+  var scope = container;
+  scope.querySelectorAll('.quiz').forEach(function(qz){
+    var key = qz.dataset.k, idx = key.split('_').map(Number);
+    var q = CHAPTERS[idx[0]-1].quiz[idx[1]];
+    var done = hallDone.indexOf(key) > -1;
+    if(done){
+      qz.dataset.lock = '1';
+      if(q.type === 'choice'){
+        qz.querySelectorAll('.opt').forEach(function(o){o.classList.add('lock')});
+        qz.querySelectorAll('.opt')[q.answer].classList.add('ok');
+      }
+      mark(qz, q, true);
+    }
+    if(q.type === 'choice'){
+      qz.querySelectorAll('.opt').forEach(function(opt){
+        opt.addEventListener('click', function(){
+          if(qz.dataset.lock) return;
+          var oi = +opt.dataset.o;
+          qz.dataset.lock = '1';
+          opt.classList.add(oi === q.answer ? 'ok' : 'bad');
+          if(oi !== q.answer) qz.querySelectorAll('.opt')[q.answer].classList.add('ok');
+          qz.querySelectorAll('.opt').forEach(function(o){o.classList.add('lock')});
+          hallDone.push(key); store('hall', hallDone);
+          logStudy('quiz', c.id, c.title);
+          mark(qz, q, oi === q.answer);
+          renderHallNav(); renderAll();
+        });
+      });
+    } else {
+      var btn = qz.querySelector('button'), inp = qz.querySelector('input');
+      btn.addEventListener('click', function(){
+        if(qz.dataset.lock) return;
+        var val = inp.value.trim();
+        if(!val) return;
+        qz.dataset.lock = '1';
+        var ok = q.accept.some(function(a){ return numEq(a, val); });
+        hallDone.push(key); store('hall', hallDone);
+        logStudy('quiz', c.id, c.title);
+        mark(qz, q, ok);
+        renderHallNav(); renderAll();
+      });
+      inp.addEventListener('keydown', function(e){ if(e.key==='Enter') btn.click(); });
+    }
+  });
+}
+function numEq(a, b){
+  function val(x){
+    if(typeof x === 'number') return x;
+    var s = String(x).replace(/×/g,'*').replace(/π/g,'Math.PI').replace(/pi/g,'Math.PI').replace(/sqrt/g,'Math.sqrt').replace(/√/g,'Math.sqrt(').trim();
+    s = s.replace(/(^|[^A-Za-z])e(?=[\^0-9(\-]|$)/g, '$1Math.E');
+    s = s.replace(/Math\.E\^/g,'Math.E**');
+    if(/[a-zA-Z]/.test(s.replace(/Math\.|PI|sqrt|E|e/g,''))) return NaN;
+    try{ return eval(s); }catch(e){ return NaN; }
+  }
+  var A = val(a), B = val(b);
+  if(isNaN(A) || isNaN(B)) return String(a).replace(/\s/g,'').toLowerCase() === String(b).replace(/\s/g,'').toLowerCase();
+  return Math.abs(A-B) < 1e-6;
+}
+function mark(qz, q, ok){
+  var v = qz.querySelector('.verdict');
+  v.className = 'verdict show ' + (ok ? 'right' : 'wrong');
+  v.innerHTML = '<div class="cm">'+(ok ? pick(RIGHT_CM) : pick(WRONG_CM))+'</div><div class="ex">'+parseMath(q.explain)+'</div>';
+}
+
+/* ================= 渲染：大厅 ================= */
+var hallCh = 0;
+function renderHallNav(){
+  var nav = $('#hallNav');
+  var cnts = CHAPTERS.map(function(c){ return hallDone.filter(function(k){ return k.split('_')[0] == c.id; }).length; });
+  var total = CHAPTERS.reduce(function(s,c){ return s + (c.quiz?c.quiz.length:0); }, 0);
+  nav.innerHTML = '<button class="opt" style="border:1px solid var(--gold);background:'+(hallCh===0?'rgba(184,134,11,.15)':'transparent')+'" data-c="0">全部 ('+hallDone.length+'/'+total+')</button>' +
+    CHAPTERS.filter(function(c){return c.quiz && c.quiz.length}).map(function(c){
+      return '<button class="opt" style="border:1px solid var(--gold);background:'+(hallCh===c.id?'rgba(184,134,11,.15)':'transparent')+'" data-c="'+c.id+'">第'+c.id+'章 ('+cnts[c.id-1]+'/'+c.quiz.length+')</button>';
+    }).join('');
+  nav.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      hallCh = +b.dataset.c;
+      renderHall();
+    });
+  });
+}
+function renderHall(){
+  renderHallNav();
+  var list = CHAPTERS.filter(function(c){ return hallCh === 0 || c.id === hallCh; });
+  var container = $('#hallList');
+  container.innerHTML = '';
+  var wraps = [];
+  list.forEach(function(c){
+    if(!c.quiz || !c.quiz.length) return;
+    container.innerHTML += '<div class="card" style="padding:16px 20px"><h3 style="margin-bottom:4px">第'+c.id+'章 · '+c.title+'</h3><div class="quizwrap"></div></div>';
+    var all = container.querySelectorAll('.quizwrap');
+    wraps.push(all[all.length-1]);
+  });
+  list.forEach(function(c, ci){ if(c.quiz && c.quiz.length) renderQuiz(c, wraps[ci]); });
+}
+
+/* ================= 渲染：问答页 ================= */
+function renderAsk(){
+  var el = $('#askList');
+  el.innerHTML = CHAPTERS.filter(function(c){ return c.full && c.dialogue.q; }).map(function(c){
+    return '<div class="trap" style="background:#f2ead4;border-color:var(--gold);margin:10px 0"><b>第'+c.id+'章 · '+c.title+'</b><br>'+parseMath(c.dialogue.q)+'<br><span style="font-size:13px;color:var(--ink2)">→ 去「章节课堂」该章底部作答，或直接复制题目来对话里考自己。</span></div>';
+  }).join('');
+}
+
+/* ================= 渲染：学习足迹 ================= */
+function fmtDT(ts){
+  var d = new Date(ts), p = function(x){ return (x<10?'0':'')+x; };
+  return p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function traceTodayCount(){
+  var t0 = new Date(); t0.setHours(0,0,0,0);
+  return studyLog.filter(function(s){ return s.start >= t0.getTime(); }).length;
+}
+function renderTrace(){
+  var el = $('#traceList');
+  if(!studyLog.length){
+    el.innerHTML = '<div class="card"><p style="color:var(--ink2)">还没有学习记录。去「章节课堂」打开一课，或做几道题，足迹会自动生成。</p></div>';
+    return;
+  }
+  var today = new Date(); today.setHours(0,0,0,0);
+  var yest = today.getTime() - 86400000;
+  var groups = [];
+  studyLog.slice().reverse().forEach(function(s){
+    var d = new Date(s.start); d.setHours(0,0,0,0);
+    var g = groups.length ? groups[groups.length-1] : null;
+    if(!g || g.key !== d.getTime()) groups.push({key: d.getTime(), items:[s]});
+    else g.items.push(s);
+  });
+  var html = groups.map(function(g){
+    var d = new Date(g.key);
+    var label = g.key === today.getTime() ? '今天' : (g.key === yest ? '昨天' : (d.getMonth()+1)+'月'+(d.getDate())+'日');
+    var items = g.items.map(function(s){
+      var icon = s.lessonN > 0 && s.quizN > 0 ? '📖✍️' : (s.lessonN > 0 ? '📖' : '✍️');
+      var tag = '';
+      if(s.lessonN > 0) tag += '讲义';
+      if(s.quizN > 0) tag += (tag?' + ':'') + '练 ' + s.quizN + ' 题';
+      return '<div class="trace-item"><span class="tm">'+fmtDT(s.start)+(s.end - s.start > 60000 ? ' - '+fmtDT(s.end) : '')+'</span><span class="tt">'+icon+' 第 '+s.ch+' 章 · '+esc(s.title)+'<span class="tag">'+tag+'</span></span></div>';
+    }).join('');
+    return '<div class="trace-day">'+label+'（'+g.items.length+' 次学习）</div>'+items;
+  }).join('');
+  el.innerHTML = html;
+}
+
+/* ================= 渲染：进度 ================= */
+function renderAll(){
+  autoSyncLessons();
+  var totalW = PLAN.length;
+  var doneW = PLAN.filter(function(w){ return w.lessons.every(function(l){ return lessonsDone.indexOf(l.k) > -1; }); }).length;
+  var doneL = lessonsDone.length, totalL = TOTAL_LESSONS;
+  var doneC = CHAPTERS.filter(chIsDone).length, totalC = CHAPTERS.length;
+  var pct = Math.round((doneL/totalL*0.6 + doneC/totalC*0.4) * 100);
+  $('#bar i').style.width = pct + '%';
+  $('#pctTxt').textContent = pct + '%';
+  $('#chCnt').textContent = doneC + '/30';
+  $('#traceCnt').textContent = traceTodayCount() ? '今日 '+traceTodayCount() : '';
+  $('#badges').innerHTML = BADGES.map(function(b, i){
+    var unlocked = (i===0 && doneW>=1) || (i===1 && doneW>=2) || (i===2 && doneW>=6) || (i===3 && doneW>=11) || (i===4 && doneW>=15) || (i===5 && doneW>=21) || (i===6 && doneW>=26) || (i===7 && doneW>=28);
+    return '<span class="badge'+(unlocked?' got':'')+'">'+b+'</span>';
+  }).join('');
+}
+
+/* ================= 导航 ================= */
+document.querySelectorAll('.nav button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.nav button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on')});
+    $('#page-' + b.dataset.page).classList.add('on');
+    if(b.dataset.page === 'ask') renderAsk();
+    if(b.dataset.page === 'hall') renderHall();
+    if(b.dataset.page === 'trace') renderTrace();
+  });
+});
+
+/* ================= 导入进度 ================= */
+function importProgress(){
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#fffdf6;border:2px solid var(--gold);border-radius:12px;padding:20px;max-width:720px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px';
+  var title = document.createElement('div');
+  title.innerHTML = '<b style="color:var(--gold)">导入学习进度</b><span style="color:var(--ink2);font-size:13px"> —— 粘贴之前导出的进度数据，点「导入」。进度只写入<b>本机浏览器</b>，别人看不到。</span>';
+  var ta = document.createElement('textarea');
+  ta.placeholder = '粘贴 { "pjc_lessons": [...] } 格式的进度数据……';
+  ta.style.cssText = 'flex:1;border:1px solid var(--line);border-radius:8px;padding:10px;font-family:Consolas,monospace;font-size:12px;min-height:240px;background:#fbf6ea';
+  var bar = document.createElement('div');
+  bar.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap';
+  var msg = document.createElement('span');
+  msg.style.cssText = 'margin-right:auto;color:var(--red);font-size:13px;display:none';
+  var btnOk = document.createElement('button');
+  btnOk.textContent = '✅ 导入';
+  btnOk.style.cssText = 'border:none;background:var(--gold);color:#fff;border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  var btnClose = document.createElement('button');
+  btnClose.textContent = '关闭';
+  btnClose.style.cssText = 'border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  btnOk.addEventListener('click', function(){
+    try{
+      var data = JSON.parse(ta.value);
+      var n = 0;
+      Object.keys(data).forEach(function(k){
+        if(k.indexOf('pjc_') !== 0) return;
+        var v = data[k];
+        localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v));
+        n++;
+      });
+      if(n === 0){ msg.style.display='inline'; msg.textContent = '没找到 pjc_ 开头的进度数据，请检查内容'; return; }
+      alert('导入成功，共 '+n+' 项进度。页面将刷新，进度已就位。');
+      location.reload();
+    }catch(e){
+      msg.style.display='inline'; msg.textContent = '数据格式不对：'+e.message;
+    }
+  });
+  btnClose.addEventListener('click', function(){ wrap.remove(); });
+  bar.appendChild(msg);
+  bar.appendChild(btnClose);
+  bar.appendChild(btnOk);
+  box.appendChild(title);
+  box.appendChild(ta);
+  box.appendChild(bar);
+  wrap.appendChild(box);
+  document.body.appendChild(wrap);
+}
+document.getElementById('btnImport').addEventListener('click', importProgress);
+
+/* ================= 导出进度 ================= */
+function exportProgress(){
+  var out = {};
+  for(var i=0;i<localStorage.length;i++){
+    var key = localStorage.key(i);
+    if(key.indexOf('pjc_') === 0){
+      try{ out[key] = JSON.parse(localStorage.getItem(key)); }catch(e){ out[key] = localStorage.getItem(key); }
+    }
+  }
+  var json = JSON.stringify(out);
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#fffdf6;border:2px solid var(--gold);border-radius:12px;padding:20px;max-width:720px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px';
+  var title = document.createElement('div');
+  title.innerHTML = '<b style="color:var(--gold)">你的学习进度</b><span style="color:var(--ink2);font-size:13px"> —— 点下面「复制」后，整段粘贴发给你的助手即可</span>';
+  var ta = document.createElement('textarea');
+  ta.value = json;
+  ta.readOnly = true;
+  ta.style.cssText = 'flex:1;border:1px solid var(--line);border-radius:8px;padding:10px;font-family:Consolas,monospace;font-size:12px;min-height:240px;background:#fbf6ea';
+  var bar = document.createElement('div');
+  bar.style.cssText = 'display:flex;gap:10px;justify-content:flex-end';
+  var btnCopy = document.createElement('button');
+  btnCopy.textContent = '📋 复制';
+  btnCopy.style.cssText = 'border:none;background:var(--gold);color:#fff;border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  var btnClose = document.createElement('button');
+  btnClose.textContent = '关闭';
+  btnClose.style.cssText = 'border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:8px;padding:8px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  btnCopy.addEventListener('click', function(){
+    ta.select();
+    try{ document.execCommand('copy'); btnCopy.textContent = '✅ 已复制'; }catch(e){ btnCopy.textContent = '请手动 Ctrl+C'; }
+  });
+  btnClose.addEventListener('click', function(){ wrap.remove(); });
+  bar.appendChild(btnClose);
+  bar.appendChild(btnCopy);
+  box.appendChild(title);
+  box.appendChild(ta);
+  box.appendChild(bar);
+  wrap.appendChild(box);
+  document.body.appendChild(wrap);
+  ta.focus(); ta.select();
+}
+document.getElementById('btnExport').addEventListener('click', exportProgress);
+
+/* ================= 启动 ================= */
+renderPlan();
+renderChSelect();
+renderHallNav();
+renderAsk();
+renderAll();
+$('#quote').textContent = pick(QUOTES);
+</script>
+</body>
+</html>
