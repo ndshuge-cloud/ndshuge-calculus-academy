@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>笛卡尔的普林斯顿微积分学院 · 修订版30章</title>
+<title>🐭 鼠哥的微积分学院 🐿️ · 修订版30章</title>
 <style>
 :root{
   --bg:#F5EFE4; --card:#FBF7EE; --ink:#2A2622; --ink2:#4A433C; --muted:#6B6158;
@@ -272,6 +272,9 @@ body{
 .avatar-opt{width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:19px; cursor:pointer; border:2px solid transparent; transition:.15s}
 .avatar-opt:hover{transform:scale(1.14)}
 .avatar-opt.sel{border-color:var(--blue); box-shadow:0 0 0 3px rgba(83,125,150,.22); transform:scale(1.1)}
+.login-btn.link{background:transparent; border:none; color:var(--muted); font-size:12px; font-weight:400; padding:4px 6px; flex:none; width:auto; text-decoration:underline; cursor:pointer}
+.login-btn.link:hover{color:var(--blue)}
+.login-forgot-row{display:flex; justify-content:space-between; align-items:center; min-height:20px}
 /* ===== 学院社区（侧边栏）===== */
 .com-block{display:flex; flex-direction:column; gap:7px; margin-top:12px}
 .com-btn{display:flex; align-items:center; gap:8px; border:1px solid rgba(83,125,150,.28); background:rgba(83,125,150,.08); color:var(--blue); border-radius:10px; padding:8px 12px; font-family:inherit; font-size:12px; cursor:pointer; transition:.15s; text-decoration:none; text-align:left}
@@ -284,6 +287,13 @@ body{
 .sb-statusbar:hover{background:rgba(83,125,150,.12); color:var(--blue); border-style:solid}
 .sb-statusbar.ok{color:#3a6b47; border-color:rgba(58,107,71,.35); background:rgba(58,107,71,.06)}
 .sb-statusbar.ok:hover{background:rgba(58,107,71,.12)}
+/* ===== 侧边栏用户卡 ===== */
+.user-card{background:linear-gradient(135deg,rgba(83,125,150,.16),rgba(83,125,150,.05)); border:1px solid rgba(83,125,150,.35); border-radius:12px; padding:10px 12px; cursor:pointer; display:flex; align-items:center; gap:10px; transition:.15s; margin:0 0 4px}
+.user-card:hover{background:rgba(83,125,150,.24); border-style:solid}
+.user-card .uc-ic{width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; background:rgba(83,125,150,.22); flex:none}
+.user-card .uc-name{font-size:12.5px; font-weight:600; color:var(--ink); line-height:1.4; word-break:break-all}
+.user-card .uc-mail{font-size:10.5px; color:var(--muted); line-height:1.4; word-break:break-all; margin-top:1px}
+.user-card .uc-hint{font-size:10.5px; color:var(--muted); line-height:1.5}
 /* ===== 排行榜弹窗 ===== */
 .modal-mask{position:fixed; inset:0; background:rgba(20,18,14,.5); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; z-index:200}
 .modal-card{background:linear-gradient(180deg,#fdfcf9,#f6f1e7); border:1px solid rgba(43,37,29,.12); border-radius:18px; width:min(400px,90vw); box-shadow:0 20px 60px rgba(0,0,0,.35); overflow:hidden}
@@ -322,6 +332,17 @@ body{
 .fb-text2{font-size:12.5px; color:var(--ink2); line-height:1.65; margin-top:3px; white-space:pre-wrap; word-break:break-word}
 .fb-empty{text-align:center; color:#9a9288; font-size:12.5px; padding:18px 0; line-height:1.8}
 .fb-count{font-size:10.5px; color:#9a9288; text-align:center}
+/* ===== 账号管理 ===== */
+.sb-email{display:block; font-size:11px; color:#9a9288; margin-top:2px; word-break:break-all}
+.acc-actions{display:flex; flex-wrap:wrap; gap:6px}
+.acc-btn{border:1px dashed rgba(83,125,150,.45); background:rgba(83,125,150,.05); color:var(--blue); border-radius:8px; padding:6px 10px; font-family:inherit; font-size:11.5px; cursor:pointer; transition:.15s}
+.acc-btn:hover{background:rgba(83,125,150,.16)}
+.acc-frow{display:flex; gap:8px}
+.acc-frow .sb-input{flex:1}
+.acc-msg{font-size:11.5px; min-height:16px}
+.acc-tip{font-size:10.5px; color:#9a9288; line-height:1.6}
+.acc-avgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:8px; justify-items:center; padding:2px 0}
+.acc-avgrid .avatar-opt{width:34px; height:34px; font-size:17px}
 /* 学习足迹 */
 .trace-day{margin:18px 0 8px; font-size:13.5px; letter-spacing:.5px; color:var(--ink); border-left:3px solid var(--blue); padding-left:10px; font-weight:600}
 .trace-item{display:flex; gap:14px; padding:10px 6px; border-bottom:1px dashed var(--line); font-size:14.5px; align-items:baseline}
@@ -380,14 +401,25 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
   #app{flex-direction:column}
   #side{width:100%; height:auto; position:static; border-right:none; border-bottom:1px solid var(--line)}
   #main{padding:24px 18px 60px}
+  #side.collapsed{display:none}
 }
+.side-fab{position:fixed; left:14px; bottom:18px; width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--card); color:var(--blue); font-size:18px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.18); z-index:9998; align-items:center; justify-content:center; display:none; transition:transform .15s}
+.side-fab:hover{transform:scale(1.1)}
 </style>
 </head>
 <body>
 <div id="app">
   <aside id="side">
     <button id="sideToggle" title="折叠/展开侧栏">«</button>
-    <h1>普林斯顿微积分学院<small>COLLÈGE DU CALCUL · 班纳读本 30 章</small></h1>
+    <h1>🐭 鼠哥的微积分学院 🐿️<small>COLLÈGE DU CALCUL · 班纳读本 30 章</small></h1>
+    <div class="divider"></div>
+    <div id="userCard" class="user-card" onclick="userCardClick()">
+      <div class="uc-ic">👤</div>
+      <div>
+        <div class="uc-name">未登录</div>
+        <div class="uc-hint">点击登录 · 管理账号与进度</div>
+      </div>
+    </div>
     <div class="divider"></div>
     <nav class="nav">
       <div class="nav-group collapsed">
@@ -406,7 +438,7 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
           <button data-page="honor"><span>🏆 荣誉墙</span></button>
           <button data-page="wrong"><span>📕 错题集</span><span class="sub" id="wrongCnt"></span></button>
           <button data-page="fixed"><span>✅ 已订正</span><span class="sub" id="fixedCnt"></span></button>
-          <button data-page="trace"><span>🗂 进度管理</span><span class="sub" id="traceCnt"></span></button>
+          <button data-page="trace"><span>🗂 管理账号与进度</span><span class="sub" id="traceCnt"></span></button>
           <button data-page="ask"><span>✍️ 问答批改</span></button>
           <button data-page="lab"><span>🔬 微积分实验室</span></button>
           <button data-page="about"><span>✒️ 关于导师</span></button>
@@ -443,7 +475,6 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
       <button class="com-btn" onclick="openRank()"><span class="ic">🏆</span>学习排行榜<span class="go">→</span></button>
       <button class="com-btn" onclick="openFeedback()"><span class="ic">💬</span>给作者留言<span class="go">→</span></button>
     </div>
-    <div id="sbStatusBar" class="sb-statusbar" onclick="showLogin()">☁️ 登录后可多设备同步进度</div>
   </aside>
   <main id="main">
     <!-- 荣誉墙页 -->
@@ -526,7 +557,7 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
     <section class="page" id="page-trace">
       <div class="page-head">
         <div class="kick">PROGRESS MANAGER</div>
-        <h2>进度管理</h2>
+        <h2>管理账号与进度</h2>
         <p>学习足迹自动记录每一次开课与答题。可随时导出备份，换设备、换浏览器也能无缝续学。</p>
       </div>
       <div class="card">
@@ -539,7 +570,7 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
         <p class="pg-hint">导出会生成一串备份码（含全部学习数据），妥善保存；导入粘贴备份码即可恢复。清除会<b>永久抹掉全部学习数据</b>（章节进度、徽章、名人堂、错题、足迹），学院回到初始状态，需输入「清除记录」确认。</p>
       </div>
       <div class="card">
-        <h3>☁️ 云同步</h3>
+        <h3>👤 账号管理 · 云同步</h3>
         <div id="sbStatus" class="sb-status" onclick="showLogin()">☁️ 登录后可多设备同步进度</div>
         <div id="sbPanel" class="sb-panel"></div>
         <div id="sbMsg" class="sb-msg"></div>
@@ -617,7 +648,7 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
         <p>④ <b>全面复查</b>——算完回头看定义域、间断点、漏解、符号。</p>
       </div>
     </section>
-    <footer>笛卡尔的普林斯顿微积分学院 · 以班纳《普林斯顿微积分读本》为蓝本 · 进度存于本地浏览器</footer>
+    <footer>🐭 鼠哥的微积分学院 🐿️ · 以班纳《普林斯顿微积分读本》为蓝本 · 进度存于本地浏览器</footer>
   </main>
 </div>
 
@@ -625,6 +656,7 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
     <button id="fabHome" title="回主页"><span class="fab-tip">回主页</span>⌂</button>
     <button id="fabBack" title="返回章节列表"><span class="fab-tip">返回</span>←</button>
   </div>
+  <button id="sideFab" class="side-fab" onclick="toggleSide()" title="展开侧栏">☰</button>
 
 <script>
 /* ================= 工具 ================= */
@@ -4274,7 +4306,7 @@ function renderHome(){
   el.innerHTML =
     '<div class="home-hero">'+
       '<div class="greet">'+greet+'</div>'+
-      '<h2>笛卡尔的微积分学院</h2>'+
+      '<h2>🐭 鼠哥的微积分学院 🐿️</h2>'+
       '<div class="sub">已修 '+doneL+'/'+totalL+' 课 · 已攻下 '+doneC+'/'+totalC+' 章</div>'+
       '<div class="rank-line"><span class="rk">'+rank.name+'</span><span class="pct-big">总进度 '+pct+'%</span></div>'+
       '<div class="rank-line" style="margin-top:6px;font-size:12.5px;color:#cbbd9c">'+(rank.next ? '距「'+rank.next+'」还差 '+rank.remain+'%' : '已达最高荣誉')+'</div>'+
@@ -4475,6 +4507,13 @@ var sideToggle = document.getElementById('sideToggle');
 if(sideToggle){
   var sideEl = document.getElementById('side');
   var sideBusy = false, sideT1 = null, sideT2 = null;
+  function sideFabSync(){
+    var fab = document.getElementById('sideFab');
+    if(!fab) return;
+    var isMobile = window.innerWidth <= 860;
+    fab.style.display = (isMobile && sideEl.classList.contains('collapsed')) ? 'flex' : 'none';
+  }
+  window.addEventListener('resize', sideFabSync);
   function sideClearTimers(){
     if(sideT1) clearTimeout(sideT1);
     if(sideT2) clearTimeout(sideT2);
@@ -4494,6 +4533,7 @@ if(sideToggle){
         sideToggle.textContent = '»';
         store('sidefold', 1);
         sideBusy = false;
+        sideFabSync();
       }, 150);
     } else {
       /* 先撑开栏宽，再淡入文字（文字以最终排版状态出现） */
@@ -4509,16 +4549,19 @@ if(sideToggle){
         sideT2 = setTimeout(function(){
           sideEl.classList.remove('fading');
           sideBusy = false;
+          sideFabSync();
         }, 340);
       }, 360);
     }
   });
 }
+function toggleSide(){ var t = document.getElementById('sideToggle'); if(t) t.click(); }
 (function(){
   /* 导航分组固定默认折叠（HTML 已写死 collapsed），每次打开都是收起状态 */
   if(load('sidefold', 0)){
     var side = document.getElementById('side');
     if(side){ side.classList.add('collapsed'); if(sideToggle) sideToggle.textContent = '»'; }
+    var fab = document.getElementById('sideFab'); if(fab){ fab.style.display = (window.innerWidth <= 860) ? 'flex' : 'none'; }
   }
 })();
 
@@ -4882,7 +4925,7 @@ async function sbEnsureToken(){
   if(live) return true;
   if(!s.refresh_token) return false;
   try{
-    var r = await fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({refresh_token: s.refresh_token}) });
+    var r = await fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', { method:'POST', headers:{'Content-Type':'application/json', 'apikey': SB_KEY}, body: JSON.stringify({refresh_token: s.refresh_token}) });
     var j = await r.json();
     if(j.access_token){ store('sb_session', {access_token: j.access_token, refresh_token: j.refresh_token || s.refresh_token, user: j.user || s.user}); return true; }
   }catch(e){}
@@ -4899,6 +4942,36 @@ function sbPack(){
     quizStat: load('quizStat', {}), tstat: load('tstat', {}), quizPick: load('quizPick', {}), settle: load('settle', {})
   };
 }
+/* 合并两端进度：数组取并集去重，对象取键并集，不互相覆盖 */
+var MERGE_ARR = ['lessons','ch','wrong','fixed','log'];
+var MERGE_OBJ = ['hall','quizStat','tstat','quizPick','settle'];
+function loadAllProgress(){
+  var out = {};
+  MERGE_ARR.concat(MERGE_OBJ).forEach(function(k){ out[k] = load(k, MERGE_OBJ.indexOf(k) >= 0 ? {} : []); });
+  return out;
+}
+function storeAllProgress(d){
+  MERGE_ARR.concat(MERGE_OBJ).forEach(function(k){ if(d[k] !== undefined) store(k, d[k]); });
+}
+function mergeProgress(local, cloud){
+  var out = {};
+  MERGE_ARR.forEach(function(k){
+    var a = local[k] || [], b = cloud[k] || [];
+    var seen = {}, arr = [];
+    a.concat(b).forEach(function(x){
+      var key = (typeof x === 'object' && x !== null) ? JSON.stringify(x) : String(x);
+      if(!seen[key]){ seen[key] = 1; arr.push(x); }
+    });
+    out[k] = arr;
+  });
+  MERGE_OBJ.forEach(function(k){
+    var a = local[k] || {}, b = cloud[k] || {}, m = {};
+    Object.keys(a).forEach(function(key){ m[key] = a[key]; });
+    Object.keys(b).forEach(function(key){ m[key] = b[key]; });
+    out[k] = m;
+  });
+  return out;
+}
 function showLogin(){
   var el = document.getElementById('loginOverlay');
   if(el) el.style.display = 'flex';
@@ -4907,24 +4980,118 @@ function hideLogin(){
   var el = document.getElementById('loginOverlay');
   if(el) el.style.display = 'none';
 }
-function loginDo(){ sbAuth(signupMode); }
+function loginDo(){ if(authMode === 'forgot'){ sendRecover(); return; } sbAuth(signupMode); }
 function signupDo(){ loginMode(true); }
-var AVATARS = ['🦊','🐼','🐸','🐙','🦄','🐯','🐨','🐰','🦁','🐢','🐳','🦉'];
-var AV_COLORS = ['#537D96','#5B8C5A','#6D9B7C','#C77B6D','#A67BB8','#D9A441','#8FA3B8','#C75B7A','#B57F5E','#7BA6A0','#A08BD1','#D08159'];
+var AVATARS = ['🦊','🐼','🐸','🐙','🦄','🐯','🐨','🐰','🦁','🐢','🐳','🦉','🐭','🐿️'];
+var AV_COLORS = ['#537D96','#5B8C5A','#6D9B7C','#C77B6D','#A67BB8','#D9A441','#8FA3B8','#C75B7A','#B57F5E','#7BA6A0','#A08BD1','#D08159','#9B8579','#C77B3D'];
 var signupMode = false, selAvatar = AVATARS[0];
+var authMode = 'login';
 function loginMode(up){
+  authMode = up ? 'signup' : 'login';
   signupMode = up;
   var tl = document.getElementById('tabLogin'), ts = document.getElementById('tabSignup');
-  if(tl) tl.className = 'login-tab' + (up ? '' : ' on');
-  if(ts) ts.className = 'login-tab' + (up ? ' on' : '');
-  var nm = document.getElementById('loginName'), ap = document.getElementById('avatarPick'), ag = document.getElementById('avatarGrid'), mb = document.getElementById('loginBtnMain'), tip = document.getElementById('loginTip');
+  if(tl){ tl.style.display = 'block'; tl.className = 'login-tab' + (up ? '' : ' on'); }
+  if(ts){ ts.style.display = 'block'; ts.className = 'login-tab' + (up ? ' on' : ''); }
+  var nm = document.getElementById('loginName'), ap = document.getElementById('avatarPick'), ag = document.getElementById('avatarGrid'), mb = document.getElementById('loginBtnMain'), tip = document.getElementById('loginTip'), pw = document.getElementById('loginPass');
   if(nm) nm.style.display = up ? 'block' : 'none';
   if(ap) ap.style.display = up ? 'block' : 'none';
   if(ag) ag.style.display = up ? 'grid' : 'none';
+  if(pw) pw.style.display = 'block';
   if(mb) mb.textContent = up ? '注 册' : '登 录';
   if(tip) tip.textContent = up ? '注册后自动登录，进度云端保存，换设备不丢。' : '第一次用点「注册」，之后自动登录。同一账号，手机电脑进度同步。';
-  var msg = document.getElementById('loginMsg'); if(msg) msg.textContent = '';
+  var fg = document.getElementById('loginForgot'), bk = document.getElementById('loginBack');
+  if(fg) fg.style.display = 'block';
+  if(bk) bk.style.display = 'none';
+  var msg = document.getElementById('loginMsg'); if(msg){ msg.textContent = ''; msg.style.color = '#8B2C1F'; }
   if(up) buildAvatarGrid();
+}
+function showForgot(){
+  authMode = 'forgot';
+  var tl = document.getElementById('tabLogin'), ts = document.getElementById('tabSignup');
+  if(tl) tl.style.display = 'none';
+  if(ts) ts.style.display = 'none';
+  var nm = document.getElementById('loginName'), ap = document.getElementById('avatarPick'), ag = document.getElementById('avatarGrid'), pw = document.getElementById('loginPass'), mb = document.getElementById('loginBtnMain'), tip = document.getElementById('loginTip');
+  if(nm) nm.style.display = 'none';
+  if(ap) ap.style.display = 'none';
+  if(ag) ag.style.display = 'none';
+  if(pw) pw.style.display = 'none';
+  if(mb) mb.textContent = '发送重置链接';
+  if(tip) tip.textContent = '输入注册时用的邮箱，重置链接会发送到该邮箱（记得看垃圾箱）。';
+  var fg = document.getElementById('loginForgot'), bk = document.getElementById('loginBack');
+  if(fg) fg.style.display = 'none';
+  if(bk) bk.style.display = 'block';
+  var msg = document.getElementById('loginMsg'); if(msg){ msg.textContent = ''; msg.style.color = '#8B2C1F'; }
+}
+function backToLogin(){ loginMode(false); }
+function userCardClick(){ if(sbSession()){ goPage('trace'); } else { showLogin(); } }
+/* ===== 找回密码 ===== */
+async function sendRecover(){
+  var email = $('#loginEmail').value.trim();
+  var msg = document.getElementById('loginMsg');
+  if(!email || !/\S+@\S+\.\S+/.test(email)){ msg.textContent = '请输入有效的邮箱'; msg.style.color = '#8B2C1F'; return; }
+  msg.textContent = '发送中…'; msg.style.color = '#8B2C1F';
+  try{
+    var redirect = location.origin + location.pathname;
+    var r = await fetch(SB_URL + '/auth/v1/recover', { method:'POST', headers:{'Content-Type':'application/json', 'apikey': SB_KEY}, body: JSON.stringify({ email: email, options: { redirect_to: redirect } }) });
+    var j = await r.json();
+    if(r.ok){
+      msg.textContent = '✅ 重置链接已发送到 ' + email + '，请查收邮件（含垃圾箱）';
+      msg.style.color = '#3a6b47';
+    } else {
+      msg.textContent = j.msg || j.error_description || '发送失败，请确认邮箱已注册';
+      msg.style.color = '#8B2C1F';
+    }
+  }catch(e){ msg.textContent = '网络错误：' + e.message; msg.style.color = '#8B2C1F'; }
+}
+function checkRecoveryHash(){
+  var h = location.hash || '';
+  if(h.indexOf('access_token') < 0 || h.indexOf('type=recovery') < 0) return false;
+  try{
+    var params = {};
+    h.replace(/^#/, '').split('&').forEach(function(kv){ var p = kv.split('='); if(p[0]) params[decodeURIComponent(p[0])] = decodeURIComponent(p[1]||''); });
+    if(!params.access_token || params.type !== 'recovery') return false;
+    fetch(SB_URL + '/auth/v1/user', { headers: { 'Authorization': 'Bearer ' + params.access_token, 'apikey': SB_KEY } })
+      .then(function(r){ return r.json(); })
+      .then(function(u){
+        if(u && u.id){
+          store('sb_session', { access_token: params.access_token, refresh_token: params.refresh_token || '', user: u });
+          try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+          sbRefresh();
+          showResetUI();
+        }
+      }).catch(function(){});
+    return true;
+  }catch(e){ return false; }
+}
+function showResetUI(){
+  showLogin();
+  var ids = ['tabLogin','tabSignup','loginName','loginEmail','loginPass','avatarPick','avatarGrid','loginBtnMain','loginForgot','loginBack','loginMsg','loginTip'];
+  ids.forEach(function(id){ var el = document.getElementById(id); if(el) el.style.display = 'none'; });
+  var rb = document.getElementById('resetBlock'); if(rb) rb.style.display = 'flex';
+  rb.style.flexDirection = 'column';
+  rb.style.gap = '12px';
+  var m = document.getElementById('resetMsg'); if(m) m.textContent = '';
+}
+async function doReset(){
+  var p1 = document.getElementById('resetPass').value, p2 = document.getElementById('resetPass2').value;
+  var msg = document.getElementById('resetMsg');
+  if(p1.length < 6){ msg.textContent = '密码至少 6 位'; msg.style.color = '#8B2C1F'; return; }
+  if(p1 !== p2){ msg.textContent = '两次输入的密码不一致'; msg.style.color = '#8B2C1F'; return; }
+  msg.textContent = '更新中…'; msg.style.color = '#8B2C1F';
+  try{
+    var h = sbAuthHeaders();
+    if(!h){ msg.textContent = '重置链接已失效，请重新申请'; msg.style.color = '#8B2C1F'; return; }
+    var r = await fetch(SB_URL + '/auth/v1/user', { method:'PUT', headers:h, body: JSON.stringify({ password: p1 }) });
+    var j = await r.json();
+    if(r.ok && j.id){
+      msg.textContent = '✅ 密码已更新！请用新密码登录';
+      msg.style.color = '#3a6b47';
+      setTimeout(function(){ sbLogout(); }, 1200);
+    } else {
+      msg.textContent = j.msg || '更新失败，请重试';
+      msg.style.color = '#8B2C1F';
+    }
+  }catch(e){ msg.textContent = '网络错误：' + e.message; msg.style.color = '#8B2C1F'; }
 }
 function buildAvatarGrid(){
   var g = document.getElementById('avatarGrid');
@@ -4987,7 +5154,7 @@ async function sbAuth(doSignup){
     }
     var url = doSignup ? (SB_URL + '/auth/v1/signup') : (SB_URL + '/auth/v1/token?grant_type=password');
     var body = doSignup ? { email: email, password: pass, data: { username: uname, avatar: av } } : { email: email, password: pass };
-    var r = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    var r = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json', 'apikey': SB_KEY}, body: JSON.stringify(body) });
     var j = await r.json();
     if(j.access_token){
       store('sb_session', {access_token: j.access_token, refresh_token: j.refresh_token, user: j.user});
@@ -5037,17 +5204,17 @@ async function sbSyncFromCloud(){
   if(!(await sbEnsureToken())){ sbMsg('登录已失效，请重新登录'); return; }
   var h = sbAuthHeaders(); var s = sbSession();
   if(!h || !s){ sbMsg('请先登录'); return; }
-  sbMsg('正在从云端同步…');
+  sbMsg('正在同步并合并两端进度…');
   try{
     var r = await fetch(SB_URL + '/rest/v1/progress?select=data&user_id=eq.' + s.user.id, { headers:h });
     var rows = await r.json();
     var d = (rows && rows.length && rows[0].data && rows[0].data.calc) ? rows[0].data.calc : null;
     if(d){
-      ['lessons','ch','hall','wrong','fixed','log','quizStat','tstat','quizPick','settle'].forEach(function(k){
-        if(d[k] !== undefined) store(k, d[k]);
-      });
-      sbMsg('已从云端同步最新进度', true);
+      var merged = mergeProgress(loadAllProgress(), d);
+      storeAllProgress(merged);
+      sbMsg('✅ 已合并两端进度（取并集，不丢数据）', true);
       renderAll(); renderTrace();
+      await sbPush(true);
     } else {
       await sbPush(true);
       sbMsg('已把本地进度上传云端', true);
@@ -5096,6 +5263,19 @@ function sbNotify(){ if(sbSession()) sbPush(false); }
 function sbRefresh(){
   var box = document.getElementById('sbPanel');
   var s = sbSession();
+  var card = document.getElementById('userCard');
+  if(card){
+    if(s){
+      var p = curProfile();
+      card.innerHTML = '<div class="uc-ic" style="background:' + avColor(p.avatar) + '2b">' + p.avatar + '</div>'
+        + '<div style="min-width:0"><div class="uc-name">' + esc(p.username) + '</div>'
+        + '<div class="uc-mail">' + esc(s.user && s.user.email ? s.user.email : '') + '</div></div>';
+      card.title = '管理账号与进度';
+    } else {
+      card.innerHTML = '<div class="uc-ic">👤</div><div><div class="uc-name">未登录</div><div class="uc-hint">点击登录 · 管理账号与进度</div></div>';
+      card.title = '登录';
+    }
+  }
   var bars = [document.getElementById('sbStatus'), document.getElementById('sbStatusBar')];
   for(var bi=0; bi<bars.length; bi++){
     var st = bars[bi];
@@ -5114,11 +5294,113 @@ function sbRefresh(){
   if(!box) return;
   if(s){
     var p2 = curProfile();
-    box.innerHTML = '<div class="sb-user">✅ 已登录：<span class="avatar-circle" style="background:' + avColor(p2.avatar) + '">' + p2.avatar + '</span> <b>' + esc(p2.username) + '</b></div><div class="sb-actions"><button class="sb-btn primary" onclick="sbSyncFromCloud()">🔄 立即同步</button><button class="sb-btn" onclick="sbLogout()">退出登录</button></div><div class="sb-tip">学习进度会自动同步到云端，换设备登录即恢复。首次登录后自动保持，无需重复登录。</div>';
+    box.innerHTML = '<div class="sb-user">✅ 已登录：<span class="avatar-circle" style="background:' + avColor(p2.avatar) + '">' + p2.avatar + '</span> <b>' + esc(p2.username) + '</b><span class="sb-email">' + esc(s.user && s.user.email ? s.user.email : '') + '</span></div>'
+      + '<div class="sb-actions"><button class="sb-btn primary" onclick="sbSyncFromCloud()">🔄 立即同步</button><button class="sb-btn" onclick="sbLogout()">退出登录</button></div>'
+      + '<div class="acc-actions">'
+      +   '<button class="acc-btn" onclick="toggleAccForm(\'user\')">✏️ 改用户名</button>'
+      +   '<button class="acc-btn" onclick="toggleAccForm(\'avatar\')">🖼 改头像</button>'
+      +   '<button class="acc-btn" onclick="toggleAccForm(\'email\')">📧 改邮箱</button>'
+      +   '<button class="acc-btn" onclick="toggleAccForm(\'pass\')">🔑 改密码</button>'
+      + '</div>'
+      + '<div id="accForm"></div>'
+      + '<div class="sb-tip">学习进度自动同步到云端，换设备登录即恢复。账号信息（用户名/头像/邮箱/密码）都可在这里修改。</div>';
   } else {
-    box.innerHTML = '<div class="sb-tip">未登录。点上方状态条弹出登录窗口；同一账号，手机电脑进度同步。</div>';
+    box.innerHTML = '<div class="sb-tip">未登录。点上方状态条弹出登录窗口；登录后可在此修改用户名、邮箱和密码。</div>';
   }
   var msg = document.getElementById('sbMsg'); if(msg) msg.textContent = '';
+}
+/* ===== 账号管理 ===== */
+var accFormType = null, selAccAvatar = null;
+function accMsg2(t, ok){
+  var m = document.getElementById('accMsg');
+  if(m){ m.textContent = t; m.style.color = ok ? '#3a6b47' : '#8B2C1F'; }
+}
+function toggleAccForm(t){
+  accFormType = (accFormType === t) ? null : t;
+  var f = document.getElementById('accForm');
+  if(!f) return;
+  if(!accFormType){ f.innerHTML = ''; return; }
+  var p = curProfile();
+  if(t === 'user'){
+    f.innerHTML = '<div class="acc-frow"><input id="accName" class="sb-input" maxlength="16" placeholder="新用户名（3~16 位）" onkeydown="if(event.key===\'Enter\') saveUsername()"><button class="sb-btn primary" onclick="saveUsername()">保存</button></div><div class="acc-msg" id="accMsg"></div>';
+  } else if(t === 'avatar'){
+    selAccAvatar = p.avatar;
+    f.innerHTML = '<div class="acc-avgrid">' + AVATARS.map(function(a,i){
+      return '<div class="avatar-opt' + (a === p.avatar ? ' sel' : '') + '" onclick="pickAccAvatar(' + i + ')" style="background:' + AV_COLORS[i] + '26">' + a + '</div>';
+    }).join('') + '</div><button class="modal-btn fb-send" style="justify-content:center" onclick="saveAvatar()">保存头像</button><div class="acc-msg" id="accMsg"></div>';
+  } else if(t === 'email'){
+    f.innerHTML = '<div class="acc-frow"><input id="accEmail" class="sb-input" type="email" placeholder="新邮箱" onkeydown="if(event.key===\'Enter\') saveEmail()"><button class="sb-btn primary" onclick="saveEmail()">保存</button></div><div class="acc-tip">修改后请用新邮箱登录；若项目开启了邮箱验证，会先发确认邮件。</div><div class="acc-msg" id="accMsg"></div>';
+  } else if(t === 'pass'){
+    f.innerHTML = '<div class="acc-frow"><input id="accPass" class="sb-input" type="password" placeholder="新密码（至少 6 位）"><input id="accPass2" class="sb-input" type="password" placeholder="再次输入"></div><button class="modal-btn fb-send" style="justify-content:center" onclick="savePass()">保存新密码</button><div class="acc-msg" id="accMsg"></div>';
+  }
+}
+function pickAccAvatar(i){
+  selAccAvatar = AVATARS[i];
+  document.querySelectorAll('#accForm .avatar-opt').forEach(function(e,ix){ e.classList.toggle('sel', ix === i); });
+}
+async function saveUsername(){
+  var n = document.getElementById('accName').value.trim();
+  if(!/^[\u4e00-\u9fa5A-Za-z0-9_]{3,16}$/.test(n)){ accMsg2('用户名需 3~16 位：中文/字母/数字/下划线', false); return; }
+  var s = sbSession(); if(!s){ accMsg2('请先登录', false); return; }
+  try{
+    var dup = await fetch(SB_URL + '/rest/v1/profiles?select=username&username=eq.' + encodeURIComponent(n), { headers:{ 'apikey': SB_KEY } });
+    var rows = await dup.json();
+    if(rows && rows.length){ accMsg2('这个用户名已被占用', false); return; }
+    var h = sbAuthHeaders();
+    var r = await fetch(SB_URL + '/rest/v1/profiles?user_id=eq.' + s.user.id, { method:'PATCH', headers:h, body: JSON.stringify({ username: n }) });
+    if(r.ok){
+      var p = curProfile();
+      store('profile', { username: n, avatar: p.avatar });
+      accMsg2('✅ 用户名已更新', true);
+      sbRefresh();
+      sbPushRank(sbAuthHeaders(), s);
+    } else { accMsg2('更新失败，稍后再试', false); }
+  }catch(e){ accMsg2('网络错误：' + e.message, false); }
+}
+async function saveAvatar(){
+  var s = sbSession(); if(!s){ accMsg2('请先登录', false); return; }
+  if(!selAccAvatar) return;
+  try{
+    var h = sbAuthHeaders();
+    var r = await fetch(SB_URL + '/rest/v1/profiles?user_id=eq.' + s.user.id, { method:'PATCH', headers:h, body: JSON.stringify({ avatar: selAccAvatar }) });
+    if(r.ok){
+      var p = curProfile();
+      store('profile', { username: p.username, avatar: selAccAvatar });
+      accMsg2('✅ 头像已更新', true);
+      sbRefresh();
+      sbPushRank(sbAuthHeaders(), s);
+    } else { accMsg2('更新失败，稍后再试', false); }
+  }catch(e){ accMsg2('网络错误：' + e.message, false); }
+}
+async function saveEmail(){
+  var e = document.getElementById('accEmail').value.trim();
+  if(!/\S+@\S+\.\S+/.test(e)){ accMsg2('请输入有效邮箱', false); return; }
+  var h = sbAuthHeaders(); if(!h){ accMsg2('请先登录', false); return; }
+  try{
+    var r = await fetch(SB_URL + '/auth/v1/user', { method:'PUT', headers:h, body: JSON.stringify({ email: e }) });
+    var j = await r.json();
+    if(r.ok && j.id){
+      var s = sbSession();
+      if(s && s.user){ s.user.email = e; store('sb_session', s); }
+      accMsg2('✅ 邮箱已更新，请用新邮箱登录', true);
+      sbRefresh();
+    } else { accMsg2(j.msg || '更新失败，邮箱可能已被占用', false); }
+  }catch(err){ accMsg2('网络错误：' + err.message, false); }
+}
+async function savePass(){
+  var p1 = document.getElementById('accPass').value, p2 = document.getElementById('accPass2').value;
+  if(p1.length < 6){ accMsg2('密码至少 6 位', false); return; }
+  if(p1 !== p2){ accMsg2('两次输入的密码不一致', false); return; }
+  var h = sbAuthHeaders(); if(!h){ accMsg2('请先登录', false); return; }
+  try{
+    var r = await fetch(SB_URL + '/auth/v1/user', { method:'PUT', headers:h, body: JSON.stringify({ password: p1 }) });
+    var j = await r.json();
+    if(r.ok && j.id){
+      accMsg2('✅ 密码已更新', true);
+      var a1 = document.getElementById('accPass'); if(a1) a1.value = '';
+      var a2 = document.getElementById('accPass2'); if(a2) a2.value = '';
+    } else { accMsg2(j.msg || '更新失败，请重试', false); }
+  }catch(err){ accMsg2('网络错误：' + err.message, false); }
 }
 /* 启动时静默同步 */
 function sbInit(){
@@ -5134,9 +5416,8 @@ function sbInit(){
       .then(function(rows){
         var d = (rows && rows.length && rows[0].data && rows[0].data.calc) ? rows[0].data.calc : null;
         if(d){
-          ['lessons','ch','hall','wrong','fixed','log','quizStat','tstat','quizPick','settle'].forEach(function(k){
-            if(d[k] !== undefined) store(k, d[k]);
-          });
+          var merged = mergeProgress(loadAllProgress(), d);
+          storeAllProgress(merged);
           renderAll();
         }
       }).catch(function(){});
@@ -5253,7 +5534,7 @@ renderAll();
 renderHome();
 $('#quote').textContent = pick(QUOTES);
 /* 登录层在 script 之后解析，等 DOM 就绪再初始化云同步 */
-document.addEventListener('DOMContentLoaded', sbInit);
+document.addEventListener('DOMContentLoaded', function(){ if(!checkRecoveryHash()){ sbInit(); } });
 
 /* ================= 数学家画像表 ================= */
 var PORTRAITS = {
@@ -5290,7 +5571,7 @@ var PORTRAITS = {
 <div id="loginOverlay" class="login-overlay" style="display:none">
   <div class="login-card">
     <div class="login-logo">🧮</div>
-    <div class="login-title">笛卡尔的普林斯顿微积分学院</div>
+    <div class="login-title">🐭 鼠哥的微积分学院 🐿️</div>
     <div class="login-sub">登录后开始学习 · 进度多设备自动同步</div>
     <div class="login-tabs">
       <button class="login-tab on" id="tabLogin" onclick="loginMode(false)">登 录</button>
@@ -5304,8 +5585,20 @@ var PORTRAITS = {
     <div class="login-actions">
       <button class="login-btn primary" id="loginBtnMain" onclick="loginDo()">登 录</button>
     </div>
+    <div class="login-forgot-row">
+      <button class="login-btn link" id="loginForgot" onclick="showForgot()">忘记密码？</button>
+      <button class="login-btn link" id="loginBack" style="display:none" onclick="backToLogin()">← 返回登录</button>
+    </div>
     <div id="loginMsg" class="login-msg"></div>
     <div class="login-tip" id="loginTip">第一次用点「注册」，之后自动登录。同一账号，手机电脑进度同步。</div>
+    <div id="resetBlock" style="display:none">
+      <div class="login-title" style="font-size:16px; margin-top:2px">🔑 设置新密码</div>
+      <div class="login-sub">为你的账号设置一个新密码</div>
+      <input id="resetPass" class="sb-input" type="password" placeholder="新密码（至少 6 位）" onkeydown="if(event.key==='Enter') doReset()">
+      <input id="resetPass2" class="sb-input" type="password" placeholder="再次输入新密码" onkeydown="if(event.key==='Enter') doReset()">
+      <button class="login-btn primary" onclick="doReset()">更新密码</button>
+      <div id="resetMsg" class="login-msg"></div>
+    </div>
   </div>
 </div>
 
