@@ -441,7 +441,7 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
           <button id="btnImport" class="pg-btn">📥 导入进度</button>
           <button id="btnClean" class="pg-btn danger">🗑 清除所有记录</button>
         </div>
-        <p class="pg-hint">导出会生成一串备份码（含全部学习记录与徽章），妥善保存；导入粘贴备份码即可恢复。清除会<b>永久清空全部学习记录</b>（含做题记录与足迹），需输入「清除记录」确认。</p>
+        <p class="pg-hint">导出会生成一串备份码（含全部学习数据），妥善保存；导入粘贴备份码即可恢复。清除会<b>永久抹掉全部学习数据</b>（章节进度、徽章、名人堂、错题、足迹），学院回到初始状态，需输入「清除记录」确认。</p>
       </div>
       <div class="card">
         <h3>🕐 学习足迹</h3>
@@ -4500,9 +4500,14 @@ document.getElementById('btnImport').addEventListener('click', importProgress);
 
 /* ================= 清理旧足迹（只删纯浏览记录，保留做题记录） ================= */
 document.getElementById('btnClean').addEventListener('click', function(){
-  var total = studyLog.length;
-  if(total === 0){
-    alert('当前还没有学习记录。');
+  /* 收集全部 pjc_ 数据键 */
+  var keys = [];
+  for(var i=0;i<localStorage.length;i++){
+    var k = localStorage.key(i);
+    if(k && k.indexOf('pjc_') === 0) keys.push(k);
+  }
+  if(keys.length === 0){
+    alert('当前没有任何学习数据。');
     return;
   }
   /* 需输入「清除记录」确认，防止误触 */
@@ -4514,7 +4519,7 @@ document.getElementById('btnClean').addEventListener('click', function(){
   title.innerHTML = '<b style="color:var(--red)">⚠ 清除所有记录</b>';
   var desc = document.createElement('div');
   desc.style.cssText = 'color:var(--ink2);font-size:13.5px;line-height:1.8;margin:10px 0';
-  desc.innerHTML = '将<b>永久清空全部 '+total+' 条学习记录</b>（含做题记录与浏览足迹），此操作不可撤销。<br>输入 <b style="color:var(--red)">清除记录</b> 确认：';
+  desc.innerHTML = '将<b>永久清除全部学习数据</b>：章节进度、徽章、名人堂、错题集、学习足迹，共 '+keys.length+' 项。学院将回到<b>初始状态</b>，此操作不可撤销。<br>输入 <b style="color:var(--red)">清除记录</b> 确认：';
   var ta = document.createElement('input');
   ta.type = 'text';
   ta.placeholder = '请输入「清除记录」';
@@ -4537,12 +4542,10 @@ document.getElementById('btnClean').addEventListener('click', function(){
   });
   btnOk.addEventListener('click', function(){
     if(ta.value.trim() !== '清除记录'){ msg.style.display='inline'; msg.textContent='输入的文字不对，请重新输入'; return; }
-    studyLog = [];
-    store('log', studyLog);
+    keys.forEach(function(k){ localStorage.removeItem(k); });
     wrap.remove();
-    alert('已清空全部学习记录。');
-    renderAll();
-    renderTrace();
+    alert('已清除全部学习数据，学院回到初始状态。');
+    location.reload();
   });
   btnCancel.addEventListener('click', function(){ wrap.remove(); });
   bar.appendChild(btnCancel);
