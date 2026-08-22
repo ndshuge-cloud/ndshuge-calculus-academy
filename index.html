@@ -439,9 +439,9 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
         <div class="pg-actions">
           <button id="btnExport" class="pg-btn primary">📤 导出进度</button>
           <button id="btnImport" class="pg-btn">📥 导入进度</button>
-          <button id="btnClean" class="pg-btn danger">🧹 清理旧足迹</button>
+          <button id="btnClean" class="pg-btn danger">🗑 清除所有记录</button>
         </div>
-        <p class="pg-hint">导出会生成一串备份码（含全部学习记录与徽章），妥善保存；导入粘贴备份码即可恢复。清理只删纯浏览足迹，做题记录原样保留。</p>
+        <p class="pg-hint">导出会生成一串备份码（含全部学习记录与徽章），妥善保存；导入粘贴备份码即可恢复。清除会<b>永久清空全部学习记录</b>（含做题记录与足迹），需输入「清除记录」确认。</p>
       </div>
       <div class="card">
         <h3>🕐 学习足迹</h3>
@@ -4500,18 +4500,61 @@ document.getElementById('btnImport').addEventListener('click', importProgress);
 
 /* ================= 清理旧足迹（只删纯浏览记录，保留做题记录） ================= */
 document.getElementById('btnClean').addEventListener('click', function(){
-  var before = studyLog.length;
-  var kept = studyLog.filter(function(s){ return (s.quizN||0) > 0; });
-  var removed = before - kept.length;
-  if(removed === 0){
-    alert('没有可清理的旧足迹。当前足迹都是做题记录，保留着。');
+  var total = studyLog.length;
+  if(total === 0){
+    alert('当前还没有学习记录。');
     return;
   }
-  if(!confirm('将删除 '+removed+' 条「只点开没做题」的旧足迹，保留 '+kept.length+' 条做题记录。确定吗？')) return;
-  studyLog = kept;
-  store('log', studyLog);
-  alert('已清理 '+removed+' 条纯浏览足迹。');
-  renderTrace();
+  /* 需输入「清除记录」确认，防止误触 */
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#fff;border-radius:18px;padding:22px;max-width:460px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.2)';
+  var title = document.createElement('div');
+  title.innerHTML = '<b style="color:var(--red)">⚠ 清除所有记录</b>';
+  var desc = document.createElement('div');
+  desc.style.cssText = 'color:var(--ink2);font-size:13.5px;line-height:1.8;margin:10px 0';
+  desc.innerHTML = '将<b>永久清空全部 '+total+' 条学习记录</b>（含做题记录与浏览足迹），此操作不可撤销。<br>输入 <b style="color:var(--red)">清除记录</b> 确认：';
+  var ta = document.createElement('input');
+  ta.type = 'text';
+  ta.placeholder = '请输入「清除记录」';
+  ta.style.cssText = 'width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:inherit;font-size:14.5px;background:#f5f5f7;outline:none';
+  var msg = document.createElement('span');
+  msg.style.cssText = 'color:var(--red);font-size:12.5px;display:none';
+  var bar = document.createElement('div');
+  bar.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;margin-top:14px';
+  var btnCancel = document.createElement('button');
+  btnCancel.textContent = '取消';
+  btnCancel.style.cssText = 'border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:980px;padding:9px 18px;font-family:inherit;font-size:14px;cursor:pointer';
+  var btnOk = document.createElement('button');
+  btnOk.textContent = '确认清除';
+  btnOk.style.cssText = 'border:none;background:var(--red);color:#fff;border-radius:980px;padding:9px 20px;font-family:inherit;font-size:14px;cursor:pointer;opacity:.4;pointer-events:none;font-weight:500';
+  ta.addEventListener('input', function(){
+    var ok = ta.value.trim() === '清除记录';
+    btnOk.style.opacity = ok ? '1' : '.4';
+    btnOk.style.pointerEvents = ok ? 'auto' : 'none';
+    msg.style.display = 'none';
+  });
+  btnOk.addEventListener('click', function(){
+    if(ta.value.trim() !== '清除记录'){ msg.style.display='inline'; msg.textContent='输入的文字不对，请重新输入'; return; }
+    studyLog = [];
+    store('log', studyLog);
+    wrap.remove();
+    alert('已清空全部学习记录。');
+    renderAll();
+    renderTrace();
+  });
+  btnCancel.addEventListener('click', function(){ wrap.remove(); });
+  bar.appendChild(btnCancel);
+  bar.appendChild(btnOk);
+  box.appendChild(title);
+  box.appendChild(desc);
+  box.appendChild(ta);
+  box.appendChild(msg);
+  box.appendChild(bar);
+  wrap.appendChild(box);
+  document.body.appendChild(wrap);
+  ta.focus();
 });
 
 /* ================= 导出进度 ================= */
