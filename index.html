@@ -224,6 +224,15 @@ body{
 .btn-back{display:inline-block; margin-bottom:18px; border:1px solid var(--line); background:var(--card); color:var(--ink2); border-radius:980px; padding:8px 18px; font-family:inherit; cursor:pointer; font-size:13.5px; transition:.15s}
 .btn-back:hover{border-color:var(--blue); color:var(--blue)}
 .hint{font-size:13px; color:var(--ink2); margin-top:6px}
+/* 进度管理：备份操作区 */
+.pg-actions{display:flex; flex-wrap:wrap; gap:10px}
+.pg-btn{border:1px solid var(--line); background:var(--card); color:var(--ink2); border-radius:980px; padding:10px 22px; font-family:inherit; font-size:13.5px; cursor:pointer; transition:.15s}
+.pg-btn:hover{border-color:var(--blue); color:var(--blue); background:var(--blue-bg)}
+.pg-btn.primary{background:linear-gradient(135deg,#537D96,#3F6179); color:#fff; border-color:transparent}
+.pg-btn.primary:hover{color:#fff; background:linear-gradient(135deg,#3F6179,#2c4859)}
+.pg-btn.danger{border-color:rgba(139,44,31,.4); color:var(--red)}
+.pg-btn.danger:hover{background:#F7EAE6; color:var(--red)}
+.pg-hint{font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.7}
 /* 学习足迹 */
 .trace-day{margin:18px 0 8px; font-size:13.5px; letter-spacing:.5px; color:var(--ink); border-left:3px solid var(--blue); padding-left:10px; font-weight:600}
 .trace-item{display:flex; gap:14px; padding:10px 6px; border-bottom:1px dashed var(--line); font-size:14.5px; align-items:baseline}
@@ -292,7 +301,7 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
     <h1>普林斯顿微积分学院<small>COLLÈGE DU CALCUL · 班纳读本 30 章</small></h1>
     <div class="divider"></div>
     <nav class="nav">
-      <div class="nav-group">
+      <div class="nav-group collapsed">
         <div class="nav-sep" data-gp="learn">学习 <span class="gp-arrow">▾</span></div>
         <div class="nav-gp" id="gp-learn">
           <button data-page="home" class="on"><span>🏠 主页</span></button>
@@ -302,13 +311,13 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
           <button data-page="exam"><span>📝 小卷练习</span><span class="sub" id="examCnt"></span></button>
         </div>
       </div>
-      <div class="nav-group">
+      <div class="nav-group collapsed">
         <div class="nav-sep" data-gp="state">状态 <span class="gp-arrow">▾</span></div>
         <div class="nav-gp" id="gp-state">
           <button data-page="honor"><span>🏆 荣誉墙</span></button>
           <button data-page="wrong"><span>📕 错题集</span><span class="sub" id="wrongCnt"></span></button>
           <button data-page="fixed"><span>✅ 已订正</span><span class="sub" id="fixedCnt"></span></button>
-          <button data-page="trace"><span>🕐 学习足迹</span><span class="sub" id="traceCnt"></span></button>
+          <button data-page="trace"><span>🗂 进度管理</span><span class="sub" id="traceCnt"></span></button>
           <button data-page="ask"><span>✍️ 问答批改</span></button>
           <button data-page="lab"><span>🔬 微积分实验室</span></button>
           <button data-page="about"><span>✒️ 关于导师</span></button>
@@ -340,9 +349,6 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
       <div id="statsGrid"></div>
     </div>
     <div id="quote">「怀疑一切，但算完这题再怀疑。」—— 正在给你批作业的笛卡尔</div>
-    <button id="btnExport" class="side-btn" style="border-color:var(--blue);color:var(--blue)">📤 导出进度</button>
-    <button id="btnImport" class="side-btn" style="border-style:dashed">📥 导入进度</button>
-    <button id="btnClean" class="side-btn" style="border-style:dashed;border-color:var(--red);color:var(--red)">🧹 清理旧足迹</button>
   </aside>
   <main id="main">
     <!-- 荣誉墙页 -->
@@ -421,14 +427,26 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
       </div>
       <div id="fixedList"></div>
     </section>
-    <!-- 足迹页 -->
+    <!-- 进度管理页（足迹 + 备份） -->
     <section class="page" id="page-trace">
       <div class="page-head">
-        <div class="kick">THE FOOTPRINTS</div>
-        <h2>学习足迹</h2>
-        <p>每次打开讲义、每次答题，自动记下时间。30 分钟内的连续活动算一次学习，按天分组。</p>
+        <div class="kick">PROGRESS MANAGER</div>
+        <h2>进度管理</h2>
+        <p>学习足迹自动记录每一次开课与答题。可随时导出备份，换设备、换浏览器也能无缝续学。</p>
       </div>
-      <div id="traceList"></div>
+      <div class="card">
+        <h3>📦 进度备份</h3>
+        <div class="pg-actions">
+          <button id="btnExport" class="pg-btn primary">📤 导出进度</button>
+          <button id="btnImport" class="pg-btn">📥 导入进度</button>
+          <button id="btnClean" class="pg-btn danger">🧹 清理旧足迹</button>
+        </div>
+        <p class="pg-hint">导出会生成一串备份码（含全部学习记录与徽章），妥善保存；导入粘贴备份码即可恢复。清理只删纯浏览足迹，做题记录原样保留。</p>
+      </div>
+      <div class="card">
+        <h3>🕐 学习足迹</h3>
+        <div id="traceList"></div>
+      </div>
     </section>
     <!-- 问答页 -->
     <section class="page" id="page-ask">
@@ -4394,9 +4412,7 @@ if(sideToggle){
   });
 }
 (function(){
-  var folds = load('navfold', {});
-  var g1 = document.getElementById('gp-learn'); if(g1 && folds.learn) g1.closest('.nav-group').classList.add('collapsed');
-  var g2 = document.getElementById('gp-state'); if(g2 && folds.state) g2.closest('.nav-group').classList.add('collapsed');
+  /* 导航分组固定默认折叠（HTML 已写死 collapsed），每次打开都是收起状态 */
   if(load('sidefold', 0)){
     var side = document.getElementById('side');
     if(side){ side.classList.add('collapsed'); if(sideToggle) sideToggle.textContent = '»'; }
