@@ -233,6 +233,95 @@ body{
 .pg-btn.danger{border-color:rgba(139,44,31,.4); color:var(--red)}
 .pg-btn.danger:hover{background:#F7EAE6; color:var(--red)}
 .pg-hint{font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.7}
+/* 云同步（Supabase） */
+.sb-status{font-size:11px; color:var(--muted); border:1px dashed rgba(83,125,150,.4); border-radius:980px; padding:8px 12px; cursor:pointer; text-align:center; transition:.15s; background:rgba(83,125,150,.05)}
+.sb-status:hover{background:rgba(83,125,150,.12); color:var(--blue); border-style:solid}
+.sb-status.ok{color:#3a6b47; border-color:rgba(58,107,71,.35); background:rgba(58,107,71,.06)}
+.sb-status.ok:hover{background:rgba(58,107,71,.12)}
+.sb-panel{display:flex; flex-direction:column; gap:8px; margin-top:8px}
+.sb-user{font-size:12.5px; color:var(--ink2); line-height:1.7; background:rgba(58,107,71,.06); border:1px solid rgba(58,107,71,.2); border-radius:10px; padding:10px 12px}
+.sb-user b{color:#3a6b47}
+.sb-input{width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-family:inherit; font-size:13px; background:#fff; outline:none; box-sizing:border-box}
+.sb-input:focus{border-color:var(--blue)}
+.sb-actions{display:flex; gap:8px; margin-top:6px}
+.sb-btn{border:1px solid var(--line); background:#fff; border-radius:8px; padding:8px 16px; font-family:inherit; font-size:12.5px; cursor:pointer; color:var(--ink2); transition:.15s; flex:1}
+.sb-btn:hover{background:var(--blue-bg); color:var(--blue)}
+.sb-btn.primary{border-color:var(--blue); color:var(--blue); font-weight:600}
+.sb-btn.primary:hover{background:var(--blue-bg)}
+.sb-tip{font-size:10.5px; color:#9a9288; line-height:1.6}
+.sb-msg{font-size:12px; min-height:18px; margin-top:4px}
+.login-overlay{position:fixed; inset:0; z-index:999; background:linear-gradient(160deg,#F0E8D8,#E5D9C0); display:flex; align-items:center; justify-content:center}
+.login-card{background:var(--card); border:1px solid var(--line); border-radius:20px; width:min(380px, 92vw); padding:32px 30px; display:flex; flex-direction:column; gap:12px; box-shadow:0 20px 60px rgba(80,70,50,.25); text-align:center}
+.login-logo{width:64px; height:64px; border-radius:50%; margin:0 auto; background:linear-gradient(135deg,#537D96,#3F6179); display:flex; align-items:center; justify-content:center; font-size:30px; box-shadow:0 6px 18px rgba(83,125,150,.35)}
+.login-title{font-size:20px; font-weight:700; font-family:Georgia,'Songti SC',serif; color:var(--ink)}
+.login-sub{font-size:12.5px; color:var(--muted); margin-bottom:6px}
+.login-actions{display:flex; gap:10px; margin-top:4px}
+.login-btn{flex:1; border:none; border-radius:10px; padding:11px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; transition:.15s; background:var(--blue-bg); color:var(--blue); border:1px solid rgba(83,125,150,.3)}
+.login-btn:hover{background:rgba(83,125,150,.15)}
+.login-btn.primary{background:linear-gradient(135deg,#537D96,#3F6179); color:#fff; border:none}
+.login-btn.primary:hover{filter:brightness(1.08)}
+.login-msg{font-size:12px; min-height:18px; color:#8B2C1F}
+.login-tip{font-size:11px; color:#9a9288; line-height:1.7; background:rgba(43,37,29,.04); border-radius:8px; padding:9px 11px}
+/* ===== 登录 v2（用户名 + 头像）===== */
+.login-tabs{display:flex; background:rgba(43,37,29,.06); border-radius:10px; padding:4px; margin-bottom:2px}
+.login-tab{flex:1; border:none; background:transparent; border-radius:8px; padding:8px; font-family:inherit; font-size:13.5px; font-weight:600; color:var(--muted); cursor:pointer; transition:.15s}
+.login-tab:hover{color:var(--blue)}
+.login-tab.on{background:#fff; color:var(--blue); box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.avatar-pick{font-size:11px; color:#9a9288; text-align:left; margin:4px 2px -2px}
+.avatar-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:8px; justify-items:center; padding:4px 0 2px}
+.avatar-opt{width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:19px; cursor:pointer; border:2px solid transparent; transition:.15s}
+.avatar-opt:hover{transform:scale(1.14)}
+.avatar-opt.sel{border-color:var(--blue); box-shadow:0 0 0 3px rgba(83,125,150,.22); transform:scale(1.1)}
+/* ===== 学院社区（侧边栏）===== */
+.com-block{display:flex; flex-direction:column; gap:7px; margin-top:12px}
+.com-btn{display:flex; align-items:center; gap:8px; border:1px solid rgba(83,125,150,.28); background:rgba(83,125,150,.08); color:var(--blue); border-radius:10px; padding:8px 12px; font-family:inherit; font-size:12px; cursor:pointer; transition:.15s; text-decoration:none; text-align:left}
+.com-btn:hover{background:rgba(83,125,150,.2); transform:translateY(-1px); color:var(--blue)}
+.com-btn .ic{font-size:14px; flex:none}
+.com-btn .go{margin-left:auto; font-size:10px; color:var(--muted)}
+.avatar-circle{width:32px; height:32px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:17px; flex:none; vertical-align:middle}
+.sb-avatar{width:20px; height:20px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; flex:none; vertical-align:-4px; margin-right:5px}
+.sb-statusbar{font-size:11px; color:var(--muted); border:1px dashed rgba(83,125,150,.4); border-radius:980px; padding:8px 12px; cursor:pointer; text-align:center; transition:.15s; background:rgba(83,125,150,.05); margin-top:12px}
+.sb-statusbar:hover{background:rgba(83,125,150,.12); color:var(--blue); border-style:solid}
+.sb-statusbar.ok{color:#3a6b47; border-color:rgba(58,107,71,.35); background:rgba(58,107,71,.06)}
+.sb-statusbar.ok:hover{background:rgba(58,107,71,.12)}
+/* ===== 排行榜弹窗 ===== */
+.modal-mask{position:fixed; inset:0; background:rgba(20,18,14,.5); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; z-index:200}
+.modal-card{background:linear-gradient(180deg,#fdfcf9,#f6f1e7); border:1px solid rgba(43,37,29,.12); border-radius:18px; width:min(400px,90vw); box-shadow:0 20px 60px rgba(0,0,0,.35); overflow:hidden}
+.modal-head{display:flex; justify-content:space-between; align-items:center; padding:15px 20px; font-size:15px; font-weight:700; color:#2C2A26; border-bottom:1px solid rgba(43,37,29,.1)}
+.modal-x{border:none; background:rgba(43,37,29,.06); color:#6B6158; width:26px; height:26px; border-radius:50%; cursor:pointer; font-size:13px; transition:.15s; font-family:inherit}
+.modal-x:hover{background:rgba(43,37,29,.14); color:#2C2A26}
+.modal-body{padding:18px 20px; display:flex; flex-direction:column; gap:10px}
+.modal-btn{display:flex; justify-content:space-between; align-items:center; border:1px solid rgba(59,110,165,.3); background:#fff; color:#2C5480; border-radius:10px; padding:11px 14px; font-size:13.5px; font-weight:600; cursor:pointer; font-family:inherit; transition:.15s}
+.modal-btn:hover{background:rgba(59,110,165,.08); transform:translateY(-1px)}
+.modal-card.wide{width:min(480px,92vw)}
+.rank-wrap{display:flex; flex-direction:column; gap:8px; max-height:62vh; overflow-y:auto}
+.rank-row{display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; border:1px solid rgba(43,37,29,.08); background:#fff}
+.rank-row.me{border-color:rgba(184,134,11,.5); background:linear-gradient(90deg,rgba(184,134,11,.1),rgba(184,134,11,.03)); box-shadow:0 0 0 1px rgba(184,134,11,.25)}
+.rank-no{width:26px; text-align:center; font-weight:700; font-size:14px; color:#9a9288; flex:none}
+.rank-no.top{font-size:18px}
+.rank-info{flex:1; min-width:0}
+.rank-line1{display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--ink2); min-width:0}
+.rank-line1 .rn{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.rank-tag{font-size:9.5px; color:#8a6d1f; background:rgba(184,134,11,.12); border:1px solid rgba(184,134,11,.25); border-radius:980px; padding:1px 7px; font-weight:600; flex:none}
+.rank-my{font-size:10.5px; color:#8a6d1f; font-weight:600; margin-left:auto; flex:none}
+.rank-pct{font-size:14px; font-weight:700; color:#3a6b47; flex:none}
+.rank-pbar{height:5px; background:rgba(43,37,29,.08); border-radius:980px; overflow:hidden; margin-top:5px}
+.rank-pbar i{display:block; height:100%; background:linear-gradient(90deg,#537D96,#6fa3bd); border-radius:980px}
+.rank-line2{display:flex; gap:12px; font-size:10.5px; color:#9a9288; margin-top:4px}
+.rank-empty{text-align:center; color:#9a9288; font-size:13px; padding:26px 0; line-height:1.8}
+/* ===== 留言弹窗 ===== */
+.fb-text{border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-family:inherit; font-size:13px; background:#fff; resize:vertical; min-height:64px; outline:none; box-sizing:border-box; width:100%}
+.fb-text:focus{border-color:var(--blue)}
+.fb-send{align-self:flex-end}
+.fb-more{justify-content:center; width:100%; margin-top:2px}
+.fb-list{display:flex; flex-direction:column; gap:8px; max-height:300px; overflow-y:auto; margin-top:2px}
+.fb-item{display:flex; gap:9px; background:#fff; border:1px solid rgba(43,37,29,.08); border-radius:12px; padding:10px 12px}
+.fb-body{flex:1; min-width:0}
+.fb-head{display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:var(--ink2)}
+.fb-time{font-size:10px; color:#b0a89d; font-weight:400; margin-left:auto; flex:none}
+.fb-text2{font-size:12.5px; color:var(--ink2); line-height:1.65; margin-top:3px; white-space:pre-wrap; word-break:break-word}
+.fb-empty{text-align:center; color:#9a9288; font-size:12.5px; padding:18px 0; line-height:1.8}
+.fb-count{font-size:10.5px; color:#9a9288; text-align:center}
 /* 学习足迹 */
 .trace-day{margin:18px 0 8px; font-size:13.5px; letter-spacing:.5px; color:var(--ink); border-left:3px solid var(--blue); padding-left:10px; font-weight:600}
 .trace-item{display:flex; gap:14px; padding:10px 6px; border-bottom:1px dashed var(--line); font-size:14.5px; align-items:baseline}
@@ -349,6 +438,12 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
       <div id="statsGrid"></div>
     </div>
     <div id="quote">「怀疑一切，但算完这题再怀疑。」—— 正在给你批作业的笛卡尔</div>
+    <div class="com-block">
+      <a class="com-btn" href="https://github.com/ndshuge-cloud/princeton-calculus-academy" target="_blank" rel="noopener"><span class="ic">📦</span>GitHub 仓库<span class="go">↗</span></a>
+      <button class="com-btn" onclick="openRank()"><span class="ic">🏆</span>学习排行榜<span class="go">→</span></button>
+      <button class="com-btn" onclick="openFeedback()"><span class="ic">💬</span>给作者留言<span class="go">→</span></button>
+    </div>
+    <div id="sbStatusBar" class="sb-statusbar" onclick="showLogin()">☁️ 登录后可多设备同步进度</div>
   </aside>
   <main id="main">
     <!-- 荣誉墙页 -->
@@ -442,6 +537,13 @@ canvas{width:100%;background:#fffdf7;border:1px solid var(--line);border-radius:
           <button id="btnClean" class="pg-btn danger">🗑 清除所有记录</button>
         </div>
         <p class="pg-hint">导出会生成一串备份码（含全部学习数据），妥善保存；导入粘贴备份码即可恢复。清除会<b>永久抹掉全部学习数据</b>（章节进度、徽章、名人堂、错题、足迹），学院回到初始状态，需输入「清除记录」确认。</p>
+      </div>
+      <div class="card">
+        <h3>☁️ 云同步</h3>
+        <div id="sbStatus" class="sb-status" onclick="showLogin()">☁️ 登录后可多设备同步进度</div>
+        <div id="sbPanel" class="sb-panel"></div>
+        <div id="sbMsg" class="sb-msg"></div>
+        <p class="pg-hint">登录后学习进度自动同步到云端，换设备、换浏览器登录同一账号即恢复。</p>
       </div>
       <div class="card">
         <h3>🕐 学习足迹</h3>
@@ -4329,6 +4431,7 @@ function renderAll(){
     return '<div class="subrow" title="'+x.tip+'"><span class="st">'+x.t+'</span><div class="sbar"><i style="width:'+p+'%"></i></div><span class="sv">'+txt+'</span></div>';
   }).join('');
   renderStats();
+  sbNotify();
 }
 
 /* ================= 导航（历史栈） ================= */
@@ -4760,6 +4863,386 @@ function drawTri(){
 }
 document.getElementById('thS').addEventListener('input',drawTri);
 
+/* ================= 云同步（Supabase，多设备进度对齐） ================= */
+var SB_URL = 'https://yycokuphczoxfntcwizi.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5Y29rdXBoY3pveGZudGN3aXppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0MDM3MzgsImV4cCI6MjEwMjk3OTczOH0.1vm61oyqeBmc2lL_q0-rgJT2x6TsOn_DXsQo1GQJbSM';
+function sbSession(){ return load('sb_session', null); }
+function sbAuthHeaders(){
+  var s = sbSession();
+  return s ? { 'Authorization': 'Bearer ' + s.access_token, 'Content-Type': 'application/json', 'apikey': SB_KEY } : null;
+}
+async function sbEnsureToken(){
+  var s = sbSession();
+  if(!s) return false;
+  var live = true;
+  try{
+    var payload = JSON.parse(atob(s.access_token.split('.')[1]));
+    live = Date.now() < (payload.exp * 1000) - 60000;
+  }catch(e){ live = false; }
+  if(live) return true;
+  if(!s.refresh_token) return false;
+  try{
+    var r = await fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({refresh_token: s.refresh_token}) });
+    var j = await r.json();
+    if(j.access_token){ store('sb_session', {access_token: j.access_token, refresh_token: j.refresh_token || s.refresh_token, user: j.user || s.user}); return true; }
+  }catch(e){}
+  return false;
+}
+function sbMsg(t, ok){
+  var m = document.getElementById('sbMsg');
+  if(m){ m.textContent = t; m.style.color = ok ? '#3a6b47' : '#8B2C1F'; }
+}
+function sbPack(){
+  return {
+    lessons: load('lessons', []), ch: load('ch', []), hall: load('hall', {}),
+    wrong: load('wrong', []), fixed: load('fixed', []), log: load('log', []),
+    quizStat: load('quizStat', {}), tstat: load('tstat', {}), quizPick: load('quizPick', {}), settle: load('settle', {})
+  };
+}
+function showLogin(){
+  var el = document.getElementById('loginOverlay');
+  if(el) el.style.display = 'flex';
+}
+function hideLogin(){
+  var el = document.getElementById('loginOverlay');
+  if(el) el.style.display = 'none';
+}
+function loginDo(){ sbAuth(signupMode); }
+function signupDo(){ loginMode(true); }
+var AVATARS = ['🦊','🐼','🐸','🐙','🦄','🐯','🐨','🐰','🦁','🐢','🐳','🦉'];
+var AV_COLORS = ['#537D96','#5B8C5A','#6D9B7C','#C77B6D','#A67BB8','#D9A441','#8FA3B8','#C75B7A','#B57F5E','#7BA6A0','#A08BD1','#D08159'];
+var signupMode = false, selAvatar = AVATARS[0];
+function loginMode(up){
+  signupMode = up;
+  var tl = document.getElementById('tabLogin'), ts = document.getElementById('tabSignup');
+  if(tl) tl.className = 'login-tab' + (up ? '' : ' on');
+  if(ts) ts.className = 'login-tab' + (up ? ' on' : '');
+  var nm = document.getElementById('loginName'), ap = document.getElementById('avatarPick'), ag = document.getElementById('avatarGrid'), mb = document.getElementById('loginBtnMain'), tip = document.getElementById('loginTip');
+  if(nm) nm.style.display = up ? 'block' : 'none';
+  if(ap) ap.style.display = up ? 'block' : 'none';
+  if(ag) ag.style.display = up ? 'grid' : 'none';
+  if(mb) mb.textContent = up ? '注 册' : '登 录';
+  if(tip) tip.textContent = up ? '注册后自动登录，进度云端保存，换设备不丢。' : '第一次用点「注册」，之后自动登录。同一账号，手机电脑进度同步。';
+  var msg = document.getElementById('loginMsg'); if(msg) msg.textContent = '';
+  if(up) buildAvatarGrid();
+}
+function buildAvatarGrid(){
+  var g = document.getElementById('avatarGrid');
+  if(!g || g.childNodes.length) return;
+  g.innerHTML = AVATARS.map(function(a,i){
+    return '<div class="avatar-opt' + (i===0 ? ' sel' : '') + '" data-i="' + i + '" onclick="pickAvatar(' + i + ')" style="background:' + AV_COLORS[i] + '26">' + a + '</div>';
+  }).join('');
+}
+function pickAvatar(i){
+  selAvatar = AVATARS[i];
+  document.querySelectorAll('#avatarGrid .avatar-opt').forEach(function(e,ix){ e.classList.toggle('sel', ix===i); });
+}
+function avColor(a){
+  var i = AVATARS.indexOf(a);
+  return i >= 0 ? AV_COLORS[i] : '#537D96';
+}
+function curProfile(){
+  var s = sbSession();
+  if(!s || !s.user) return null;
+  var p = load('profile', null);
+  if(p && p.username) return p;
+  var u = (s.user.email && s.user.email.split('@')[0]) || '同学';
+  return { username: u, avatar: '🦊' };
+}
+async function sbEnsureProfile(){
+  var s = sbSession();
+  if(!s || !s.user) return;
+  var h = sbAuthHeaders(); if(!h) return;
+  try{
+    var r = await fetch(SB_URL + '/rest/v1/profiles?select=username,avatar&user_id=eq.' + s.user.id, { headers:h });
+    var rows = await r.json();
+    if(rows && rows.length && rows[0].username){
+      store('profile', { username: rows[0].username, avatar: rows[0].avatar || '🦊' });
+    } else {
+      var p = curProfile();
+      var body = { user_id: s.user.id, username: p.username, avatar: p.avatar };
+      var r2 = await fetch(SB_URL + '/rest/v1/profiles', { method:'POST', headers:h, body: JSON.stringify(body) });
+      if(!r2.ok){
+        await fetch(SB_URL + '/rest/v1/profiles?user_id=eq.' + s.user.id, { method:'PATCH', headers:h, body: JSON.stringify({ username: p.username, avatar: p.avatar }) });
+      }
+    }
+  }catch(e){}
+}
+async function sbAuth(doSignup){
+  var email = $('#loginEmail').value.trim(), pass = $('#loginPass').value;
+  var msg = document.getElementById('loginMsg');
+  var uname = '', av = selAvatar;
+  if(doSignup){
+    uname = $('#loginName').value.trim();
+    if(!/^[\u4e00-\u9fa5A-Za-z0-9_]{3,16}$/.test(uname)){ msg.textContent = '用户名需 3~16 位：中文/字母/数字/下划线'; return; }
+  }
+  if(!email || !/\S+@\S+\.\S+/.test(email)){ msg.textContent = '请输入有效的邮箱'; return; }
+  if(pass.length < 6){ msg.textContent = '密码至少 6 位'; return; }
+  msg.textContent = doSignup ? '注册中…' : '登录中…';
+  try{
+    if(doSignup){
+      var dup = await fetch(SB_URL + '/rest/v1/profiles?select=username&username=eq.' + encodeURIComponent(uname), { headers: { 'apikey': SB_KEY } });
+      var dupRows = await dup.json();
+      if(dupRows && dupRows.length){ msg.textContent = '这个用户名已被占用，换一个试试'; return; }
+    }
+    var url = doSignup ? (SB_URL + '/auth/v1/signup') : (SB_URL + '/auth/v1/token?grant_type=password');
+    var body = doSignup ? { email: email, password: pass, data: { username: uname, avatar: av } } : { email: email, password: pass };
+    var r = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    var j = await r.json();
+    if(j.access_token){
+      store('sb_session', {access_token: j.access_token, refresh_token: j.refresh_token, user: j.user});
+      if(doSignup) store('profile', { username: uname, avatar: av });
+      msg.textContent = '';
+      hideLogin();
+      sbRefresh();
+      sbEnsureProfile();
+      if(doSignup){ sbMsg('注册成功，已自动登录', true); await sbPush(true); }
+      else { sbMsg('登录成功，正在同步进度…', true); await sbSyncFromCloud(); sbEnsureProfile(); }
+    } else if(doSignup && j.user && !j.error && !j.msg && !j.error_description){
+      /* 注册请求已被接受但未直接返回令牌（多为项目开了邮箱验证）。
+         自动尝试用刚注册的账号登录：若项目实际允许直接登录则无缝进入；
+         若需邮箱验证则给出明确引导，不再误报“注册失败”。 */
+      msg.style.color = '#3a6b47';
+      msg.textContent = '注册成功，正在自动登录…';
+      try{
+        var r2 = await fetch(SB_URL + '/auth/v1/token?grant_type=password', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email: email, password: pass }) });
+        var j2 = await r2.json();
+        if(j2.access_token){
+          store('sb_session', {access_token: j2.access_token, refresh_token: j2.refresh_token, user: j2.user});
+          store('profile', { username: uname, avatar: av });
+          msg.textContent = '';
+          hideLogin();
+          sbRefresh();
+          sbEnsureProfile();
+          sbMsg('注册成功，已自动登录', true);
+          await sbPush(true);
+          return;
+        }
+      }catch(e){}
+      msg.style.color = '#3a6b47';
+      msg.textContent = '注册成功！请去邮箱点击验证链接，验证后回来登录。';
+    } else {
+      msg.style.color = '';
+      msg.textContent = j.msg || j.error_description || (doSignup ? '注册失败，请检查邮箱是否已被注册或稍后再试' : '登录失败（邮箱或密码不对）');
+    }
+  }catch(e){ msg.textContent = '网络错误：' + e.message; }
+}
+function sbLogout(){
+  localStorage.removeItem('pjc_sb_session');
+  sbRefresh();
+  sbMsg('已退出登录');
+  showLogin();
+}
+async function sbSyncFromCloud(){
+  if(!(await sbEnsureToken())){ sbMsg('登录已失效，请重新登录'); return; }
+  var h = sbAuthHeaders(); var s = sbSession();
+  if(!h || !s){ sbMsg('请先登录'); return; }
+  sbMsg('正在从云端同步…');
+  try{
+    var r = await fetch(SB_URL + '/rest/v1/progress?select=data&user_id=eq.' + s.user.id, { headers:h });
+    var rows = await r.json();
+    var d = (rows && rows.length && rows[0].data && rows[0].data.calc) ? rows[0].data.calc : null;
+    if(d){
+      ['lessons','ch','hall','wrong','fixed','log','quizStat','tstat','quizPick','settle'].forEach(function(k){
+        if(d[k] !== undefined) store(k, d[k]);
+      });
+      sbMsg('已从云端同步最新进度', true);
+      renderAll(); renderTrace();
+    } else {
+      await sbPush(true);
+      sbMsg('已把本地进度上传云端', true);
+    }
+  }catch(e){ sbMsg('同步失败：' + e.message); }
+}
+var sbTimer = null;
+async function sbPush(immediate){
+  var s = sbSession();
+  if(!s) return;
+  if(!immediate){
+    clearTimeout(sbTimer);
+    sbTimer = setTimeout(function(){ sbPush(true); }, 2000);
+    return;
+  }
+  if(!(await sbEnsureToken())) return;
+  try{
+    var h = sbAuthHeaders();
+    var calc = sbPack();
+    var r = await fetch(SB_URL + '/rest/v1/progress?user_id=eq.' + s.user.id, { method:'GET', headers:h });
+    var rows = await r.json();
+    var data2 = (rows && rows.length && rows[0].data) ? rows[0].data : {};
+    data2.calc = calc;
+    var body = { data: data2, updated_at: new Date().toISOString() };
+    if(rows && rows.length){
+      await fetch(SB_URL + '/rest/v1/progress?user_id=eq.' + s.user.id, { method:'PATCH', headers:h, body: JSON.stringify(body) });
+    } else {
+      body.user_id = s.user.id;
+      await fetch(SB_URL + '/rest/v1/progress', { method:'POST', headers:h, body: JSON.stringify(body) });
+    }
+    sbPushRank(h, s);
+  }catch(e){}
+}
+function sbPushRank(h, s){
+  try{
+    var st = calcStats();
+    var rank = curRank(st.pct);
+    var p = curProfile();
+    if(!p) return;
+    var rb = { user_id: s.user.id, app: 'calculus', username: p.username, avatar: p.avatar, pct: st.pct, done: Object.keys(quizStat).length, lessons: st.doneL, rank_name: rank.name, updated_at: new Date().toISOString() };
+    var hh = Object.assign({}, h, { 'Prefer': 'resolution=merge-duplicates' });
+    fetch(SB_URL + '/rest/v1/leaderboard', { method:'POST', headers: hh, body: JSON.stringify(rb) }).catch(function(){});
+  }catch(e){}
+}
+function sbNotify(){ if(sbSession()) sbPush(false); }
+function sbRefresh(){
+  var box = document.getElementById('sbPanel');
+  var s = sbSession();
+  var bars = [document.getElementById('sbStatus'), document.getElementById('sbStatusBar')];
+  for(var bi=0; bi<bars.length; bi++){
+    var st = bars[bi];
+    if(!st) continue;
+    if(s){
+      var p = curProfile();
+      st.className = (st.id === 'sbStatus' ? 'sb-status' : 'sb-statusbar') + ' ok';
+      st.innerHTML = '<span class="sb-avatar" style="background:' + avColor(p.avatar) + '">' + p.avatar + '</span>' + esc(p.username);
+      st.onclick = function(){ sbSyncFromCloud(); };
+    } else {
+      st.className = st.id === 'sbStatus' ? 'sb-status' : 'sb-statusbar';
+      st.textContent = '☁️ 登录后可多设备同步进度';
+      st.onclick = showLogin;
+    }
+  }
+  if(!box) return;
+  if(s){
+    var p2 = curProfile();
+    box.innerHTML = '<div class="sb-user">✅ 已登录：<span class="avatar-circle" style="background:' + avColor(p2.avatar) + '">' + p2.avatar + '</span> <b>' + esc(p2.username) + '</b></div><div class="sb-actions"><button class="sb-btn primary" onclick="sbSyncFromCloud()">🔄 立即同步</button><button class="sb-btn" onclick="sbLogout()">退出登录</button></div><div class="sb-tip">学习进度会自动同步到云端，换设备登录即恢复。首次登录后自动保持，无需重复登录。</div>';
+  } else {
+    box.innerHTML = '<div class="sb-tip">未登录。点上方状态条弹出登录窗口；同一账号，手机电脑进度同步。</div>';
+  }
+  var msg = document.getElementById('sbMsg'); if(msg) msg.textContent = '';
+}
+/* 启动时静默同步 */
+function sbInit(){
+  var s = sbSession();
+  sbRefresh();
+  if(!s){ showLogin(); return; }
+  sbEnsureToken().then(function(ok){
+    if(!ok){ sbLogout(); showLogin(); return; }
+    hideLogin();
+    sbEnsureProfile();
+    fetch(SB_URL + '/rest/v1/progress?select=data&user_id=eq.' + sbSession().user.id, { headers: sbAuthHeaders() })
+      .then(function(r){ return r.json(); })
+      .then(function(rows){
+        var d = (rows && rows.length && rows[0].data && rows[0].data.calc) ? rows[0].data.calc : null;
+        if(d){
+          ['lessons','ch','hall','wrong','fixed','log','quizStat','tstat','quizPick','settle'].forEach(function(k){
+            if(d[k] !== undefined) store(k, d[k]);
+          });
+          renderAll();
+        }
+      }).catch(function(){});
+  });
+}
+
+/* ================= 排行榜 ================= */
+function openRank(){
+  document.getElementById('rankModal').style.display = 'flex';
+  var w = document.getElementById('rankWrap');
+  w.innerHTML = '<div class="rank-empty">加载中…</div>';
+  var h = sbAuthHeaders();
+  if(!h){ w.innerHTML = '<div class="rank-empty">请先登录再查看排行榜</div>'; return; }
+  fetch(SB_URL + '/rest/v1/leaderboard?select=user_id,username,avatar,pct,done,lessons,rank_name&order=pct.desc&app=eq.calculus&limit=100', { headers:h })
+    .then(function(r){ return r.json(); })
+    .then(function(rows){
+      if(!rows || !rows.length){ w.innerHTML = '<div class="rank-empty">还没有人上榜，快去学习成为第一名吧！🧮</div>'; return; }
+      var me = sbSession().user.id;
+      var medals = ['🥇','🥈','🥉'];
+      w.innerHTML = rows.map(function(x,i){
+        var isMe = x.user_id === me;
+        var no = i < 3 ? '<div class="rank-no top">' + medals[i] + '</div>' : '<div class="rank-no">' + (i+1) + '</div>';
+        var name = esc(x.username || '同学'), tag = esc(x.rank_name || '初入书院');
+        return '<div class="rank-row' + (isMe ? ' me' : '') + '">' + no
+          + '<span class="avatar-circle" style="background:' + avColor(x.avatar) + '">' + x.avatar + '</span>'
+          + '<div class="rank-info"><div class="rank-line1"><span class="rn">' + name + '</span><span class="rank-tag">' + tag + '</span>' + (isMe ? '<span class="rank-my">👈 这是你</span>' : '') + '</div>'
+          + '<div class="rank-pbar"><i style="width:' + Math.min(100, x.pct || 0) + '%"></i></div>'
+          + '<div class="rank-line2">做题 ' + (x.done || 0) + ' 题 · 上课 ' + (x.lessons || 0) + ' 节</div></div>'
+          + '<div class="rank-pct">' + (x.pct || 0) + '%</div></div>';
+      }).join('');
+    })
+    .catch(function(){ w.innerHTML = '<div class="rank-empty">加载失败，检查网络后重试</div>'; });
+}
+function closeRank(){ document.getElementById('rankModal').style.display = 'none'; }
+
+/* ================= 留言 ================= */
+var fbPage = 0, fbTotal = 0;
+function openFeedback(){
+  document.getElementById('fbModal').style.display = 'flex';
+  var m = document.getElementById('fbMsg'); if(m) m.textContent = '';
+  loadFeedback(true);
+}
+function closeFeedback(){ document.getElementById('fbModal').style.display = 'none'; }
+function loadFeedback(reset){
+  if(reset){ fbPage = 0; fbTotal = 0; }
+  var list = document.getElementById('fbList');
+  var h = sbAuthHeaders();
+  if(!h){ list.innerHTML = '<div class="fb-empty">请先登录再留言</div>'; return; }
+  if(fbPage === 0) list.innerHTML = '<div class="fb-empty">加载中…</div>';
+  fetch(SB_URL + '/rest/v1/feedback?select=username,avatar,content,created_at&order=created_at.desc&app=eq.calculus&offset=' + (fbPage*20) + '&limit=20', { headers:h })
+    .then(function(r){
+      var cr = r.headers.get('content-range') || '';
+      var m = cr.match(/\/(\d+)$/);
+      if(m) fbTotal = parseInt(m[1], 10);
+      return r.json();
+    })
+    .then(function(rows){
+      var cnt = document.getElementById('fbCount');
+      var more = document.getElementById('fbMore');
+      if(!rows || !rows.length){
+        if(fbPage === 0) list.innerHTML = '<div class="fb-empty">还没有留言，沙发等你来坐 🛋️</div>';
+        if(more) more.style.display = 'none';
+        if(cnt) cnt.textContent = fbTotal ? ('共 ' + fbTotal + ' 条留言 · 全部实名 · 显示时间') : '';
+        return;
+      }
+      var html = rows.map(function(x){
+        return '<div class="fb-item"><span class="avatar-circle" style="background:' + avColor(x.avatar) + '">' + x.avatar + '</span>'
+          + '<div class="fb-body"><div class="fb-head">' + esc(x.username || '同学') + '<span class="fb-time">' + fmtTime(x.created_at) + '</span></div>'
+          + '<div class="fb-text2">' + esc(x.content) + '</div></div></div>';
+      }).join('');
+      list.innerHTML = (fbPage === 0 ? '' : list.innerHTML) + html;
+      fbPage++;
+      if(cnt) cnt.textContent = fbTotal ? ('共 ' + fbTotal + ' 条留言 · 全部实名 · 显示时间') : ('已显示 ' + (fbPage*20) + ' 条');
+      if(more) more.style.display = (fbPage*20 < fbTotal) ? 'block' : 'none';
+    })
+    .catch(function(){ if(fbPage === 0) list.innerHTML = '<div class="fb-empty">加载失败，检查网络后重试</div>'; });
+}
+async function sendFeedback(){
+  var t = document.getElementById('fbText').value.trim();
+  var m = document.getElementById('fbMsg');
+  if(!t){ if(m){ m.textContent = '写点什么再发送吧'; m.style.color = '#8B2C1F'; } return; }
+  var s = sbSession();
+  if(!s){ if(m){ m.textContent = '请先登录'; m.style.color = '#8B2C1F'; } return; }
+  var p = curProfile();
+  if(m){ m.textContent = '发送中…'; m.style.color = '#9a9288'; }
+  try{
+    var r = await fetch(SB_URL + '/rest/v1/feedback', { method:'POST', headers: sbAuthHeaders(), body: JSON.stringify({ user_id: s.user.id, app: 'calculus', username: p.username, avatar: p.avatar, content: t }) });
+    if(r.ok){
+      document.getElementById('fbText').value = '';
+      if(m){ m.textContent = '已署名送达作者，谢谢你的话 💛'; m.style.color = '#3a6b47'; }
+      loadFeedback(true);
+    } else if(m){ m.textContent = '发送失败，请确认已登录且网络正常'; m.style.color = '#8B2C1F'; }
+  }catch(e){ if(m){ m.textContent = '网络错误：' + e.message; m.style.color = '#8B2C1F'; } }
+}
+function fmtTime(t){
+  if(!t) return '';
+  var d = new Date(t), now = new Date();
+  var diff = Math.floor((now - d) / 1000);
+  var dayStr = (d.getMonth()+1) + '月' + d.getDate() + '日';
+  if(diff < 60) return '刚刚 · ' + dayStr;
+  if(diff < 3600) return Math.floor(diff/60) + ' 分钟前 · ' + dayStr;
+  if(diff < 86400) return Math.floor(diff/3600) + ' 小时前 · ' + dayStr;
+  if(diff < 86400*7) return Math.floor(diff/86400) + ' 天前 · ' + dayStr;
+  return dayStr;
+}
+
 /* ================= 启动 ================= */
 renderPlan();
 renderChSelect();
@@ -4769,6 +5252,8 @@ renderLab();
 renderAll();
 renderHome();
 $('#quote').textContent = pick(QUOTES);
+/* 登录层在 script 之后解析，等 DOM 就绪再初始化云同步 */
+document.addEventListener('DOMContentLoaded', sbInit);
 
 /* ================= 数学家画像表 ================= */
 var PORTRAITS = {
@@ -4800,6 +5285,53 @@ var PORTRAITS = {
   cavalieri: 'data:image/jpeg;base64,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',
 };
 </script>
+
+<!-- 强制登录层 -->
+<div id="loginOverlay" class="login-overlay" style="display:none">
+  <div class="login-card">
+    <div class="login-logo">🧮</div>
+    <div class="login-title">笛卡尔的普林斯顿微积分学院</div>
+    <div class="login-sub">登录后开始学习 · 进度多设备自动同步</div>
+    <div class="login-tabs">
+      <button class="login-tab on" id="tabLogin" onclick="loginMode(false)">登 录</button>
+      <button class="login-tab" id="tabSignup" onclick="loginMode(true)">注 册</button>
+    </div>
+    <input id="loginName" class="sb-input" style="display:none" type="text" maxlength="16" placeholder="用户名（3~16 位，中文/字母/数字/下划线）" onkeydown="if(event.key==='Enter') loginDo()">
+    <input id="loginEmail" class="sb-input" type="email" placeholder="邮箱" onkeydown="if(event.key==='Enter') loginDo()">
+    <input id="loginPass" class="sb-input" type="password" placeholder="密码（至少 6 位）" onkeydown="if(event.key==='Enter') loginDo()">
+    <div class="avatar-pick" id="avatarPick" style="display:none">选一个头像</div>
+    <div class="avatar-grid" id="avatarGrid" style="display:none"></div>
+    <div class="login-actions">
+      <button class="login-btn primary" id="loginBtnMain" onclick="loginDo()">登 录</button>
+    </div>
+    <div id="loginMsg" class="login-msg"></div>
+    <div class="login-tip" id="loginTip">第一次用点「注册」，之后自动登录。同一账号，手机电脑进度同步。</div>
+  </div>
+</div>
+
+<!-- 排行榜弹窗 -->
+<div class="modal-mask" id="rankModal" style="display:none" onclick="closeRank()">
+  <div class="modal-card wide" onclick="event.stopPropagation()">
+    <div class="modal-head">🏆 学习排行榜<button class="modal-x" onclick="closeRank()">✕</button></div>
+    <div class="modal-body">
+      <div class="rank-wrap" id="rankWrap"><div class="rank-empty">加载中…</div></div>
+    </div>
+  </div>
+</div>
+<!-- 留言弹窗 -->
+<div class="modal-mask" id="fbModal" style="display:none" onclick="closeFeedback()">
+  <div class="modal-card wide" onclick="event.stopPropagation()">
+    <div class="modal-head">💬 给作者留言<button class="modal-x" onclick="closeFeedback()">✕</button></div>
+    <div class="modal-body">
+      <textarea id="fbText" class="fb-text" maxlength="300" placeholder="建议、想说的话、遇到的坑…（300 字以内）"></textarea>
+      <button class="modal-btn fb-send" onclick="sendFeedback()">发送留言</button>
+      <div id="fbMsg" class="sb-msg"></div>
+      <div class="fb-count" id="fbCount"></div>
+      <div class="fb-list" id="fbList"><div class="fb-empty">加载中…</div></div>
+      <button class="modal-btn fb-more" id="fbMore" style="display:none" onclick="loadFeedback(false)">加载更多留言</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
