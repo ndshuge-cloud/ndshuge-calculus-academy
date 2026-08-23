@@ -3389,7 +3389,7 @@ function logStudy(type, chId, chTitle){
   } else {
     studyLog.push({start: now, end: now, ch: chId, title: chTitle, lessonN: type==='lesson'?1:0, quizN: type==='quiz'?1:0});
   }
-  if(studyLog.length > 300) studyLog = studyLog.slice(-300);
+  if(studyLog.length > 3000) studyLog = studyLog.slice(-3000);
   store('log', studyLog);
 }
 
@@ -3693,7 +3693,7 @@ function renderQuiz(c, container, mode){
           logStudy('quiz', c.id, c.title);
           mark(qz, q, oi === q.answer);
           if(inLesson){ updateSummary(c, container); }
-          renderHallNav(); renderAll();
+          renderHallNav(); renderAll(); renderStats(); sbNotify();
           if(!inLesson) updateHallHistory(c, container);
         });
       });
@@ -3712,7 +3712,7 @@ function renderQuiz(c, container, mode){
         logStudy('quiz', c.id, c.title);
         mark(qz, q, ok);
         if(inLesson){ updateSummary(c, container); }
-        renderHallNav(); renderAll();
+        renderHallNav(); renderAll(); renderStats(); sbNotify();
         if(!inLesson) updateHallHistory(c, container);
       });
       inp.addEventListener('keydown', function(e){ if(e.key==='Enter') btn.click(); });
@@ -4418,6 +4418,7 @@ function bindExam(scope){
         quizStat[key] = ok ? 1 : 0; store('quizStat', quizStat);
         poolMove(key, ok);
         todayRecord(ok);
+        renderAll(); renderStats(); sbNotify();
         var v = qz.querySelector('.verdict');
         v.className = 'verdict show ' + (ok?'right':'wrong');
         v.innerHTML = '<div class="cm">'+(ok ? pick(RIGHT_CM) : pick(WRONG_CM))+'</div><div class="ex">'+parseMath(q.explain)+'</div>';
@@ -4996,6 +4997,17 @@ function loadAllProgress(){
 }
 function storeAllProgress(d){
   MERGE_ARR.concat(MERGE_OBJ).forEach(function(k){ if(d[k] !== undefined) store(k, d[k]); });
+  /* 同步内存变量：界面/统计用的是内存，不刷新会导致显示旧数据 */
+  if(d.lessons !== undefined) lessonsDone = d.lessons;
+  if(d.ch !== undefined) chDone = d.ch;
+  if(d.hall !== undefined) hallDone = d.hall;
+  if(d.quizStat !== undefined) quizStat = d.quizStat;
+  if(d.wrong !== undefined) wrongPool = d.wrong;
+  if(d.fixed !== undefined) fixedPool = d.fixed;
+  if(d.log !== undefined) studyLog = d.log;
+  if(d.tstat !== undefined) tstat = d.tstat;
+  if(d.quizPick !== undefined) quizPick = d.quizPick;
+  if(d.settle !== undefined) settle = d.settle;
 }
 function mergeProgress(local, cloud){
   local = sanitizeProgress(local);
