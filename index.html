@@ -3395,7 +3395,7 @@ function logStudy(type, chId, chTitle){
 
 /* 章节完成判定：本章所有随堂练习都做过 = 已学 */
 function chQuizCount(c){ return c.quiz ? c.quiz.length : 0; }
-function chQuizDone(c){ return c.quiz ? c.quiz.filter(function(q,i){ return hallDone.indexOf(c.id+'_'+i) > -1; }).length : 0; }
+function chQuizDone(c){ return c.quiz ? c.quiz.filter(function(q,i){ return (Array.isArray(hallDone) ? hallDone : []).indexOf(c.id+'_'+i) > -1; }).length : 0; }
 function chIsDone(c){ return c.full && chQuizCount(c) > 0 && chQuizDone(c) === chQuizCount(c); }
 
 /* 课 → 所属章节映射（用于做题自动跟进） */
@@ -3631,8 +3631,8 @@ function renderQuiz(c, container, mode){
   var html = c.quiz.map(function(q, i){
     var key = c.id + '_' + i;
     var isHall = mode === 'hall';
-    var doneCls = (isHall && quizStat[key] !== undefined) ? ' done' : '';
-    var doneTag = (isHall && quizStat[key] !== undefined) ? '<span class="hall-done-tag">✓ 已做</span>' : '';
+    var doneCls = (quizStat[key] !== undefined) ? ' done' : '';
+    var doneTag = (quizStat[key] !== undefined) ? '<span class="hall-done-tag">✓ 已做</span>' : '';
     var qh = '<div class="quiz'+doneCls+'" data-k="'+key+'" data-mode="'+(mode||'lesson')+'"><div class="q"><span class="qn">Q'+(i+1)+'</span>'+doneTag+parseMath(q.q)+'</div>';
     if(q.type === 'choice'){
       qh += '<div class="opts">'+q.options.map(function(o, oi){
@@ -4968,8 +4968,27 @@ function hideGuestBar(){
   if(b) b.style.display = 'none';
 }
 /* 合并两端进度：数组取并集去重，对象取键并集，不互相覆盖 */
-var MERGE_ARR = ['lessons','ch','wrong','fixed','log'];
-var MERGE_OBJ = ['hall','quizStat','tstat','quizPick','settle'];
+var MERGE_ARR = ['lessons','ch','wrong','fixed','log','hall'];
+var MERGE_OBJ = ['quizStat','tstat','quizPick','settle'];
+/* 类型清洗：把错误类型的数据重置为正确默认，防止污染传播（本地/云端都可能脏） */
+function sanitizeProgress(d){
+  var out = {};
+  if(!d || typeof d !== 'object') return out;
+  MERGE_ARR.forEach(function(k){ out[k] = Array.isArray(d[k]) ? d[k] : []; });
+  MERGE_OBJ.forEach(function(k){ var v = d[k]; out[k] = (v && typeof v === 'object' && !Array.isArray(v)) ? v : {}; });
+  return out;
+}
+/* 数据体检：localStorage 类型异常时重置，防止渲染函数崩溃 */
+(function(){
+  ['lessons','ch','wrong','fixed','log','hall'].forEach(function(k){
+    var v = load(k, null);
+    if(v !== null && !Array.isArray(v)) store(k, []);
+  });
+  ['quizStat','tstat','quizPick','settle'].forEach(function(k){
+    var v = load(k, null);
+    if(v !== null && (typeof v !== 'object' || Array.isArray(v))) store(k, {});
+  });
+})();
 function loadAllProgress(){
   var out = {};
   MERGE_ARR.concat(MERGE_OBJ).forEach(function(k){ out[k] = load(k, MERGE_OBJ.indexOf(k) >= 0 ? {} : []); });
@@ -4979,6 +4998,8 @@ function storeAllProgress(d){
   MERGE_ARR.concat(MERGE_OBJ).forEach(function(k){ if(d[k] !== undefined) store(k, d[k]); });
 }
 function mergeProgress(local, cloud){
+  local = sanitizeProgress(local);
+  cloud = sanitizeProgress(cloud);
   var out = {};
   MERGE_ARR.forEach(function(k){
     var a = local[k] || [], b = cloud[k] || [];
