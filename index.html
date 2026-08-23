@@ -3392,10 +3392,53 @@ function logStudy(type, chId, chTitle){
   if(studyLog.length > 3000) studyLog = studyLog.slice(-3000);
   store('log', studyLog);
 }
+/* ===== 统一学习记录：一课/一卷一条（30 分钟内同课连续做题自动合并）===== */
+function sessionAcc(qs){
+  var c2 = 0, n = 0;
+  qs.forEach(function(k){ var v = quizStat[k]; if(v !== undefined){ n++; if(v === 1) c2++; } });
+  return n ? Math.round(c2/n*100) : null;
+}
+function sessionLog(ty, c, key, ok){
+  var now = Date.now();
+  var last = studyLog.length ? studyLog[studyLog.length-1] : null;
+  if(last && last.questions && last.ty === ty && last.ch === c.id && (now - last.end) < 30*60*1000){
+    if(last.questions.indexOf(key) === -1) last.questions.push(key);
+    last.end = now; last.ms = last.end - last.start;
+    last.acc = sessionAcc(last.questions);
+  } else {
+    studyLog.push({ ty: ty, ch: c.id, title: c.title, questions: [key], start: now, end: now, ms: 0, acc: null });
+    if(studyLog.length > 3000) studyLog = studyLog.slice(-3000);
+  }
+  store('log', studyLog);
+}
+function fmtMs(ms){
+  if(!ms) return '0秒';
+  var s = Math.round(ms/1000);
+  if(s < 60) return s + '秒';
+  if(s < 3600) return Math.round(s/60) + '分钟';
+  return Math.floor(s/3600) + '时' + Math.round((s%3600)/60) + '分';
+}
+/* ===== 旧记录迁移：按课聚合转新格式（一章一条），旧题数保留 ===== */
+function migrateLog(){
+  // 净化：只保留规范的新格式记录（有 questions 且非空），不符合规范的直接删除（本地和云端拉取后都调用）
+  if(!studyLog.length) return;
+  var clean = studyLog.filter(function(l){
+    if(!l || typeof l !== 'object') return false;
+    if(l.questions && l.questions.length > 0) return true;          // 新做题记录：有真实题目
+    if(l._n && l.ms && l.ms > 0 && l.ms < 24*3600*1000) return true; // 旧聚合条：有题数且用时合理（<24h，排除跨天坏条）
+    return false;
+  });
+  if(clean.length !== studyLog.length){
+    studyLog = clean;
+    store('log', studyLog);
+  }
+}
+
+
 
 /* 章节完成判定：本章所有随堂练习都做过 = 已学 */
 function chQuizCount(c){ return c.quiz ? c.quiz.length : 0; }
-function chQuizDone(c){ return c.quiz ? c.quiz.filter(function(q,i){ return (Array.isArray(hallDone) ? hallDone : []).indexOf(c.id+'_'+i) > -1; }).length : 0; }
+function chQuizDone(c){ return c.quiz ? c.quiz.filter(function(q,i){ return quizStat[c.id+'_'+i] !== undefined; }).length : 0; }
 function chIsDone(c){ return c.full && chQuizCount(c) > 0 && chQuizDone(c) === chQuizCount(c); }
 
 /* 课 → 所属章节映射（用于做题自动跟进） */
@@ -3689,8 +3732,9 @@ function renderQuiz(c, container, mode){
           storeCorrect(key, oi === q.answer);
           poolMove(key, oi === q.answer);
           todayRecord(oi === q.answer);
+          statRecordQ(oi === q.answer);
           if(inLesson && hallDone.indexOf(key) === -1){ hallDone.push(key); store('hall', hallDone); }
-          logStudy('quiz', c.id, c.title);
+          sessionLog('lesson', c, key, oi === q.answer);
           mark(qz, q, oi === q.answer);
           if(inLesson){ updateSummary(c, container); }
           renderHallNav(); renderAll(); renderStats(); sbNotify();
@@ -3708,8 +3752,9 @@ function renderQuiz(c, container, mode){
         storeCorrect(key, ok);
         poolMove(key, ok);
         todayRecord(ok);
+        statRecordQ(ok);
         if(inLesson && hallDone.indexOf(key) === -1){ hallDone.push(key); store('hall', hallDone); }
-        logStudy('quiz', c.id, c.title);
+        sessionLog('lesson', c, key, ok);
         mark(qz, q, ok);
         if(inLesson){ updateSummary(c, container); }
         renderHallNav(); renderAll(); renderStats(); sbNotify();
@@ -4005,39 +4050,36 @@ function renderTrace(){
   var today = new Date(); today.setHours(0,0,0,0);
   var yest = today.getTime() - 86400000;
   var groups = [];
-  studyLog.slice().reverse().forEach(function(s){
-    var d = new Date(s.start); d.setHours(0,0,0,0);
+  studyLog.slice().reverse().forEach(function(s2){
+    var st = s2.start || s2.t || Date.now();
+    var d = new Date(st); d.setHours(0,0,0,0);
     var g = groups.length ? groups[groups.length-1] : null;
-    if(!g || g.key !== d.getTime()) groups.push({key: d.getTime(), items:[s]});
-    else g.items.push(s);
+    if(!g || g.key !== d.getTime()) groups.push({key: d.getTime(), items:[s2]});
+    else g.items.push(s2);
   });
-  var html = groups.map(function(g){
+  var htm = groups.map(function(g){
     var d = new Date(g.key);
-    var label = g.key === today.getTime() ? '今天' : (g.key === yest ? '昨天' : (d.getMonth()+1)+'月'+(d.getDate())+'日');
-    var items = g.items.map(function(s, idx){
-      var icon = s.lessonN > 0 && s.quizN > 0 ? '📖✍️' : (s.lessonN > 0 ? '📖' : '✍️');
-      var tag = '';
-      if(s.lessonN > 0) tag += '讲义';
-      if(s.quizN > 0) tag += (tag?' + ':'') + '练 ' + s.quizN + ' 题';
-      var realIdx = studyLog.indexOf(s);
-      return '<div class="trace-item"><span class="tm">'+fmtDT(s.start)+(s.end - s.start > 60000 ? ' - '+fmtDT(s.end) : '')+'</span><span class="tt">'+icon+' 第 '+s.ch+' 章 · '+esc(s.title)+'<span class="tag">'+tag+'</span></span><button class="trace-del" data-i="'+realIdx+'" title="删除这条记录" style="border:none;background:transparent;color:var(--red);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:50%;flex-shrink:0">✕</button></div>';
+    var todayK = g.key === today.getTime();
+    var yestK = g.key === yest;
+    var head = todayK ? '今天' : (yestK ? '昨天' : (d.getMonth()+1)+'月'+d.getDate()+'日');
+    var items = g.items.map(function(s3){
+      if(s3.questions){
+        var d1 = new Date(s3.start), d2 = new Date(s3.end);
+        var t1 = ('0'+d1.getHours()).slice(-2)+':'+('0'+d1.getMinutes()).slice(-2);
+        var t2 = ('0'+d2.getHours()).slice(-2)+':'+('0'+d2.getMinutes()).slice(-2);
+        var ic = s3.ty==='exam' ? '📝' : '📖';
+        var accTxt = (s3.acc===null||s3.acc===undefined) ? '' : ' · 正确率 '+s3.acc+'%';
+        var msTxt = ' · 用时 '+fmtMs(s3.ms);
+        var qn = s3.questions.length || s3._n || 0;
+        return '<div class="trace-item"><span class="tm">'+t1+'</span><span class="tt">'+ic+' '+esc(s3.title)+' · '+qn+' 题'+accTxt+msTxt+'<br><span style="font-size:10.5px;color:var(--muted)">'+t1+' - '+t2+'</span></span></div>';
+      }
+      var d3 = new Date(s3.start || s3.t);
+      var t3 = ('0'+d3.getHours()).slice(-2)+':'+('0'+d3.getMinutes()).slice(-2);
+      return '<div class="trace-item"><span class="tm">'+t3+'</span><span class="tt">'+esc(s3.title || s3.x || '')+'</span></div>';
     }).join('');
-    return '<div class="trace-day">'+label+'（'+g.items.length+' 次学习）</div>'+items;
+    return '<div class="trace-day">'+head+'</div>'+items;
   }).join('');
-  el.innerHTML = html;
-  el.querySelectorAll('.trace-del').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var i = +btn.dataset.i;
-      if(i < 0 || i >= studyLog.length) return;
-      var s = studyLog[i];
-      var who = '第'+s.ch+'章 · '+(s.quizN>0 ? '做了'+s.quizN+'题' : '浏览')+' · '+fmtDT(s.start);
-      if(!confirm('删除这条学习记录？\n'+who)) return;
-      studyLog.splice(i, 1);
-      store('log', studyLog);
-      renderTrace();
-      renderAll();
-    });
-  });
+  el.innerHTML = htm;
 }
 
 /* ================= 渲染：错题集与订正 ================= */
@@ -4093,6 +4135,50 @@ var BADGES = [
 function badgeState(s){ return BADGES.map(function(b){ return {n:b.n, d:b.d, got:b.c(s)}; }); }
 /* 今日答题统计（跨天自动重置） */
 var todayStat = load('tstat', {d:'', done:0, correct:0});
+/* ===== 统计体系 v2：题数做一题+1 / 时长只算做题界面 / 正确率=对÷总 ===== */
+var stat = load('stat', null);
+function statTodayKey(){ return new Date().toDateString(); }
+function initStat(){
+  var k = statTodayKey();
+  if(!stat || stat.day !== k){
+    // 跨天或首次：今日数据重置，总量保留
+    var base = stat || {};
+    stat = {
+      totalQ: base.totalQ || 0, totalCorrect: base.totalCorrect || 0,
+      totalMs: base.totalMs || 0,
+      todayQ: 0, todayCorrect: 0, todayMs: 0, todayReal: 0, accQ: 0, accC: 0, day: k
+    };
+  }
+  // 首次初始化：从历史 quizStat 迁移总量（过去做过的题算进累计）
+  if(!stat._migrated){
+    // 真实数据：按题去重的做题记录（quizStat）
+    var qkeys = Object.keys(quizStat || {});
+    stat.totalQ = qkeys.length;
+    stat.accQ = qkeys.length;
+    var cc = 0; qkeys.forEach(function(kk){ if(quizStat[kk] === 1) cc++; });
+    stat.accC = cc;
+    stat.totalCorrect = cc;
+    stat._migrated = true;
+  }
+  // 今日题数/时长从启用时刻起真实累计，不迁移历史（历史无法真实恢复）
+  storeStat();
+}function storeStat(){ store('stat', stat); }
+function statRecordQ(ok){
+  if(!stat) return;
+  stat.totalQ++; stat.todayQ++; stat.todayReal++;
+  stat.accQ++; if(ok) stat.accC++;
+  if(ok){ stat.totalCorrect++; stat.todayCorrect++; }
+  storeStat();
+}
+var studyTimerStart = null;
+function studyTimerEnter(){ if(studyTimerStart === null) studyTimerStart = Date.now(); }
+function studyTimerLeave(){
+  if(studyTimerStart !== null){
+    var ms = Date.now() - studyTimerStart;
+    if(stat){ stat.totalMs += ms; stat.todayMs += ms; storeStat(); }
+    studyTimerStart = null;
+  }
+}
 function todayRecord(ok){
   var d = new Date().toDateString();
   if(todayStat.d !== d){ todayStat = {d:d, done:0, correct:0}; }
@@ -4105,6 +4191,7 @@ function fmtDurCn(sec){
   return Math.round(sec/3600)+'时'+(Math.round((sec%3600)/60))+'分';
 }
 function renderStats(){
+  if(!stat) initStat();
   var box = $('#statsGrid'); if(!box) return;
   var t0 = new Date(); t0.setHours(0,0,0,0);
   var totalMs = 0, dayMs = 0, dayCh = {}, dayQ = 0;
@@ -4114,21 +4201,19 @@ function renderStats(){
     if(s.start >= t0.getTime()){
       dayMs += d;
       dayCh[s.ch] = 1;
-      dayQ += (s.quizN||0);
+      // 题数兼容三种记录：新记录(questions) / 聚合旧记录(_n) / 旧记录(quizN)
+      dayQ += (s.questions ? s.questions.length : 0) || s._n || (s.quizN||0) || 0;
     }
   });
-  var qkeys = Object.keys(quizStat);
-  var totalQ = qkeys.length;
-  var correctN = qkeys.filter(function(k){ return quizStat[k] === 1; }).length;
-  var acc = totalQ ? Math.round(correctN/totalQ*100) : null;
-  var dayAcc = todayStat.done ? Math.round(todayStat.correct/todayStat.done*100) : null;
+  var acc = stat.accQ ? Math.round(stat.accC/stat.accQ*100) : null;
+  var dayAcc = stat.todayReal ? Math.round(stat.todayCorrect/stat.todayReal*100) : null;
   var cells = [
-    ['累计时长', fmtDurCn(totalMs/1000)],
-    ['累计题数', totalQ],
+    ['累计时长', fmtDurCn(stat.totalMs/1000)],
+    ['累计题数', stat.totalQ],
     ['正确率', acc===null ? '—' : acc+'%'],
     ['今日章节', Object.keys(dayCh).length],
-    ['今日题数', dayQ],
-    ['今日时长', fmtDurCn(dayMs/1000)],
+    ['今日题数', stat.todayQ],
+    ['今日时长', fmtDurCn(stat.todayMs/1000)],
     ['今日正确率', dayAcc===null ? '—' : dayAcc+'%']
   ];
   box.innerHTML = cells.map(function(c){
@@ -4416,8 +4501,10 @@ function bindExam(scope){
         if(!ok) qz.querySelectorAll('.opt')[q.answer].classList.add('ok');
         qz.querySelectorAll('.opt').forEach(function(o){o.classList.add('lock')});
         quizStat[key] = ok ? 1 : 0; store('quizStat', quizStat);
+        sessionLog('exam', CHAPTERS[cid-1], key, ok);
         poolMove(key, ok);
         todayRecord(ok);
+        statRecordQ(ok);
         renderAll(); renderStats(); sbNotify();
         var v = qz.querySelector('.verdict');
         v.className = 'verdict show ' + (ok?'right':'wrong');
@@ -4479,6 +4566,8 @@ function renderAll(){
 /* ================= 导航（历史栈） ================= */
 var navStack = [];
 function goPage(name, silent){
+  studyTimerLeave();
+  if(name === 'lesson' || name === 'hall' || name === 'exam') studyTimerEnter();
   var cur = document.querySelector('.nav button.on');
   var curName = cur ? cur.dataset.page : 'home';
   if(!silent && curName !== name && navStack[navStack.length-1] !== curName){ navStack.push(curName); }
@@ -4975,16 +5064,40 @@ var MERGE_OBJ = ['quizStat','tstat','quizPick','settle'];
 function sanitizeProgress(d){
   var out = {};
   if(!d || typeof d !== 'object') return out;
-  MERGE_ARR.forEach(function(k){ out[k] = Array.isArray(d[k]) ? d[k] : []; });
+  MERGE_ARR.forEach(function(k){
+    var v = d[k];
+    if(Array.isArray(v)){ out[k] = v; return; }
+    if(v && typeof v === 'object'){
+      // 对象污染（如 {'0':'1_0'}）→ 按数字键序转回数组（合法 key 才转，避免误收脏数据）
+      var keys = Object.keys(v).filter(function(x){ return /^\d+$/.test(x); }).sort(function(a,b){ return (+a)-(+b); });
+      var arr = keys.map(function(key){ return v[key]; });
+      if(arr.length && arr.every(function(x){ return typeof x === 'string' && /^\d+_\d+$/.test(x); })){
+        out[k] = arr;
+      } else { out[k] = []; }
+      return;
+    }
+    out[k] = [];
+  });
   MERGE_OBJ.forEach(function(k){ var v = d[k]; out[k] = (v && typeof v === 'object' && !Array.isArray(v)) ? v : {}; });
   return out;
 }
 /* 数据体检：localStorage 类型异常时重置，防止渲染函数崩溃 */
 (function(){
-  ['lessons','ch','wrong','fixed','log','hall'].forEach(function(k){
+  ['lessons','ch','wrong','fixed','log'].forEach(function(k){
     var v = load(k, null);
     if(v !== null && !Array.isArray(v)) store(k, []);
   });
+  // hall 特殊：对象污染时转回数组（能救不丢）
+  var hv = load('hall', null);
+  if(hv !== null && !Array.isArray(hv)){
+    if(hv && typeof hv === 'object'){
+      var hkeys = Object.keys(hv).filter(function(x){ return /^\d+$/.test(x); }).sort(function(a,b){ return (+a)-(+b); });
+      var harr = hkeys.map(function(x){ return hv[x]; });
+      if(harr.length && harr.every(function(x){ return typeof x === 'string' && /^\d+_\d+$/.test(x); })){
+        store('hall', harr);
+      } else { store('hall', []); }
+    } else { store('hall', []); }
+  }
   ['quizStat','tstat','quizPick','settle'].forEach(function(k){
     var v = load(k, null);
     if(v !== null && (typeof v !== 'object' || Array.isArray(v))) store(k, {});
@@ -5285,6 +5398,7 @@ async function sbSyncFromCloud(){
     if(d){
       var merged = mergeProgress(loadAllProgress(), d);
       storeAllProgress(merged);
+      migrateLog();
       sbMsg('✅ 已合并两端进度（取并集，不丢数据）', true);
       renderAll(); renderTrace();
       await sbPush(true);
@@ -5506,6 +5620,7 @@ function sbInit(){
         if(d){
           var merged = mergeProgress(loadAllProgress(), d);
           storeAllProgress(merged);
+          migrateLog();
           renderAll();
         }
       }).catch(function(){});
@@ -5647,7 +5762,7 @@ renderAll();
 renderHome();
 $('#quote').textContent = pick(QUOTES);
 /* 登录层在 script 之后解析，等 DOM 就绪再初始化云同步 */
-document.addEventListener('DOMContentLoaded', function(){ if(!checkRecoveryHash()){ sbInit(); } });
+document.addEventListener('DOMContentLoaded', function(){ migrateLog(); initStat(); if(!checkRecoveryHash()){ sbInit(); } });
 
 /* ================= 数学家画像表 ================= */
 var PORTRAITS = {
