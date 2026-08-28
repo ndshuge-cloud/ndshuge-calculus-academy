@@ -4400,6 +4400,7 @@ function renderHome(){
   var el = $('#homeBox');
   var now = new Date(), hh = now.getHours();
   var greet = hh<6 ? '夜深了，笛卡尔还在备课' : hh<12 ? '早上好，学徒' : hh<18 ? '下午好，学徒' : '晚上好，学徒';
+  var banner = checkinBanner();
   var s = calcStats();
   var pct = s.pct;
   var rank = curRank(pct);
