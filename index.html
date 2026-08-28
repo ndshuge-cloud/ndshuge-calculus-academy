@@ -3912,6 +3912,7 @@ function settleChapter(c, pageEl){
   var settleKey = 'settle_'+c.id;
   settleStore[settleKey] = settle;
   store('settle', settleStore);
+  doCheckin();
   // 全通点亮徽章
   if(allCorrect && chDone.indexOf(c.id) === -1){
     chDone.push(c.id); store('ch', chDone);
@@ -4169,9 +4170,8 @@ function statRecordQ(ok){
   stat.accQ++; if(ok) stat.accC++;
   if(ok){ stat.totalCorrect++; stat.todayCorrect++; }
   storeStat();
-  doCheckin();
 }
-/* ===== 连续打卡 ===== */
+/* ===== 连续打卡：结算一章算打卡一天 ===== */
 function todayStr(){ var d = new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
 function doCheckin(){
   var days = load('checkin', []);
