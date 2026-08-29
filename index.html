@@ -774,6 +774,8 @@ function parseMath(s){
     }
     if(c==='^'){ i++; var su = s[i]==='{'?readGroup():(s[i++]||''); out+='<sup>'+parseMath(su)+'</sup>'; continue; }
     if(c==='_'){ i++; var sb = s[i]==='{'?readGroup():(s[i++]||''); out+='<sub>'+parseMath(sb)+'</sub>'; continue; }
+    if(c==='<'){ out+='&lt;'; i++; continue; }
+    if(c==='>'){ out+='&gt;'; i++; continue; }
     out+=c; i++;
   }
   return out;
