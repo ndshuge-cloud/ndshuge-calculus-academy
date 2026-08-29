@@ -3917,8 +3917,8 @@ function settleChapter(c, pageEl){
   settleStore[settleKey] = settle;
   store('settle', settleStore);
   doCheckin();
-  // 全通点亮徽章
-  if(allCorrect && chDone.indexOf(c.id) === -1){
+  // 全做完点亮徽章（不再要求全对）
+  if(chDone.indexOf(c.id) === -1){
     chDone.push(c.id); store('ch', chDone);
     renderAll(); renderChSelect();
   }
